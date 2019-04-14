@@ -14,3 +14,4 @@ compiler:
 script:
     - cd build
     - cmake .. && make
+    - ctest -VV
