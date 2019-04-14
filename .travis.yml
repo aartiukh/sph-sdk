@@ -1,0 +1,13 @@
+language: c++
+sudo: required
+
+
+before_install:
+    - sudo apt-get install cmake freeglut3-dev
+
+compiler:
+    - gcc
+
+script:
+    - cd build
+    - cmake .. && make
