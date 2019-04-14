@@ -1,5 +1,5 @@
 project(sph-demo)
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.1)
 
 file(GLOB SPH_DEMO_SRC_LIST_SOURCE  "${PROJECT_SOURCE_DIR}/src/main.cpp"
                                     "${PROJECT_SOURCE_DIR}/src/Draw.cpp")

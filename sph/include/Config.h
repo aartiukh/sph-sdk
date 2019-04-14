@@ -3,6 +3,8 @@
 
 #include "algorithms/include/Point.h"
 
+#include <cstddef>
+
 namespace SPHSDK
 {
 struct Config

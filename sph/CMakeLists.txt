@@ -1,5 +1,5 @@
 project(sph)
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.1)
 
 file(GLOB SPH_SRC_LIST_INCLUDE "${PROJECT_SOURCE_DIR}/include/Particle.h"
                                "${PROJECT_SOURCE_DIR}/include/Collisions.h"
