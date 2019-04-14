@@ -1,7 +1,12 @@
 language: c++
 
+git:
+  submodules: false
+
 before_install:
     - sudo apt-get install cmake freeglut3-dev
+    - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
+    - git submodule update --init --recursive
 
 compiler:
     - gcc
