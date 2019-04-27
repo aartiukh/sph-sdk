@@ -8,5 +8,11 @@ C++ implementation of Smoothed Particle Hydrodynamics.
 ## Ubuntu
 
 * `sudo apt-get install libxtst-dev libxrandr-dev`
-* `cmake -DBUILD_UNIT_TESTS=ON ..`
+* `cd build`
+* `cmake -DBUILD_UNIT_TESTS=ON -DCMAKE_BUILD_TYPE=Release ..`
 *  `make -j`
+
+## Windows MSVC 2017
+* `cd build`
+* `cmake -DBUILD_UNIT_TESTS=ON -DCMAKE_BUILD_TYPE=Release ..`
+*  Open generated `sph-sdk.sln` and Run `Build Solution` in `MSVC` IDE 
