@@ -429,6 +429,8 @@ template <class T> typename NeighboursSearch3D<T>::BoxType NeighboursSearch3D<T>
     {
         return innerLongitual;
     }
+
+	return innerLongitual;
 }
 
 /**
@@ -442,7 +444,7 @@ template <class T> void NeighboursSearch3D<T>::defineNearbyBoxes(const Neighbour
     bool isLeft     = components[0] == 0;
     bool isRight    = components[0] == normalizedCuboidWidth - 1;
     bool isBack     = components[1] == 0;
-    bool isFront    = components[1] == normalizedCuboidLength - 1;
+//  bool isFront    = components[1] == normalizedCuboidLength - 1; // commented as not used
     bool isBottom   = components[2] == 0;
     bool isTop      = components[2] == normalizedCuboidHeight - 1;
 
@@ -533,7 +535,7 @@ template <class T> void NeighboursSearch3D<T>:: addNearbyBoxesFor(const bool isL
     }
 }
 
-template <class T> void NeighboursSearch3D<T>:: addForTopLeft(const SizetVector& components,
+template <class T> void NeighboursSearch3D<T>:: addForTopLeft(const SizetVector& /*components*/,
                                                               const size_t boxIndex)
 {
     // addRight
@@ -544,7 +546,7 @@ template <class T> void NeighboursSearch3D<T>:: addForTopLeft(const SizetVector&
     m_nearbyBoxes[boxIndex].push_back(boxIndex - normalizedCuboidWidth * normalizedCuboidLength + 1);
 }
 
-template <class T> void NeighboursSearch3D<T>:: addForTopRight(const SizetVector& components,
+template <class T> void NeighboursSearch3D<T>:: addForTopRight(const SizetVector& /*components*/,
                                                                const size_t boxIndex)
 {
     // addLeft
@@ -555,7 +557,7 @@ template <class T> void NeighboursSearch3D<T>:: addForTopRight(const SizetVector
     m_nearbyBoxes[boxIndex].push_back(boxIndex - normalizedCuboidWidth * normalizedCuboidLength - 1);
 }
 
-template <class T> void NeighboursSearch3D<T>:: addForBottomLeft(const SizetVector& components,
+template <class T> void NeighboursSearch3D<T>:: addForBottomLeft(const SizetVector& /*components*/,
                                                                  const size_t boxIndex)
 {
     // addRight
@@ -566,7 +568,7 @@ template <class T> void NeighboursSearch3D<T>:: addForBottomLeft(const SizetVect
     m_nearbyBoxes[boxIndex].push_back(boxIndex + normalizedCuboidWidth * normalizedCuboidLength + 1);
 }
 
-template <class T> void NeighboursSearch3D<T>:: addForBottomRight(const SizetVector& components,
+template <class T> void NeighboursSearch3D<T>:: addForBottomRight(const SizetVector& /*components*/,
                                                                   const size_t boxIndex)
 {
     // addLeft
@@ -577,7 +579,7 @@ template <class T> void NeighboursSearch3D<T>:: addForBottomRight(const SizetVec
     m_nearbyBoxes[boxIndex].push_back(boxIndex + normalizedCuboidWidth * normalizedCuboidLength - 1);
 }
 
-template <class T> void NeighboursSearch3D<T>:: addForCenter(const SizetVector& components,
+template <class T> void NeighboursSearch3D<T>:: addForCenter(const SizetVector& /*components*/,
                                                              const size_t boxIndex)
 {
     // addRight
@@ -598,7 +600,7 @@ template <class T> void NeighboursSearch3D<T>:: addForCenter(const SizetVector& 
     m_nearbyBoxes[boxIndex].push_back(boxIndex - normalizedCuboidWidth * normalizedCuboidLength - 1);
 }
 
-template <class T> void NeighboursSearch3D<T>:: addForLeft(const SizetVector& components,
+template <class T> void NeighboursSearch3D<T>:: addForLeft(const SizetVector& /*components*/,
                                                            const size_t boxIndex)
 {
     // addRight
@@ -613,7 +615,7 @@ template <class T> void NeighboursSearch3D<T>:: addForLeft(const SizetVector& co
     m_nearbyBoxes[boxIndex].push_back(boxIndex - normalizedCuboidWidth * normalizedCuboidLength + 1);
 }
 
-template <class T> void NeighboursSearch3D<T>:: addForRight(const SizetVector& components,
+template <class T> void NeighboursSearch3D<T>:: addForRight(const SizetVector& /*components*/,
                                                             const size_t boxIndex)
 {
     // addLeft
@@ -628,7 +630,7 @@ template <class T> void NeighboursSearch3D<T>:: addForRight(const SizetVector& c
     m_nearbyBoxes[boxIndex].push_back(boxIndex - normalizedCuboidWidth * normalizedCuboidLength - 1);
 }
 
-template <class T> void NeighboursSearch3D<T>:: addForTop(const SizetVector& components,
+template <class T> void NeighboursSearch3D<T>:: addForTop(const SizetVector& /*components*/,
                                                           const size_t boxIndex)
 {
     // addRight
@@ -643,7 +645,7 @@ template <class T> void NeighboursSearch3D<T>:: addForTop(const SizetVector& com
     m_nearbyBoxes[boxIndex].push_back(boxIndex - normalizedCuboidWidth * normalizedCuboidLength - 1);
 }
 
-template <class T> void NeighboursSearch3D<T>:: addForBottom(const SizetVector& components,
+template <class T> void NeighboursSearch3D<T>:: addForBottom(const SizetVector& /*components*/,
                                                              const size_t boxIndex)
 {
     // addRight
