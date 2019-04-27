@@ -14,5 +14,5 @@ C++ implementation of Smoothed Particle Hydrodynamics.
 
 ## Windows MSVC 2017
 * `cd build`
-* `cmake -DBUILD_UNIT_TESTS=ON -DCMAKE_BUILD_TYPE=Release ..`
+* `cmake -G "Visual Studio 15 2017 Win64" -DBUILD_UNIT_TESTS=ON -DCMAKE_BUILD_TYPE=Release ..`
 *  Open generated `sph-sdk.sln` and run `Build Solution` in `MSVC` IDE 
