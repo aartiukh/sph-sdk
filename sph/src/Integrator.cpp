@@ -5,7 +5,7 @@
 **/
 
 #include "Integrator.h"
-#include "sph/include/Config.h"
+#include "Config.h"
 
 #include <cmath>
 

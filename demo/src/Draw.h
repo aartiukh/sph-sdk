@@ -3,7 +3,6 @@
 #define __DRAW_H__
 
 ///function to start main loop
-#include "sph/include/SPH.h"
 
 class Draw {
 

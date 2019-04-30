@@ -1,7 +1,7 @@
 #ifndef CONFIG_H_73C34465A6ED4DB9B9F2F4C3937BF5DC
 #define CONFIG_H_73C34465A6ED4DB9B9F2F4C3937BF5DC
 
-#include "algorithms/include/Point.h"
+#include "algorithms/src/Point.h"
 
 #include <cstddef>
 

@@ -15,7 +15,8 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-#include "sph/include/Config.h"
+#include "sph/src/Config.h"
+#include "sph/src/SPH.h"
 
 static int width = 900;
 static int height = 900;
