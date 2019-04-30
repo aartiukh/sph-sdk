@@ -1,8 +1,8 @@
-#include "sph/include/Collisions.h"
+#include "Collisions.h"
 
 #include "Config.h"
-#include "algorithms/include/Area.h"
-#include "algorithms/include/NeighboursSearch.h"
+#include "algorithms/src/Area.h"
+#include "algorithms/src/NeighboursSearch.h"
 
 namespace SPHSDK
 {

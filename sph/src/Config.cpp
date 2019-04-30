@@ -4,7 +4,7 @@
 //  Created by Oleksii Shabalin on 11/3/18.
 //
 
-#include "sph/include/Config.h"
+#include "Config.h"
 
 namespace SPHSDK
 {

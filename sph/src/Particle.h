@@ -8,8 +8,8 @@
 #define PARTICLE_H_73C34465A6ED4DB9B9F2F4C3937BF5DC
 
 #include "Config.h"
-#include "algorithms/include/Point.h"
-#include "algorithms/include/Defines.h"
+#include "algorithms/src/Point.h"
+#include "algorithms/src/Defines.h"
 
 namespace SPHSDK
 {

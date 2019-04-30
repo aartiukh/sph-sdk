@@ -7,9 +7,9 @@
 #ifndef FORCES_H_73C34465A6ED4DB9B9F2F4C3937BF5DC
 #define FORCES_H_73C34465A6ED4DB9B9F2F4C3937BF5DC
 
-#include "sph/include/Collisions.h"
-#include "sph/include/Config.h"
-#include "sph/include/Particle.h"
+#include "Collisions.h"
+#include "Config.h"
+#include "Particle.h"
 
 namespace SPHSDK
 {
