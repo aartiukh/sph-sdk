@@ -219,7 +219,7 @@ void updateGravity()
                                    SPHSDK::Config::InitialGravitationalAcceleration.z * cos(angle / 180 * M_PI));
 }
 
-void processSpecialKeys(int key, int xx, int yy)
+void processSpecialKeys(int key, int /*xx*/, int /*yy*/)
 {
     switch (key)
     {

@@ -15,6 +15,8 @@
 #include <cmath>
 #include <cfloat>
 
+static const double PI = 3.14159265359;
+
 namespace SPHSDK
 {
 
@@ -54,8 +56,8 @@ SPH::SPH()
 
         ++n;
 
-        fi = 2 * M_PI * n / N;
-        teta = M_PI * m / M;
+        fi = 2 * PI * n / N;
+        teta = PI * m / M;
 
         if (n == N)
         {
