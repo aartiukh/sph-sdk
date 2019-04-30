@@ -1,6 +1,6 @@
 # sph
 
-![Build status](https://travis-ci.com/aartiukh/sph.svg?branch=develop) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/85727c26d7fc4fd5b65e631e8a6aeca1)](https://app.codacy.com/app/aartiukh/sph?utm_source=github.com&utm_medium=referral&utm_content=aartiukh/sph&utm_campaign=Badge_Grade_Dashboard)
+![Build status](https://travis-ci.com/aartiukh/sph.svg?branch=develop) [![codecov](https://codecov.io/gh/aartiukh/sph/branch/develop/graph/badge.svg)](https://codecov.io/gh/aartiukh/sph) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/85727c26d7fc4fd5b65e631e8a6aeca1)](https://app.codacy.com/app/aartiukh/sph?utm_source=github.com&utm_medium=referral&utm_content=aartiukh/sph&utm_campaign=Badge_Grade_Dashboard)
 
 C++ implementation of Smoothed Particle Hydrodynamics.
 
