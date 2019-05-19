@@ -1,9 +1,12 @@
 project(algorithms_tests)
 cmake_minimum_required(VERSION 2.8)
 
-file(GLOB ALGORITHMS_TEST_SRC_LIST_INCLUDE "${PROJECT_SOURCE_DIR}/src/NeighboursSearchTestSuite.h")
+file(GLOB ALGORITHMS_TEST_SRC_LIST_INCLUDE "${PROJECT_SOURCE_DIR}/src/NeighboursSearchTestSuite.h"
+                                           "${PROJECT_SOURCE_DIR}/src/ROperationsTestSuite.h")
+
 file(GLOB ALGORITHMS_TEST_SRC_LIST_SOURCE   "${PROJECT_SOURCE_DIR}/src/MainTest.cpp"
-                                            "${PROJECT_SOURCE_DIR}/src/NeighboursSearchTestSuite.cpp")
+                                            "${PROJECT_SOURCE_DIR}/src/NeighboursSearchTestSuite.cpp"
+                                            "${PROJECT_SOURCE_DIR}/src/ROperationsTestSuite.cpp")
 
 include_directories(SYSTEM ${GTEST_INCLUDE_DIRECTORY})
 
