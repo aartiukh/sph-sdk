@@ -6,9 +6,11 @@ file(GLOB ALGORITHMS_SRC_LIST_INCLUDE "${PROJECT_SOURCE_DIR}/src/NeighboursSearc
                                       "${PROJECT_SOURCE_DIR}/src/Point.h"
                                       "${PROJECT_SOURCE_DIR}/src/Point.hpp"
                                       "${PROJECT_SOURCE_DIR}/src/Defines.h"
-                                      "${PROJECT_SOURCE_DIR}/src/Area.h")
+                                      "${PROJECT_SOURCE_DIR}/src/Area.h"
+                                      "${PROJECT_SOURCE_DIR}/src/ROperations.h")
 
-file(GLOB ALGORITHMS_SRC_LIST_SOURCE  "${PROJECT_SOURCE_DIR}/src/Area.cpp")
+file(GLOB ALGORITHMS_SRC_LIST_SOURCE  "${PROJECT_SOURCE_DIR}/src/Area.cpp"
+                                      "${PROJECT_SOURCE_DIR}/src/ROperations.cpp")
 
 include_directories(${PROJECT_SOURCE_DIR}/src)
 
