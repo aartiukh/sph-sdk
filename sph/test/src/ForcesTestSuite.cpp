@@ -5,8 +5,8 @@
  **/
 
 #include "ForcesTestSuite.h"
-#include "..\..\algorithms\src\Area.h"
-#include "..\..\algorithms\src\NeighboursSearch.h"
+#include "algorithms/src/Area.h"
+#include "algorithms/src/NeighboursSearch.h"
 
 #include "Forces.h"
 

@@ -7,7 +7,7 @@
 #include "CollisionsTestSuite.h"
 
 #include "Collisions.h"
-#include "..\..\algorithms\src\Area.h"
+#include "algorithms/src/Area.h"
 
 #include <gtest/gtest.h>
 
