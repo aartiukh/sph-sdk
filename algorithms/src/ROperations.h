@@ -24,7 +24,8 @@ public:
      * @param y    The y Cartesian coordinate
      * @return the result of conjuction R-operation in R0 system
      */
-    static float conjunction(float x, float y);
+    template <class T>
+    static T conjunction(T x, T y);
 
     /**
      * @brief Returns disjunction of x and y
@@ -32,10 +33,13 @@ public:
      * @param y    The y Cartesian coordinate
      * @return the result of disjunction R-operation in R0 system
      */
-    static float disjunction(float x, float y);
+    template <class T>
+    static T disjunction(T x, T y);
 };
 
 
 } //SPHAlgorithms
+
+#include "ROperations.hpp"
 
 #endif // R_OPERATIONS_H_43C34465A6ED4DB9B9F2F4C3937BF5DD

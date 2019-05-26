@@ -7,10 +7,10 @@ file(GLOB ALGORITHMS_SRC_LIST_INCLUDE "${PROJECT_SOURCE_DIR}/src/NeighboursSearc
                                       "${PROJECT_SOURCE_DIR}/src/Point.hpp"
                                       "${PROJECT_SOURCE_DIR}/src/Defines.h"
                                       "${PROJECT_SOURCE_DIR}/src/Area.h"
-                                      "${PROJECT_SOURCE_DIR}/src/ROperations.h")
+                                      "${PROJECT_SOURCE_DIR}/src/ROperations.h"
+                                      "${PROJECT_SOURCE_DIR}/src/ROperations.hpp")
 
-file(GLOB ALGORITHMS_SRC_LIST_SOURCE  "${PROJECT_SOURCE_DIR}/src/Area.cpp"
-                                      "${PROJECT_SOURCE_DIR}/src/ROperations.cpp")
+file(GLOB ALGORITHMS_SRC_LIST_SOURCE  "${PROJECT_SOURCE_DIR}/src/Area.cpp")
 
 include_directories(${PROJECT_SOURCE_DIR}/src)
 
@@ -27,5 +27,3 @@ file(GLOB MARCHING_CUBES_SRC_LIST_SOURCE  "${PROJECT_SOURCE_DIR}/src/marching-cu
                                           "${PROJECT_SOURCE_DIR}/src/marching-cubes/Main.cpp")
 
 add_executable(marching-cubes ${MARCHING_CUBES_SRC_LIST_INCLUDE} ${MARCHING_CUBES_SRC_LIST_SOURCE})
-target_link_libraries(marching-cubes ${PROJECT_NAME})
-                                    
