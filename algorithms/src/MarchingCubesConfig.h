@@ -17,7 +17,7 @@ namespace SPHAlgorithms
 	constexpr int   GRID_CUBES_NUMBER = 200;
 
 	// Size of the grid-cube
-	constexpr float GRID_CUBE_SIZE = CUBE_SIZE / GRID_SIZE;
+	const constexpr float GRID_CUBE_SIZE = CUBE_SIZE / GRID_CUBES_NUMBER;
 
 	// The dimensions of the grid [X_MIN, X_MAX] x [Y_MIN, Y_MAX] x [Z_MIN, Z_MAX]
 	constexpr float X_MIN = 0.f;
@@ -33,8 +33,8 @@ namespace SPHAlgorithms
 
 	// VertexOffset lists the positions, for each grid cube in the grid
 	constexpr float VertexOffset[CUBE_VERTICES_NUMBER][CUBE_DIMENSION] = {
-		{0.0, 0.0, 0.0},       {GRID_STEP, 0.0, 0.0},       {GRID_STEP, GRID_STEP, 0.0},       {0.0, GRID_STEP, 0.0},
-		{0.0, 0.0, GRID_STEP}, {GRID_STEP, 0.0, GRID_STEP}, {GRID_STEP, GRID_STEP, GRID_STEP}, {0.0, GRID_STEP, GRID_STEP} };
+		{0.0, 0.0, 0.0},       {GRID_CUBE_SIZE, 0.0, 0.0},       {GRID_CUBE_SIZE, GRID_CUBE_SIZE, 0.0},       {0.0, GRID_CUBE_SIZE, 0.0},
+		{0.0, 0.0, GRID_CUBE_SIZE}, {GRID_CUBE_SIZE, 0.0, GRID_CUBE_SIZE}, {GRID_CUBE_SIZE, GRID_CUBE_SIZE, GRID_CUBE_SIZE}, {0.0, GRID_CUBE_SIZE, GRID_CUBE_SIZE} };
 
 	// EdgeConnection lists the index of the endpoint vertices for each of the 12 edges of the cube
 	constexpr int EdgeConnection[CUBE_EDGES_NUMBER][2] = { {0, 1}, {1, 2}, {2, 3}, {3, 0}, {4, 5}, {5, 6},
