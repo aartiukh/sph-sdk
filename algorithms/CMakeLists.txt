@@ -20,7 +20,8 @@ endif()
 
 add_library(${PROJECT_NAME} ${ALGORITHMS_SRC_LIST_INCLUDE} ${ALGORITHMS_SRC_LIST_SOURCE})
 
-file(GLOB MARCHING_CUBES_SRC_LIST_INCLUDE "${PROJECT_SOURCE_DIR}/src/MarchingCubes.h")
+file(GLOB MARCHING_CUBES_SRC_LIST_INCLUDE "${PROJECT_SOURCE_DIR}/src/MarchingCubes.h"
+                                          "${PROJECT_SOURCE_DIR}/src/MarchingCubesConfig.h")
 
 file(GLOB MARCHING_CUBES_SRC_LIST_SOURCE  "${PROJECT_SOURCE_DIR}/src/MarchingCubes.cpp")
 
