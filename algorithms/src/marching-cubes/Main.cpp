@@ -5,24 +5,25 @@
  **/
 
 #include "MarchingCubes.h"
-#include "MarchingCubesConfig.h"
 #include "ROperations.h"
-#include <cmath>
 
-#include <iostream>
+#include <functional>
 
 float omega(float x, float y, float z)
 {
     using namespace SPHAlgorithms;
 
-    return ROperations::disjunction(
-        ROperations::conjunction(ROperations::conjunction(0.25f - std::pow(x - 1.5f, 2.f) - std::pow(y - 1.5f, 2.f),
-                                                          -20.f * (std::pow(x - 1.5f, 2.f) + std::pow(y - 1.5f, 2.f)) +
-                                                              1.f + 10.f * std::pow(z - 0.75f, 2.f)),
-                                 z * (1.f - z)),
-        ROperations::disjunction(0.125f - std::pow(x - 1.5f, 2.f) - std::pow(y - 1.5f, 2.f) -
-                                     20.f * std::pow(1.f - z, 2.f),
-                                 0.05f - std::pow(x - 1.5f, 2.f) - std::pow(y - 1.5f, 2.f) - std::pow(1.25f - z, 2.f)));
+    const auto dis = ROperations::disjunction<float>;
+    const auto con = ROperations::conjunction<float>;
+
+    const float x_sqr = (x - 1.5f) * (x - 1.5f);
+    const float y_sqr = (y - 1.5f) * (y - 1.5f);
+    const float z1_sqr = (z - 0.75f) * (z - 0.75f);
+    const float z2_sqr = (1.f - z) * (1.f - z);
+    const float z3_sqr = (1.25f - z) * (1.25f - z);
+
+    return dis(con(con(0.25f - x_sqr - y_sqr, -20.f * (x_sqr + y_sqr) + 1.f + 10.f * z1_sqr), z * (1.f - z)),
+               dis(0.125f - x_sqr - y_sqr - 20.f * z2_sqr, 0.05f - x_sqr - y_sqr - z3_sqr));
 }
 
 int main()

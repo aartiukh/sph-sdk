@@ -14,9 +14,9 @@ namespace SPHAlgorithms
 constexpr float CUBE_SIZE = 3.0f;
 
 // Number of the grid cubes by which the domain is splitted
-constexpr int GRID_CUBES_NUMBER = 200;
+constexpr int GRID_CUBES_NUMBER = 300;
 
-// Size of the grid-cube
+// Size of the grid cube
 const constexpr float GRID_CUBE_SIZE = CUBE_SIZE / GRID_CUBES_NUMBER;
 
 // The dimensions of the grid [X_MIN, X_MAX] x [Y_MIN, Y_MAX] x [Z_MIN, Z_MAX]
