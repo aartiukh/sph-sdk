@@ -19,3 +19,10 @@ if(BUILD_UNIT_TESTS)
 endif()
 
 add_library(${PROJECT_NAME} ${ALGORITHMS_SRC_LIST_INCLUDE} ${ALGORITHMS_SRC_LIST_SOURCE})
+
+file(GLOB MARCHING_CUBES_SRC_LIST_INCLUDE "${PROJECT_SOURCE_DIR}/src/MarchingCubes.h")
+
+file(GLOB MARCHING_CUBES_SRC_LIST_SOURCE  "${PROJECT_SOURCE_DIR}/src/MarchingCubes.cpp")
+
+add_executable(marching-cubes ${MARCHING_CUBES_SRC_LIST_INCLUDE} ${MARCHING_CUBES_SRC_LIST_SOURCE})
+                                    
