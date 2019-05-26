@@ -13,10 +13,17 @@
 namespace SPHAlgorithms
 {
 
+/**
+* @brief MarchingCubes class implements Marching Cubes algorithm.
+*/
 class MarchingCubes
 {
 
 public:
+    /**
+     * @brief Generates Obj file in Wavefront format with mesh
+     * @param f    Thefunction that represents the domain equation
+     */
     static void generateObj(std::function<float(float, float, float)> f);
 
 private:
