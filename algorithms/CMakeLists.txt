@@ -20,10 +20,11 @@ endif()
 
 add_library(${PROJECT_NAME} ${ALGORITHMS_SRC_LIST_INCLUDE} ${ALGORITHMS_SRC_LIST_SOURCE})
 
-file(GLOB MARCHING_CUBES_SRC_LIST_INCLUDE "${PROJECT_SOURCE_DIR}/src/MarchingCubes.h"
-                                          "${PROJECT_SOURCE_DIR}/src/MarchingCubesConfig.h")
+file(GLOB MARCHING_CUBES_SRC_LIST_INCLUDE "${PROJECT_SOURCE_DIR}/src/marching-cubes/MarchingCubes.h"
+                                          "${PROJECT_SOURCE_DIR}/src/marching-cubes/MarchingCubesConfig.h")
 
-file(GLOB MARCHING_CUBES_SRC_LIST_SOURCE  "${PROJECT_SOURCE_DIR}/src/MarchingCubes.cpp")
+file(GLOB MARCHING_CUBES_SRC_LIST_SOURCE  "${PROJECT_SOURCE_DIR}/src/marching-cubes/MarchingCubes.cpp"
+                                          "${PROJECT_SOURCE_DIR}/src/marching-cubes/Main.cpp")
 
 add_executable(marching-cubes ${MARCHING_CUBES_SRC_LIST_INCLUDE} ${MARCHING_CUBES_SRC_LIST_SOURCE})
                                     
