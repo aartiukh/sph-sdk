@@ -51,6 +51,19 @@ void MarchingCubes::generateObj(std::function<float(float, float, float)> f)
 
     generateObjFile(globalResultVector, "output.obj");
 }
+
+float adapt(float fValue1, float fValue2)
+{
+    float fDelta = fValue2 - fValue1;
+
+    if (std::abs(fDelta) < 0.0001f)
+    {
+        return 0.5f;
+    }
+
+    return -fValue1 / fDelta;
+}
+
 std::vector<MarchingCubes::V3>
 MarchingCubes::MarchCube(std::function<float(float, float, float)> f, float fX, float fY, float fZ)
 {
@@ -93,9 +106,19 @@ MarchingCubes::MarchCube(std::function<float(float, float, float)> f, float fX, 
         // if there is an intersection on this edge
         if (iEdgeFlags & (1 << iEdge))
         {
-            EdgeVertex[iEdge].x = fX + (VertexOffset[EdgeConnection[iEdge][0]][0] + GRID_CUBE_SIZE);
-            EdgeVertex[iEdge].y = fY + (VertexOffset[EdgeConnection[iEdge][0]][1] + GRID_CUBE_SIZE);
-            EdgeVertex[iEdge].z = fZ + (VertexOffset[EdgeConnection[iEdge][0]][2] + GRID_CUBE_SIZE);
+            // do interpolation
+            const int v0 = EdgeConnection[iEdge][0];
+            const int v1 = EdgeConnection[iEdge][1];
+
+            const float f0 = CubeValue[v0];
+            const float f1 = CubeValue[v1];
+
+            const float t0 = 1.f - adapt(f0, f1);
+            const float t1 = 1.f - t0;
+
+            EdgeVertex[iEdge].x = fX + VertexOffset[v0][0] * t0 + VertexOffset[v1][0] * t1;
+            EdgeVertex[iEdge].y = fY + VertexOffset[v0][1] * t0 + VertexOffset[v1][1] * t1;
+            EdgeVertex[iEdge].z = fZ + VertexOffset[v0][2] * t0 + VertexOffset[v1][2] * t1;
         }
     }
 
