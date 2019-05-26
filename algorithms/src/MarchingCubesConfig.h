@@ -10,9 +10,40 @@
 
 namespace SPHAlgorithms
 {
-	// Table lists of the edges intersected by the surface.
+	// The size of the domain  
+	constexpr float CUBE_SIZE = 3.0f;
 
-	constexpr int CubeEdgeFlags[256] = {
+	// Number of the grid cubes by which the domain is splitted
+	constexpr int   GRID_CUBES_NUMBER = 200;
+
+	// Size of the grid-cube
+	constexpr float GRID_CUBE_SIZE = CUBE_SIZE / GRID_SIZE;
+
+	// The dimensions of the grid [X_MIN, X_MAX] x [Y_MIN, Y_MAX] x [Z_MIN, Z_MAX]
+	constexpr float X_MIN = 0.f;
+	constexpr float X_MAX = CUBE_SIZE;
+	constexpr float Y_MIN = 0.f;
+	constexpr float Y_MAX = CUBE_SIZE;
+	constexpr float Z_MIN = 0.f;
+	constexpr float Z_MAX = CUBE_SIZE;
+
+	constexpr int CUBE_VERTICES_NUMBER = 8;
+	constexpr int CUBE_DIMENSION = 3;
+	constexpr int CUBE_EDGES_NUMBER = 12;
+
+	// VertexOffset lists the positions, for each grid cube in the grid
+	constexpr float VertexOffset[CUBE_VERTICES_NUMBER][CUBE_DIMENSION] = {
+		{0.0, 0.0, 0.0},       {GRID_STEP, 0.0, 0.0},       {GRID_STEP, GRID_STEP, 0.0},       {0.0, GRID_STEP, 0.0},
+		{0.0, 0.0, GRID_STEP}, {GRID_STEP, 0.0, GRID_STEP}, {GRID_STEP, GRID_STEP, GRID_STEP}, {0.0, GRID_STEP, GRID_STEP} };
+
+	// EdgeConnection lists the index of the endpoint vertices for each of the 12 edges of the cube
+	constexpr int EdgeConnection[CUBE_EDGES_NUMBER][2] = { {0, 1}, {1, 2}, {2, 3}, {3, 0}, {4, 5}, {5, 6},
+												   {6, 7}, {7, 4}, {0, 4}, {1, 5}, {2, 6}, {3, 7} };
+	// All possible vertex states
+	constexpr int NUMBER_OF_CASES = 256;
+
+	// Table lists of the edges intersected by the surface. 
+	constexpr int CubeEdgeFlags[NUMBER_OF_CASES] = {
 		0x000, 0x109, 0x203, 0x30a, 0x406, 0x50f, 0x605, 0x70c, 0x80c, 0x905, 0xa0f, 0xb06, 0xc0a, 0xd03, 0xe09, 0xf00,
 		0x190, 0x099, 0x393, 0x29a, 0x596, 0x49f, 0x795, 0x69c, 0x99c, 0x895, 0xb9f, 0xa96, 0xd9a, 0xc93, 0xf99, 0xe90,
 		0x230, 0x339, 0x033, 0x13a, 0x636, 0x73f, 0x435, 0x53c, 0xa3c, 0xb35, 0x83f, 0x936, 0xe3a, 0xf33, 0xc39, 0xd30,
@@ -31,8 +62,7 @@ namespace SPHAlgorithms
 		0xf00, 0xe09, 0xd03, 0xc0a, 0xb06, 0xa0f, 0x905, 0x80c, 0x70c, 0x605, 0x50f, 0x406, 0x30a, 0x203, 0x109, 0x000 };
 
 	//  Triangle Connection Table.
-
-	constexpr int  TriangleConnectionTable[256][16] = { {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+	constexpr int  TriangleConnectionTable[NUMBER_OF_CASES][16] = { {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
 												 {0, 8, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
 												 {0, 1, 9, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
 												 {1, 8, 3, 9, 8, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
