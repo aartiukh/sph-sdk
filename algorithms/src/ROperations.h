@@ -24,7 +24,7 @@ public:
      * @param y    The y Cartesian coordinate
      * @return the result of conjuction R-operation in R0 system
      */
-    static double conjunction(double x, double y);
+    static float conjunction(float x, float y);
 
     /**
      * @brief Returns disjunction of x and y
@@ -32,7 +32,7 @@ public:
      * @param y    The y Cartesian coordinate
      * @return the result of disjunction R-operation in R0 system
      */
-    static double disjunction(double x, double y);
+    static float disjunction(float x, float y);
 };
 
 

@@ -12,12 +12,12 @@
 namespace SPHAlgorithms
 {
 
-double ROperations::conjunction(double x, double y)
+float ROperations::conjunction(float x, float y)
 {
     return x + y - std::sqrt(x * x + y * y);
 }
 
-double ROperations::disjunction(double x, double y)
+float ROperations::disjunction(float x, float y)
 {
     return x + y + std::sqrt(x * x + y * y);
 }

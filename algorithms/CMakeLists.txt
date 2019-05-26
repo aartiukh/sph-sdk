@@ -27,4 +27,5 @@ file(GLOB MARCHING_CUBES_SRC_LIST_SOURCE  "${PROJECT_SOURCE_DIR}/src/marching-cu
                                           "${PROJECT_SOURCE_DIR}/src/marching-cubes/Main.cpp")
 
 add_executable(marching-cubes ${MARCHING_CUBES_SRC_LIST_INCLUDE} ${MARCHING_CUBES_SRC_LIST_SOURCE})
+target_link_libraries(marching-cubes ${PROJECT_NAME})
                                     
