@@ -7,7 +7,7 @@
 #ifndef MARCHING_CUBES_H_43C34465A6ED4DB9B9F2F4C3937BF5DC
 #define MARCHING_CUBES_H_43C34465A6ED4DB9B9F2F4C3937BF5DC
 
-#include "vector"
+#include <vector>
 #include <functional>
 
 namespace SPHAlgorithms
