@@ -16,7 +16,7 @@
 #include <fstream>
 #include <functional>
 
-// function that defines plane boundary
+// function that defines pawn equation 
 static float pawnEquation(float x, float y, float z)
 {
     using namespace SPHAlgorithms;
@@ -32,6 +32,24 @@ static float pawnEquation(float x, float y, float z)
 
     return dis(con(con(0.25f - x_sqr - y_sqr, -20.f * (x_sqr + y_sqr) + 1.f + 10.f * z1_sqr), z * (1.f - z)),
                dis(0.125f - x_sqr - y_sqr - 20.f * z2_sqr, 0.05f - x_sqr - y_sqr - z3_sqr));
+}
+
+static float bishopEquation(float x, float y, float z)
+{
+	using namespace SPHAlgorithms;
+
+	const auto dis = ROperations::disjunction<float>;
+	const auto con = ROperations::conjunction<float>;
+
+	const float x_sqr = (x - 1.5f) * (x - 1.5f);
+	const float y_sqr = (y - 1.5f) * (y - 1.5f);
+	const float z1_sqr = (z - 0.85f) * (z - 0.85f);
+	const float z2_sqr = (1.25f - z) * (1.25f - z);
+	const float z3_sqr = (0.2f - z) * (0.2f - z);
+	const float z4_sqr = (1.4f - z) * (1.4f - z);
+
+	return dis(con(con(0.25f - x_sqr - y_sqr, -20.f * (x_sqr + y_sqr) + 1.f + 10.f * z1_sqr), z * (1.25f - z)),
+		dis(0.2f - x_sqr - y_sqr - 20.f * z2_sqr, 0.2f - 5.f * x_sqr -  4.f * y_sqr - z4_sqr));
 }
 
 // Generates Obj file in Wavefront format with mesh
@@ -73,6 +91,15 @@ void MarchingCubesTestSuite::generatePawnMesh()
     generateObjFile(mesh, "pawn.obj");
 }
 
+void MarchingCubesTestSuite::generateBishopMesh()
+{
+	const std::vector<Point3F> mesh = SPHAlgorithms::MarchingCubes::getFunctionMesh(bishopEquation);
+
+	ASSERT_EQ(45552u, mesh.size());
+
+	generateObjFile(mesh, "bishop.obj");
+}
+
 } // namespace TestEnvironment
 } // namespace SPHAlgorithms
 
@@ -81,4 +108,9 @@ using namespace SPHAlgorithms::TestEnvironment;
 TEST(MarchingCubesTestSuite, generatePawnMesh)
 {
     MarchingCubesTestSuite::generatePawnMesh();
+}
+
+TEST(MarchingCubesTestSuite, generateBishopMesh)
+{
+	MarchingCubesTestSuite::generateBishopMesh();
 }

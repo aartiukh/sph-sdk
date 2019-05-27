@@ -25,25 +25,22 @@ public:
      * @brief Generates triangles mesh from function
      * @param f    The function that represents the domain equation
      */
-    static std::vector<Point3F> getFunctionMesh(std::function<float(float, float, float)> f);
+    static Point3FVector getFunctionMesh(std::function<float(float, float, float)> f);
 
 private:
-    static std::vector<Point3F> MarchCube(std::function<float(float, float, float)> f, float fX, float fY, float fZ);
+    static Point3FVector MarchingCube(std::function<float(float, float, float)> f, float fX, float fY, float fZ);
 
-    static void generateObjFile(const std::vector<Point3F>& vertices, const std::string& fileName);
-
-    static void fillFoundTriangles(std::vector<Point3F>&       resultEdgeVertex,
-                                   const std::vector<Point3F>& EdgeVertex,
+    static void fillFoundTriangles(Point3FVector&       resultEdgeVertex,
+                                   const Point3FVector& EdgeVertex,
                                    const int                   iFlagIndex);
 
-    static void findPointIntersection(std::vector<Point3F>& EdgeVertex,
-                                      const int             iEdgeFlags,
+    static Point3FVector findPointIntersection(const int             iEdgeFlags,
                                       const float           CubeValue[],
                                       const float           fX,
                                       const float           fY,
                                       const float           fZ);
 
-    static int determineFlag(int flag, const float CubeValue[]);
+    static int determineFlag(const float CubeValue[]);
 };
 
 } // namespace SPHAlgorithms
