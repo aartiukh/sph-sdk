@@ -9,6 +9,7 @@
 
 #include <vector>
 #include <functional>
+#include <Point.h>
 
 namespace SPHAlgorithms
 {
@@ -26,12 +27,21 @@ public:
      */
     static void generateObj(std::function<float(float, float, float)> f);
 
+	/**
+	* @brief Generates triangles mesh from function
+	* @param f    The function that represents the domain equation
+	*/
+	static std::vector<Point3D> getFunctionMesh(std::function<float(float, float, float)> f);
+
 private:
-    struct V3;
 
-    static std::vector<V3> MarchCube(std::function<float(float, float, float)> f, float fX, float fY, float fZ);
+    static std::vector<Point3D> MarchCube(std::function<float(float, float, float)> f, float fX, float fY, float fZ);
 
-    static void generateObjFile(const std::vector<V3>& vertices, const std::string& fileName);
+    static void generateObjFile(const std::vector<Point3D>& vertices, const std::string& fileName);
+
+	static void fillFoundTriangles(std::vector<Point3D>, const std::vector<Point3D>, const int);
+
+	static void findPointIntersection(std::vector<Point3D> EdgeVertex, const int iEdgeFlags, const float CubeValue[], const float fX, const float fY, const float fZ);
 };
 
 } // namespace SPHAlgorithms

@@ -9,6 +9,7 @@
 
 #include <functional>
 
+// function that defines plane boundary
 float omega(float x, float y, float z)
 {
     using namespace SPHAlgorithms;
