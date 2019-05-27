@@ -8,9 +8,12 @@ file(GLOB ALGORITHMS_SRC_LIST_INCLUDE "${PROJECT_SOURCE_DIR}/src/NeighboursSearc
                                       "${PROJECT_SOURCE_DIR}/src/Defines.h"
                                       "${PROJECT_SOURCE_DIR}/src/Area.h"
                                       "${PROJECT_SOURCE_DIR}/src/ROperations.h"
-                                      "${PROJECT_SOURCE_DIR}/src/ROperations.hpp")
+                                      "${PROJECT_SOURCE_DIR}/src/ROperations.hpp"
+                                      "${PROJECT_SOURCE_DIR}/src/MarchingCubes.h"
+                                      "${PROJECT_SOURCE_DIR}/src/MarchingCubesConfig.h")
 
-file(GLOB ALGORITHMS_SRC_LIST_SOURCE  "${PROJECT_SOURCE_DIR}/src/Area.cpp")
+file(GLOB ALGORITHMS_SRC_LIST_SOURCE "${PROJECT_SOURCE_DIR}/src/Area.cpp"
+                                     "${PROJECT_SOURCE_DIR}/src/MarchingCubes.cpp")
 
 include_directories(${PROJECT_SOURCE_DIR}/src)
 
@@ -19,11 +22,3 @@ if(BUILD_UNIT_TESTS)
 endif()
 
 add_library(${PROJECT_NAME} ${ALGORITHMS_SRC_LIST_INCLUDE} ${ALGORITHMS_SRC_LIST_SOURCE})
-
-file(GLOB MARCHING_CUBES_SRC_LIST_INCLUDE "${PROJECT_SOURCE_DIR}/src/marching-cubes/MarchingCubes.h"
-                                          "${PROJECT_SOURCE_DIR}/src/marching-cubes/MarchingCubesConfig.h")
-
-file(GLOB MARCHING_CUBES_SRC_LIST_SOURCE  "${PROJECT_SOURCE_DIR}/src/marching-cubes/MarchingCubes.cpp"
-                                          "${PROJECT_SOURCE_DIR}/src/marching-cubes/Main.cpp")
-
-add_executable(marching-cubes ${MARCHING_CUBES_SRC_LIST_INCLUDE} ${MARCHING_CUBES_SRC_LIST_SOURCE})

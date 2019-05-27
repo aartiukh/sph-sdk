@@ -22,12 +22,6 @@ class MarchingCubes
 
 public:
     /**
-     * @brief Generates Obj file in Wavefront format with mesh
-     * @param f    The function that represents the domain equation
-     */
-    static void generateObj(std::function<float(float, float, float)> f);
-
-    /**
      * @brief Generates triangles mesh from function
      * @param f    The function that represents the domain equation
      */
