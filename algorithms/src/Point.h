@@ -50,8 +50,7 @@ public:
     typedef _Tp value_type;
 
     Point3();
-    Point3(double _x, double _y, double _z);
-	Point3(float _x, float _y, float _z);
+    Point3(_Tp _x, _Tp _y, _Tp _z);
     Point3(const Point3& pt);
 
     auto calcNormSqr() const;

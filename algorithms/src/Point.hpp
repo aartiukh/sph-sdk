@@ -114,7 +114,7 @@ template<typename _Tp> inline Point3<_Tp>::Point3()
       y(0),
       z(0) {}
 
-template<typename _Tp> inline Point3<_Tp>::Point3(double _x, double _y, double _z)
+template<typename _Tp> inline Point3<_Tp>::Point3(_Tp _x, _Tp _y, _Tp _z)
     : x(_x),
       y(_y),
       z(_z) {}

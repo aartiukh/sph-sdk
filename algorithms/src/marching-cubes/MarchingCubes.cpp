@@ -6,7 +6,6 @@
 
 #include "MarchingCubes.h"
 #include "MarchingCubesConfig.h"
-#include "Point.h"
 
 #include <fstream>
 #include <vector>
@@ -102,7 +101,7 @@ MarchingCubes::MarchCube(std::function<float(float, float, float)> f, float fX, 
 	findPointIntersection(EdgeVertex, iEdgeFlags, CubeValue, fX, fY, fZ);
 
     // Fill the triangles that were found.  There can be up to five per cube
-	fillFoundTriangles(resultTrianglesMesh, EdgeVertex, iFlagIndex);
+    fillFoundTriangles(resultTrianglesMesh, EdgeVertex, iFlagIndex);
 
     return resultTrianglesMesh;
 }
@@ -134,20 +133,22 @@ void MarchingCubes::generateObjFile(const std::vector<Point3F>& vertices, const 
 
 void MarchingCubes::fillFoundTriangles(std::vector<Point3F>& resultEdgeVertex, const std::vector<Point3F>& EdgeVertex, const int iFlagIndex)
 {
-	for (int iTriangle = 0; iTriangle < 5; iTriangle++)
-	{
-		if (TriangleConnectionTable[iFlagIndex][3 * iTriangle] < 0)
-		{
-			break;
-		}
+    for (int iTriangle = 0; iTriangle < 5; iTriangle++)
+    {
+        if (TriangleConnectionTable[iFlagIndex][3 * iTriangle] < 0)
+        {
+            break;
+        }
 
-		for (int iCorner = 0; iCorner < 3; iCorner++)
-		{
-			const int iVertex = TriangleConnectionTable[iFlagIndex][3 * iTriangle + iCorner];
-			resultEdgeVertex.push_back(Point3F(EdgeVertex[iVertex].x, EdgeVertex[iVertex].y, EdgeVertex[iVertex].z));
-		}
-	}
+        for (int iCorner = 0; iCorner < 3; iCorner++)
+        {
+            const int iVertex = TriangleConnectionTable[iFlagIndex][3 * iTriangle + iCorner];
+            resultEdgeVertex.push_back(Point3F(EdgeVertex[iVertex].x, EdgeVertex[iVertex].y, EdgeVertex[iVertex].z));
+        }
+    }
 }
+
+
 void MarchingCubes::findPointIntersection(std::vector<Point3F>& EdgeVertex, const int iEdgeFlags, const float CubeValue[], const float fX, const float fY, const float fZ)
 {
 	for (int iEdge = 0; iEdge < 12; iEdge++)
