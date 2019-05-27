@@ -51,6 +51,7 @@ public:
 
     Point3();
     Point3(double _x, double _y, double _z);
+	Point3(float _x, float _y, float _z);
     Point3(const Point3& pt);
 
     auto calcNormSqr() const;
@@ -62,8 +63,10 @@ public:
 };
 
 using Point3D = Point3<double>;
+using Point3F = Point3<float>;
 
 using Point3DVector = std::vector<Point3D>;
+using Point3FVector = std::vector<Point3F>;
 
 } //SPHAlgorithms
 

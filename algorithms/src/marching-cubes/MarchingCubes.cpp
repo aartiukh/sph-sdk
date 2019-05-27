@@ -16,7 +16,7 @@ namespace SPHAlgorithms
 
 void MarchingCubes::generateObj(std::function<float(float, float, float)> f)
 {
-    std::vector<Point3D> resultMesh;
+    std::vector<Point3F> resultMesh;
 
     for (float iX = X_MIN; iX < X_MAX; iX += GRID_CUBE_SIZE)
     {
@@ -34,9 +34,9 @@ void MarchingCubes::generateObj(std::function<float(float, float, float)> f)
     generateObjFile(resultMesh, "output.obj");
 }
 
-std::vector<Point3D> MarchingCubes::getFunctionMesh(std::function<float(float, float, float)> f)
+std::vector<Point3F> MarchingCubes::getFunctionMesh(std::function<float(float, float, float)> f)
 {
-	std::vector<Point3D> resultMesh;
+	std::vector<Point3F> resultMesh;
 
 	for (float iX = X_MIN; iX < X_MAX; iX += GRID_CUBE_SIZE)
 	{
@@ -65,11 +65,11 @@ float adapt(float fValue1, float fValue2)
     return -fValue1 / fDelta;
 }
 
-std::vector<Point3D>
+std::vector<Point3F>
 MarchingCubes::MarchCube(std::function<float(float, float, float)> f, float fX, float fY, float fZ)
 {
 	// vector with all triangles found
-    std::vector<Point3D> resultTrianglesMesh;
+    std::vector<Point3F> resultTrianglesMesh;
 
     float CubeValue[8];
 
@@ -80,15 +80,11 @@ MarchingCubes::MarchCube(std::function<float(float, float, float)> f, float fX, 
             f(fX + VertexOffset[iVertex][0], fY + VertexOffset[iVertex][1], fZ + VertexOffset[iVertex][2]);
     }
 
-    // Find which vertices are inside of the surface and which are outside
+    // Flag that indicates that vertice is inside or outsice of the surface 
     int iFlagIndex = 0;
-    for (int iVertexTest = 0; iVertexTest < 8; iVertexTest++)
-    {
-        if (CubeValue[iVertexTest] > 0)
-        {
-            iFlagIndex |= 1 << iVertexTest;
-        }
-    }
+
+	// Find which vertices are inside of the surface and which are outside
+	iFlagIndex = determineFlag(iFlagIndex, CubeValue);
 
     // Find which edges are intersected by the surface
     int iEdgeFlags = CubeEdgeFlags[iFlagIndex];
@@ -100,7 +96,7 @@ MarchingCubes::MarchCube(std::function<float(float, float, float)> f, float fX, 
     }
 
 	// Points of intersection of the surface with each edge 
-    std::vector<Point3D> EdgeVertex(12);
+    std::vector<Point3F> EdgeVertex(12);
 
 	// Find points of intersection on each edge
 	findPointIntersection(EdgeVertex, iEdgeFlags, CubeValue, fX, fY, fZ);
@@ -112,7 +108,7 @@ MarchingCubes::MarchCube(std::function<float(float, float, float)> f, float fX, 
 }
 
 // Generates Obj file in Wavefront format with mesh
-void MarchingCubes::generateObjFile(const std::vector<Point3D>& vertices, const std::string& fileName)
+void MarchingCubes::generateObjFile(const std::vector<Point3F>& vertices, const std::string& fileName)
 {
     std::ofstream file(fileName);
     if (!file)
@@ -136,7 +132,7 @@ void MarchingCubes::generateObjFile(const std::vector<Point3D>& vertices, const 
     file.close();
 }
 
-void MarchingCubes::fillFoundTriangles(std::vector<Point3D> resultEdgeVertex, const std::vector<Point3D> EdgeVertex, const int iFlagIndex)
+void MarchingCubes::fillFoundTriangles(std::vector<Point3F>& resultEdgeVertex, const std::vector<Point3F>& EdgeVertex, const int iFlagIndex)
 {
 	for (int iTriangle = 0; iTriangle < 5; iTriangle++)
 	{
@@ -148,11 +144,11 @@ void MarchingCubes::fillFoundTriangles(std::vector<Point3D> resultEdgeVertex, co
 		for (int iCorner = 0; iCorner < 3; iCorner++)
 		{
 			const int iVertex = TriangleConnectionTable[iFlagIndex][3 * iTriangle + iCorner];
-			resultEdgeVertex.push_back(Point3D(EdgeVertex[iVertex].x, EdgeVertex[iVertex].y, EdgeVertex[iVertex].z));
+			resultEdgeVertex.push_back(Point3F(EdgeVertex[iVertex].x, EdgeVertex[iVertex].y, EdgeVertex[iVertex].z));
 		}
 	}
 }
-void MarchingCubes::findPointIntersection(std::vector<Point3D> EdgeVertex, const int iEdgeFlags, const float CubeValue[], const float fX, const float fY, const float fZ)
+void MarchingCubes::findPointIntersection(std::vector<Point3F>& EdgeVertex, const int iEdgeFlags, const float CubeValue[], const float fX, const float fY, const float fZ)
 {
 	for (int iEdge = 0; iEdge < 12; iEdge++)
 	{
@@ -174,5 +170,16 @@ void MarchingCubes::findPointIntersection(std::vector<Point3D> EdgeVertex, const
 			EdgeVertex[iEdge].z = fZ + VertexOffset[v0][2] * t0 + VertexOffset[v1][2] * t1;
 		}
 	}
+}
+int MarchingCubes::determineFlag(int iFlagIndex, const float CubeValue[])
+{
+	for (int iVertexTest = 0; iVertexTest < 8; iVertexTest++)
+	{
+		if (CubeValue[iVertexTest] > 0)
+		{
+			iFlagIndex |= 1 << iVertexTest;
+		}
+	}
+	return iFlagIndex;
 }
 } // namespace SPHAlgorithms
