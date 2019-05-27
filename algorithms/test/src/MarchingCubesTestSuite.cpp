@@ -45,11 +45,10 @@ static float bishopEquation(float x, float y, float z)
 	const float y_sqr = (y - 1.5f) * (y - 1.5f);
 	const float z1_sqr = (z - 0.85f) * (z - 0.85f);
 	const float z2_sqr = (1.25f - z) * (1.25f - z);
-	const float z3_sqr = (0.2f - z) * (0.2f - z);
-	const float z4_sqr = (1.4f - z) * (1.4f - z);
+	const float z3_sqr = (1.4f - z) * (1.4f - z);
 
 	return dis(con(con(0.25f - x_sqr - y_sqr, -20.f * (x_sqr + y_sqr) + 1.f + 10.f * z1_sqr), z * (1.25f - z)),
-		dis(0.2f - x_sqr - y_sqr - 20.f * z2_sqr, 0.2f - 5.f * x_sqr -  4.f * y_sqr - z4_sqr));
+		dis(0.2f - x_sqr - y_sqr - 20.f * z2_sqr, 0.2f - 5.f * x_sqr -  4.f * y_sqr - z3_sqr));
 }
 
 // Generates Obj file in Wavefront format with mesh
