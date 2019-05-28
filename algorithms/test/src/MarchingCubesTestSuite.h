@@ -19,7 +19,7 @@ class MarchingCubesTestSuite
 public:
     static void generatePawnMesh();
 
-	static void generateBishopMesh();
+    static void generateBishopMesh();
 };
 
 } // namespace TestEnvironment

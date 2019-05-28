@@ -36,7 +36,6 @@ constexpr int TRIANGLES_CORNERS_NUMBER = 3;
 // given presizion
 constexpr float PRECIZION = 0.0001f;
 
-
 // VertexOffset lists the positions, for each grid cube in the grid
 constexpr float VertexOffset[CUBE_VERTICES_NUMBER][CUBE_DIMENSION] = {{0.0, 0.0, 0.0},
                                                                       {GRID_CUBE_SIZE, 0.0, 0.0},
