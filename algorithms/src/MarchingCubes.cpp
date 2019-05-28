@@ -33,7 +33,7 @@ static float adapt(float a, float b)
 {
     const float delta = b - a;
 
-    if (std::abs(delta) < PREÑIZION)
+    if (std::abs(delta) < PRECIZION)
     {
         return 0.5f;
     }

@@ -34,7 +34,7 @@ constexpr int TRIANGLES_MAX_NUMBER_FOR_ONE_CUBE = 5;
 constexpr int TRIANGLES_CORNERS_NUMBER = 3;
 
 // given presizion
-constexpr float PREÑIZION = 0.0001f;
+constexpr float PRECIZION = 0.0001f;
 
 
 // VertexOffset lists the positions, for each grid cube in the grid
