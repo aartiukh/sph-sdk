@@ -10,7 +10,7 @@
 namespace SPHAlgorithms
 {
 
-Point3FVector MarchingCubes::getFunctionMesh(std::function<float(float, float, float)> f)
+Point3FVector MarchingCubes::generateMesh(std::function<float(float, float, float)> f)
 {
     Point3FVector mesh;
 

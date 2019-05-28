@@ -24,7 +24,7 @@ public:
      * @brief Generates triangles mesh from function
      * @param f    The function that represents the domain equation
      */
-    static Point3FVector getFunctionMesh(std::function<float(float, float, float)> f);
+    static Point3FVector generateMesh(std::function<float(float, float, float)> f);
 
 private:
     static Point3FVector MarchingCube(std::function<float(float, float, float)> f, float fX, float fY, float fZ);
