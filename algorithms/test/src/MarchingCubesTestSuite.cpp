@@ -83,7 +83,7 @@ namespace TestEnvironment
 
 void MarchingCubesTestSuite::generatePawnMesh()
 {
-    const std::vector<Point3F> mesh = SPHAlgorithms::MarchingCubes::getFunctionMesh(pawnEquation);
+    const Point3FVector mesh = SPHAlgorithms::MarchingCubes::getFunctionMesh(pawnEquation);
 
     ASSERT_EQ(37128u, mesh.size());
 
@@ -92,7 +92,7 @@ void MarchingCubesTestSuite::generatePawnMesh()
 
 void MarchingCubesTestSuite::generateBishopMesh()
 {
-	const std::vector<Point3F> mesh = SPHAlgorithms::MarchingCubes::getFunctionMesh(bishopEquation);
+	const Point3FVector mesh = SPHAlgorithms::MarchingCubes::getFunctionMesh(bishopEquation);
 
 	ASSERT_EQ(45552u, mesh.size());
 

@@ -9,7 +9,6 @@
 
 #include "Point.h"
 #include <functional>
-#include <vector>
 
 namespace SPHAlgorithms
 {
