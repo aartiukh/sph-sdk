@@ -1,8 +1,8 @@
 /**
-* @file Point.h
-* @author Anton Artyukh (artyukhanton@gmail.com)
-* @date Created Feb 26, 2017
-**/
+ * @file Point.h
+ * @author Anton Artyukh (artyukhanton@gmail.com)
+ * @date Created Feb 26, 2017
+ **/
 
 #ifndef POINT_H_DE836BDF10964E14A5C9BA80FEDE6734
 #define POINT_H_DE836BDF10964E14A5C9BA80FEDE6734
@@ -13,9 +13,9 @@ namespace SPHAlgorithms
 {
 
 /**
-* @brief Point2 class defines point in 2D.
-*/
-template<typename _Tp> class Point2
+ * @brief Point2 class defines point in 2D.
+ */
+template <typename _Tp> class Point2
 {
 public:
     typedef _Tp value_type;
@@ -27,7 +27,7 @@ public:
     auto calcNormSqr() const;
     auto calcNorm() const;
 
-    Point2& operator = (const Point2& pt);
+    Point2& operator=(const Point2& pt);
 
     _Tp x, y; //< the point coordinates
 };
@@ -41,31 +41,33 @@ using Point2FVector = std::vector<Point2F>;
 using Point2IVector = std::vector<Point2I>;
 
 /**
-* @brief Point3 class defines point in 3D.
-*/
+ * @brief Point3 class defines point in 3D.
+ */
 
-template<typename _Tp> class Point3
+template <typename _Tp> class Point3
 {
 public:
     typedef _Tp value_type;
 
     Point3();
-    Point3(double _x, double _y, double _z);
+    Point3(_Tp _x, _Tp _y, _Tp _z);
     Point3(const Point3& pt);
 
     auto calcNormSqr() const;
     auto calcNorm() const;
 
-    Point3& operator = (const Point3& pt);
+    Point3& operator=(const Point3& pt);
 
     _Tp x, y, z; //< the point coordinates
 };
 
 using Point3D = Point3<double>;
+using Point3F = Point3<float>;
 
 using Point3DVector = std::vector<Point3D>;
+using Point3FVector = std::vector<Point3F>;
 
-} //SPHAlgorithms
+} // namespace SPHAlgorithms
 
 #include "Point.hpp"
 
