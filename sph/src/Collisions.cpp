@@ -107,7 +107,8 @@ void Collision::detectCollisions(ParticleVect&                                  
         /* Obstacle collision */
 
         if (obstacle != nullptr &&
-            (*obstacle)(particleVect[i].position.x, particleVect[i].position.y, particleVect[i].position.z) > 0.)
+            (*obstacle)(static_cast<float>(particleVect[i].position.x), static_cast<float>(particleVect[i].position.y),
+                        static_cast<float>(particleVect[i].position.z)) > 0.f)
         {
             particleVect[i].position = particleVect[i].previous_position;
             particleVect[i].velocity *= -1.;
