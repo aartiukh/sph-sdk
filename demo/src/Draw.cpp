@@ -16,6 +16,7 @@
 #include <math.h>
 
 #include "algorithms/src/Shapes.h"
+#include "algorithms/src/MarchingCubes.h"
 #include "sph/src/Config.h"
 #include "sph/src/SPH.h"
 
@@ -25,6 +26,8 @@ static int height = 900;
 static float angle = 360;
 
 static SPHSDK::SPH sph;
+
+static SPHAlgorithms::Point3FVector mesh;
 
 void renderSphere(float x, float y, float z, double radius, double velocity, int subdivisions, GLUquadricObj* quadric)
 {
@@ -118,6 +121,15 @@ void MyDisplay(void)
     glRotatef(angle, -1, 0, 0);
 
     sph.run();
+
+    // Draw inserted object
+    glColor3f(0.0f, 0.0f, 1.0f);
+    glBegin(GL_TRIANGLES);
+    for (const auto& triangle : mesh)
+    {
+        glVertex3f(triangle.x, triangle.y, triangle.z);
+    }
+    glEnd();
 
     for (auto& particle : sph.particles)
     {
@@ -244,6 +256,8 @@ void Draw::MainDraw(int argc, char** argv)
 {
     static const std::function<float(float, float, float)> obstacle = SPHAlgorithms::Shapes::Pawn;
     sph = SPHSDK::SPH(&obstacle);
+
+    mesh = SPHAlgorithms::MarchingCubes::generateMesh(obstacle);
 
     // GLUT initialization
     glutInit(&argc, argv);
