@@ -71,37 +71,37 @@ void Collision::detectCollisions(ParticleVect&                                  
         if (particleVect[i].position.x > cuboid.width - particleVect[i].radius)
         {
             particleVect[i].position.x = cuboid.width - particleVect[i].radius;
-            particleVect[i].velocity.x *= -0.5;
+            particleVect[i].velocity.x *= Config::CollisionVelocityMultiplier;
         }
 
         if (particleVect[i].position.x < particleVect[i].radius)
         {
             particleVect[i].position.x = particleVect[i].radius;
-            particleVect[i].velocity.x *= -0.5;
+            particleVect[i].velocity.x *= Config::CollisionVelocityMultiplier;
         }
 
         if (particleVect[i].position.y > cuboid.length - particleVect[i].radius)
         {
             particleVect[i].position.y = cuboid.length - particleVect[i].radius;
-            particleVect[i].velocity.y *= -0.5;
+            particleVect[i].velocity.y *= Config::CollisionVelocityMultiplier;
         }
 
         if (particleVect[i].position.y < particleVect[i].radius)
         {
             particleVect[i].position.y = particleVect[i].radius;
-            particleVect[i].velocity.y *= -0.5;
+            particleVect[i].velocity.y *= Config::CollisionVelocityMultiplier;
         }
 
         if (particleVect[i].position.z > cuboid.height - particleVect[i].radius)
         {
             particleVect[i].position.z = cuboid.height - particleVect[i].radius;
-            particleVect[i].velocity.z *= -0.5;
+            particleVect[i].velocity.z *= Config::CollisionVelocityMultiplier;
         }
 
         if (particleVect[i].position.z < particleVect[i].radius)
         {
             particleVect[i].position.z = particleVect[i].radius;
-            particleVect[i].velocity.z *= -0.5;
+            particleVect[i].velocity.z *= Config::CollisionVelocityMultiplier;
         }
 
         /* Obstacle collision */
@@ -111,7 +111,7 @@ void Collision::detectCollisions(ParticleVect&                                  
                         static_cast<float>(particleVect[i].position.z)) > 0.f)
         {
             particleVect[i].position = particleVect[i].previous_position;
-            particleVect[i].velocity *= -1.;
+            particleVect[i].velocity *= Config::CollisionVelocityMultiplier;
         }
     }
 }
