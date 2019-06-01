@@ -11,9 +11,9 @@
 #include "Forces.h"
 #include "Integrator.h"
 
-#include <iostream>
-#include <cmath>
 #include <cfloat>
+#include <cmath>
+#include <iostream>
 
 static const double PI = 3.14159265359;
 
@@ -26,15 +26,13 @@ inline SPHAlgorithms::Point3D SpericalToCartesian(double r, double fi, double te
 {
     return SPHAlgorithms::Point3D(r * sin(teta) * cos(fi) + 1.5, r * sin(teta) * sin(fi) + 1.5, r * cos(teta) + 2.);
 }
-}
+} // namespace
 
-SPH::SPH()
-    : particles(Config::ParticlesNumber),
-      m_volume(SPHAlgorithms::Volume(SPHAlgorithms::Cuboid(SPHAlgorithms::Point3D(),
-                                                           Config::CubeSize,
-                                                           Config::CubeSize,
-                                                           Config::CubeSize))),
-      m_searcher(SPHAlgorithms::NeighboursSearch3D<ParticleVect>(m_volume, Config::WaterSupportRadius, 0.001))
+SPH::SPH(const std::function<float(float, float, float)>& obstacle)
+    : particles(Config::ParticlesNumber)
+    , m_volume(SPHAlgorithms::Volume(
+          SPHAlgorithms::Cuboid(SPHAlgorithms::Point3D(), Config::CubeSize, Config::CubeSize, Config::CubeSize)))
+    , m_searcher(SPHAlgorithms::NeighboursSearch3D<ParticleVect>(m_volume, Config::WaterSupportRadius, 0.001))
 {
     // set initial particle data
     double r = 2 * Config::ParticleRadius;
