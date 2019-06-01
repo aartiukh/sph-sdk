@@ -124,20 +124,6 @@ void MyDisplay(void)
 
     const float cubeSize = static_cast<float>(SPHSDK::Config::CubeSize);
 
-    // Draw Cube lines behind the obstacle
-    glBegin(GL_LINES);
-    glColor3f(1.0f, 0.0f, 0.0f);
-
-    glVertex3f(0.f, 0.f, 0.f);
-    glVertex3f(0.f, 0.f, cubeSize);
-
-    glVertex3f(0.f, 0.f, 0.f);
-    glVertex3f(0.f, cubeSize, 0.f);
-
-    glVertex3f(0.f, 0.f, 0.f);
-    glVertex3f(cubeSize, 0.f, 0.f);
-    glEnd();
-
     // Draw the obstacle
     glBegin(GL_TRIANGLES);
     for (const auto& triangle : mesh)
@@ -158,6 +144,15 @@ void MyDisplay(void)
 
     glBegin(GL_LINES);
     glColor3f(1.0f, 0.0f, 0.0f);
+
+    glVertex3f(0.f, 0.f, 0.f);
+    glVertex3f(0.f, 0.f, cubeSize);
+
+    glVertex3f(0.f, 0.f, 0.f);
+    glVertex3f(0.f, cubeSize, 0.f);
+
+    glVertex3f(0.f, 0.f, 0.f);
+    glVertex3f(cubeSize, 0.f, 0.f);
 
     glVertex3f(cubeSize, cubeSize, cubeSize);
     glVertex3f(0.f, cubeSize, cubeSize);
@@ -279,6 +274,8 @@ void Draw::MainDraw(int argc, char** argv)
 
     // set up display mode
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+
+    glEnable(GL_DEPTH_TEST);
 
     glutKeyboardFunc(processNormalKeys);
 
