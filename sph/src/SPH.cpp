@@ -35,12 +35,6 @@ SPH::SPH(const std::function<float(float, float, float)>* obstacle)
     , m_searcher(SPHAlgorithms::NeighboursSearch3D<ParticleVect>(m_volume, Config::WaterSupportRadius, 0.001))
     , m_obstacle(obstacle)
 {
-    if(obstacle != nullptr)
-    {
-        std::cout << "Obstacle is not null" << std::endl;
-    }
-
-
     // set initial particle data
     double r = 2 * Config::ParticleRadius;
     double fi = 0.;
