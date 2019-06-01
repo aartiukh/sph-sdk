@@ -7,6 +7,8 @@
 #ifndef SHAPES_H_19D5A367806A431C96F39D5F50B94D31
 #define SHAPES_H_19D5A367806A431C96F39D5F50B94D31
 
+#include "ROperations.h"
+
 namespace SPHAlgorithms
 {
 

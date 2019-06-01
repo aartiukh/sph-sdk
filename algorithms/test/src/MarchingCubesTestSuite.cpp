@@ -8,14 +8,11 @@
 #include "MarchingCubesTestSuite.h"
 
 #include "MarchingCubes.h"
-#include "Point.h"
-#include "ROperations.h"
 #include "Shapes.h"
 
 #include <gtest/gtest.h>
 
 #include <fstream>
-#include <functional>
 
 
 // Generates Obj file in Wavefront format with mesh
