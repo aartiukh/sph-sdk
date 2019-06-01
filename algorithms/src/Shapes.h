@@ -12,16 +12,25 @@
 namespace SPHAlgorithms
 {
 
+/**
+ * @brief The Shapes class contanis various shapes equations constructed using the R-functions method.
+ */
 class Shapes
 {
+private:
+    static constexpr auto dis = ROperations::disjunction<float>;
+    static constexpr auto con = ROperations::conjunction<float>;
+
 public:
+    /**
+     * @brief Represents a pawn in 3D.
+     * @param x    The x-coordinate.
+     * @param y    The y-coordinate.
+     * @param z    The z-coordinate.
+     * @return a value that > 0 inside the object, = 0 on the border and < 0 outside.
+     */
     static float Pawn(float x, float y, float z)
     {
-        using namespace SPHAlgorithms;
-
-        const auto dis = ROperations::disjunction<float>;
-        const auto con = ROperations::conjunction<float>;
-
         const float x_sqr = (x - 1.5f) * (x - 1.5f);
         const float y_sqr = (y - 1.5f) * (y - 1.5f);
         const float z1_sqr = (z - 0.75f) * (z - 0.75f);
@@ -32,13 +41,15 @@ public:
                    dis(0.125f - x_sqr - y_sqr - 20.f * z2_sqr, 0.05f - x_sqr - y_sqr - z3_sqr));
     }
 
+    /**
+     * @brief Represents a bishop in 3D.
+     * @param x    The x-coordinate.
+     * @param y    The y-coordinate.
+     * @param z    The z-coordinate.
+     * @return a value that > 0 inside the object, = 0 on the border and < 0 outside.
+     */
     static float Bishop(float x, float y, float z)
     {
-        using namespace SPHAlgorithms;
-
-        const auto dis = ROperations::disjunction<float>;
-        const auto con = ROperations::conjunction<float>;
-
         const float x_sqr = (x - 1.5f) * (x - 1.5f);
         const float y_sqr = (y - 1.5f) * (y - 1.5f);
         const float z1_sqr = (z - 0.85f) * (z - 0.85f);
