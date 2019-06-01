@@ -16,6 +16,8 @@ void Integrator::integrate(double timeStep, ParticleVect& particles)
 {
     for (ParticleVectIter iter = particles.begin(); iter != particles.end(); ++iter)
     {
+        iter->previous_position = iter->position;
+
         const SPHAlgorithms::Point3D prevAcceleration = iter->acceleration;
 
         if (std::abs(iter->density) > 0.)

@@ -23,6 +23,7 @@ struct Config
     static const SPHAlgorithms::Point3D InitialGravitationalAcceleration;
     static SPHAlgorithms::Point3D GravitationalAcceleration;
     static const SPHAlgorithms::Point3D InitialVelocity;
+    static const double CollisionVelocityMultiplier;
 
     static const double SpeedTreshold;
 

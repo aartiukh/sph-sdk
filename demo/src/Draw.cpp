@@ -15,6 +15,8 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
+#include "algorithms/src/MarchingCubes.h"
+#include "algorithms/src/Shapes.h"
 #include "sph/src/Config.h"
 #include "sph/src/SPH.h"
 
@@ -24,6 +26,8 @@ static int height = 900;
 static float angle = 360;
 
 static SPHSDK::SPH sph;
+
+static SPHAlgorithms::Point3FVector mesh;
 
 void renderSphere(float x, float y, float z, double radius, double velocity, int subdivisions, GLUquadricObj* quadric)
 {
@@ -118,6 +122,17 @@ void MyDisplay(void)
 
     sph.run();
 
+    const float cubeSize = static_cast<float>(SPHSDK::Config::CubeSize);
+
+    // Draw the obstacle
+    glBegin(GL_TRIANGLES);
+    for (const auto& triangle : mesh)
+    {
+        glColor3f(1.0f / cubeSize, 1.5f * triangle.y / cubeSize, 2.5f * triangle.z / cubeSize);
+        glVertex3f(triangle.x, triangle.y, triangle.z);
+    }
+    glEnd();
+
     for (auto& particle : sph.particles)
     {
         renderSphere_convenient(static_cast<float>(particle.position.x), static_cast<float>(particle.position.y),
@@ -127,7 +142,6 @@ void MyDisplay(void)
 
     glColor3f(1.0, 0.0, 0.0);
 
-    const float cubeSize = static_cast<float>(SPHSDK::Config::CubeSize);
     glBegin(GL_LINES);
     glColor3f(1.0f, 0.0f, 0.0f);
 
@@ -241,7 +255,10 @@ void processSpecialKeys(int key, int /*xx*/, int /*yy*/)
 
 void Draw::MainDraw(int argc, char** argv)
 {
-    sph = SPHSDK::SPH();
+    static const std::function<float(float, float, float)> obstacle = SPHAlgorithms::Shapes::Pawn;
+    sph = SPHSDK::SPH(&obstacle);
+
+    mesh = SPHAlgorithms::MarchingCubes::generateMesh(obstacle);
 
     // GLUT initialization
     glutInit(&argc, argv);
@@ -257,6 +274,8 @@ void Draw::MainDraw(int argc, char** argv)
 
     // set up display mode
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+
+    glEnable(GL_DEPTH_TEST);
 
     glutKeyboardFunc(processNormalKeys);
 
