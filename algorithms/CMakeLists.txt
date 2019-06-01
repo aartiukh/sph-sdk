@@ -10,7 +10,8 @@ file(GLOB ALGORITHMS_SRC_LIST_INCLUDE "${PROJECT_SOURCE_DIR}/src/NeighboursSearc
                                       "${PROJECT_SOURCE_DIR}/src/ROperations.h"
                                       "${PROJECT_SOURCE_DIR}/src/ROperations.hpp"
                                       "${PROJECT_SOURCE_DIR}/src/MarchingCubes.h"
-                                      "${PROJECT_SOURCE_DIR}/src/MarchingCubesConfig.h")
+                                      "${PROJECT_SOURCE_DIR}/src/MarchingCubesConfig.h"
+                                      "${PROJECT_SOURCE_DIR}/src/Shapes.h")
 
 file(GLOB ALGORITHMS_SRC_LIST_SOURCE "${PROJECT_SOURCE_DIR}/src/Area.cpp"
                                      "${PROJECT_SOURCE_DIR}/src/MarchingCubes.cpp")
