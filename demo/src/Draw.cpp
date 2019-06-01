@@ -15,8 +15,8 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-#include "algorithms/src/Shapes.h"
 #include "algorithms/src/MarchingCubes.h"
+#include "algorithms/src/Shapes.h"
 #include "sph/src/Config.h"
 #include "sph/src/SPH.h"
 
@@ -122,11 +122,27 @@ void MyDisplay(void)
 
     sph.run();
 
-    // Draw inserted object
-    glColor3f(0.0f, 0.0f, 1.0f);
+    const float cubeSize = static_cast<float>(SPHSDK::Config::CubeSize);
+
+    // Draw Cube lines behind the obstacle
+    glBegin(GL_LINES);
+    glColor3f(1.0f, 0.0f, 0.0f);
+
+    glVertex3f(0.f, 0.f, 0.f);
+    glVertex3f(0.f, 0.f, cubeSize);
+
+    glVertex3f(0.f, 0.f, 0.f);
+    glVertex3f(0.f, cubeSize, 0.f);
+
+    glVertex3f(0.f, 0.f, 0.f);
+    glVertex3f(cubeSize, 0.f, 0.f);
+    glEnd();
+
+    // Draw the obstacle
     glBegin(GL_TRIANGLES);
     for (const auto& triangle : mesh)
     {
+        glColor3f(1.0f / cubeSize, 1.5f * triangle.y / cubeSize, 2.5f * triangle.z / cubeSize);
         glVertex3f(triangle.x, triangle.y, triangle.z);
     }
     glEnd();
@@ -140,18 +156,8 @@ void MyDisplay(void)
 
     glColor3f(1.0, 0.0, 0.0);
 
-    const float cubeSize = static_cast<float>(SPHSDK::Config::CubeSize);
     glBegin(GL_LINES);
     glColor3f(1.0f, 0.0f, 0.0f);
-
-    glVertex3f(0.f, 0.f, 0.f);
-    glVertex3f(0.f, 0.f, cubeSize);
-
-    glVertex3f(0.f, 0.f, 0.f);
-    glVertex3f(0.f, cubeSize, 0.f);
-
-    glVertex3f(0.f, 0.f, 0.f);
-    glVertex3f(cubeSize, 0.f, 0.f);
 
     glVertex3f(cubeSize, cubeSize, cubeSize);
     glVertex3f(0.f, cubeSize, cubeSize);
