@@ -15,6 +15,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
+#include "algorithms/src/Shapes.h"
 #include "sph/src/Config.h"
 #include "sph/src/SPH.h"
 
@@ -241,7 +242,8 @@ void processSpecialKeys(int key, int /*xx*/, int /*yy*/)
 
 void Draw::MainDraw(int argc, char** argv)
 {
-    sph = SPHSDK::SPH();
+    static const std::function<float(float, float, float)> obstacle = SPHAlgorithms::Shapes::Pawn;
+    sph = SPHSDK::SPH(&obstacle);
 
     // GLUT initialization
     glutInit(&argc, argv);

@@ -28,12 +28,19 @@ inline SPHAlgorithms::Point3D SpericalToCartesian(double r, double fi, double te
 }
 } // namespace
 
-SPH::SPH(const std::function<float(float, float, float)>& obstacle)
+SPH::SPH(const std::function<float(float, float, float)>* obstacle)
     : particles(Config::ParticlesNumber)
     , m_volume(SPHAlgorithms::Volume(
           SPHAlgorithms::Cuboid(SPHAlgorithms::Point3D(), Config::CubeSize, Config::CubeSize, Config::CubeSize)))
     , m_searcher(SPHAlgorithms::NeighboursSearch3D<ParticleVect>(m_volume, Config::WaterSupportRadius, 0.001))
+    , m_obstacle(obstacle)
 {
+    if(obstacle != nullptr)
+    {
+        std::cout << "Obstacle is not null" << std::endl;
+    }
+
+
     // set initial particle data
     double r = 2 * Config::ParticleRadius;
     double fi = 0.;
@@ -81,7 +88,7 @@ void SPH::run()
     Forces::ComputeAllForces(particles);
     Integrator::integrate(0.01, particles);
 
-    Collision::detectCollisions(particles, m_volume);
+    Collision::detectCollisions(particles, m_volume, m_obstacle);
 }
 
 } // namespace SPHSDK
