@@ -1,0 +1,25 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "aartiukh",
+      "name": "Anton Artiukh",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/6399458?v=4",
+      "profile": "https://github.com/aartiukh",
+      "contributions": [
+        "code",
+        "doc",
+        "review"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "sph",
+  "projectOwner": "aartiukh",
+  "repoType": "github",
+  "repoHost": "https://github.com"
+}
