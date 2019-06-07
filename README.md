@@ -22,7 +22,7 @@ C++ implementation of Smoothed Particle Hydrodynamics.
 
 ## Contributors
 
-This project is maintained by teachers and students of Kharkiv National University of Radio Electronics ([NURE](https://nure.ua/en/)).
+This project is maintained by teachers and students of Kharkiv National University of Radio Electronics ([NURE](https://nure.ua/en/)),  Department of Applied Mathematics ([AM](https://nure.ua/en/department/department-of-applied-mathematics-am)).
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
