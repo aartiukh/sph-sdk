@@ -1,0 +1,45 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "aartiukh",
+      "name": "Anton Artiukh",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/6399458?v=4",
+      "profile": "https://github.com/aartiukh",
+      "contributions": [
+        "code",
+        "doc",
+        "review"
+      ]
+    },
+    {
+      "login": "ShabalinOleksii",
+      "name": "Oleksii Shabalin",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/40167922?v=4",
+      "profile": "https://github.com/ShabalinOleksii",
+      "contributions": [
+        "code",
+        "doc"
+      ]
+    },
+    {
+      "login": "Crosby98",
+      "name": "Crosby98",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/49843837?v=4",
+      "profile": "https://github.com/Crosby98",
+      "contributions": [
+        "code",
+        "doc"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "sph",
+  "projectOwner": "aartiukh",
+  "repoType": "github",
+  "repoHost": "https://github.com"
+}

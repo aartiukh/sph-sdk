@@ -1,0 +1,25 @@
+language: c++
+
+git:
+  submodules: false
+
+before_install:
+    - sudo apt-get install cmake libxtst-dev libxrandr-dev lcov libglu1-mesa-dev mesa-common-dev
+    - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
+    - git submodule update --init --recursive
+
+compiler:
+    - gcc
+
+script:
+    - cd build
+    - cmake .. && make
+    - ctest -VV
+
+after_success:
+# Create lcov report
+- lcov --capture --directory . --output-file coverage.info
+- lcov --remove coverage.info '/usr/*' --output-file coverage.info # filter system-files
+- lcov --list coverage.info # debug info
+# Uploading report to CodeCov
+- bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage reports"
