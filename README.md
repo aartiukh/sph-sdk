@@ -1,5 +1,6 @@
 # sph
-![Build status](https://travis-ci.com/aartiukh/sph.svg?branch=develop) [![codecov](https://codecov.io/gh/aartiukh/sph/branch/develop/graph/badge.svg)](https://codecov.io/gh/aartiukh/sph) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/85727c26d7fc4fd5b65e631e8a6aeca1)](https://app.codacy.com/app/aartiukh/sph?utm_source=github.com&utm_medium=referral&utm_content=aartiukh/sph&utm_campaign=Badge_Grade_Dashboard) [![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors)
+[![Build Status](https://travis-ci.com/aartiukh/sph-sdk.svg?branch=develop)](https://travis-ci.com/aartiukh/sph-sdk) [![codecov](https://codecov.io/gh/aartiukh/sph-sdk/branch/develop/graph/badge.svg)](https://codecov.io/gh/aartiukh/sph-sdk) 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/3ba389a156774edaa1152afd7c7504f7)](https://www.codacy.com/app/aartiukh/sph-sdk?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=aartiukh/sph-sdk&amp;utm_campaign=Badge_Grade) [![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors)
 
 C++ implementation of Smoothed Particle Hydrodynamics.
 
