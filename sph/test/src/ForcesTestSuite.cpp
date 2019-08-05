@@ -34,7 +34,7 @@ static void initGeneralParticles()
 
     generalParticleVect[0].velocity = SPHAlgorithms::Point3D(1.0, 1.0, 1.0);
     generalParticleVect[1].velocity = SPHAlgorithms::Point3D(0.5, 0.5, 0.5);
-    generalParticleVect[2].velocity = SPHAlgorithms::Point3D(0.0, 0.0, 0.0);
+    generalParticleVect[2].velocity = SPHAlgorithms::Point3D(0.01, 0.01, 0.01);
     generalParticleVect[3].velocity = SPHAlgorithms::Point3D(-0.5, -0.5, -0.5);
     generalParticleVect[4].velocity = SPHAlgorithms::Point3D(-1.0, -1.0, -1.0);
 
@@ -49,22 +49,22 @@ void ForcesTestSuite::densityForFourNeighbours()
 
     Forces::ComputeDensity(generalParticleVect);
 
-    EXPECT_NEAR(16735.34710282386, generalParticleVect[0].density, Precision);
-    EXPECT_NEAR(16978.06900702438, generalParticleVect[1].density, Precision);
-    EXPECT_NEAR(17054.29550344709, generalParticleVect[2].density, Precision);
-    EXPECT_NEAR(16978.06900702438, generalParticleVect[3].density, Precision);
-    EXPECT_NEAR(16735.34710282386, generalParticleVect[4].density, Precision);
+    EXPECT_NEAR(1633.2268932167424, generalParticleVect[0].density, Precision);
+    EXPECT_NEAR(1657.4184918158344, generalParticleVect[1].density, Precision);
+    EXPECT_NEAR(1666.5821684082164, generalParticleVect[2].density, Precision);
+    EXPECT_NEAR(1657.4184918158344, generalParticleVect[3].density, Precision);
+    EXPECT_NEAR(1633.2268932167424, generalParticleVect[4].density, Precision);
 }
 
 void ForcesTestSuite::pressureForFourNeighbours()
 {
     Forces::ComputePressure(generalParticleVect);
 
-    EXPECT_NEAR(47211.17130847158, generalParticleVect[0].pressure, Precision);
-    EXPECT_NEAR(47939.33702107313, generalParticleVect[1].pressure, Precision);
-    EXPECT_NEAR(48168.01651034128, generalParticleVect[2].pressure, Precision);
-    EXPECT_NEAR(47939.33702107313, generalParticleVect[3].pressure, Precision);
-    EXPECT_NEAR(47211.17130847158, generalParticleVect[4].pressure, Precision);
+    EXPECT_NEAR(1904.8106796502273, generalParticleVect[0].pressure, Precision);
+    EXPECT_NEAR(1977.3854754475033, generalParticleVect[1].pressure, Precision);
+    EXPECT_NEAR(2004.8765052246492, generalParticleVect[2].pressure, Precision);
+    EXPECT_NEAR(1977.3854754475033, generalParticleVect[3].pressure, Precision);
+    EXPECT_NEAR(1904.8106796502273, generalParticleVect[4].pressure, Precision);
 }
 
 void ForcesTestSuite::internalForcesForFourNeighbours()
@@ -156,9 +156,8 @@ void ForcesTestSuite::densityForOneNeighbour()
 
     Forces::ComputeDensity(particleVect);
 
-    // TODO: Recalculate expected values
-    EXPECT_NEAR(51851.55861657341, particleVect[0].density, Precision);
-    EXPECT_NEAR(51851.55861657341, particleVect[1].density, Precision);
+    EXPECT_NEAR(1597.0844603546218, particleVect[0].density, Precision);
+    EXPECT_NEAR(1597.0844603546218, particleVect[1].density, Precision);
 }
 
 void ForcesTestSuite::densityForTwoNeighbours()
@@ -174,10 +173,9 @@ void ForcesTestSuite::densityForTwoNeighbours()
 
     Forces::ComputeDensity(particleVect);
 
-    // TODO: Recalculate expected values
-    EXPECT_NEAR(103725.03404765946, particleVect[0].density, Precision);
-    EXPECT_NEAR(103725.03404765946, particleVect[1].density, Precision);
-    EXPECT_NEAR(103746.95086217206, particleVect[2].density, Precision);
+    EXPECT_NEAR(1627.9504314400233, particleVect[0].density, Precision);
+    EXPECT_NEAR(1627.9504314400233, particleVect[1].density, Precision);
+    EXPECT_NEAR(1628.4134132316474, particleVect[2].density, Precision);
 }
 
 void ForcesTestSuite::densityForThreeNeighbours()
@@ -195,11 +193,10 @@ void ForcesTestSuite::densityForThreeNeighbours()
 
     Forces::ComputeDensity(particleVect);
 
-    // TODO: Recalculate expected values
-    EXPECT_NEAR(155602.57074862678, particleVect[0].density, Precision);
-    EXPECT_NEAR(155527.94929964322, particleVect[1].density, Precision);
-    EXPECT_NEAR(155565.27359797963, particleVect[2].density, Precision);
-    EXPECT_NEAR(155498.77468875865, particleVect[3].density, Precision);
+    EXPECT_NEAR(1658.9002352147459, particleVect[0].density, Precision);
+    EXPECT_NEAR(1657.2522139936098, particleVect[1].density, Precision);
+    EXPECT_NEAR(1658.0762364059892, particleVect[2].density, Precision);
+    EXPECT_NEAR(1656.5958805634953, particleVect[3].density, Precision);
 }
 
 void ForcesTestSuite::pressureForOneNeighbour()
@@ -214,9 +211,8 @@ void ForcesTestSuite::pressureForOneNeighbour()
     Forces::ComputeDensity(particleVect);
     Forces::ComputePressure(particleVect);
 
-    // TODO: Recalculate expected values
-    EXPECT_NEAR(152559.80584972026, particleVect[0].pressure, Precision);
-    EXPECT_NEAR(152559.80584972026, particleVect[1].pressure, Precision);
+    EXPECT_NEAR(1796.3833810638655, particleVect[0].pressure, Precision);
+    EXPECT_NEAR(1796.3833810638655, particleVect[1].pressure, Precision);
 }
 
 void ForcesTestSuite::pressureForTwoNeighbours()
@@ -233,10 +229,9 @@ void ForcesTestSuite::pressureForTwoNeighbours()
     Forces::ComputeDensity(particleVect);
     Forces::ComputePressure(particleVect);
 
-    // TODO: Recalculate expected values
-    EXPECT_NEAR(308180.23214297841, particleVect[0].pressure, Precision);
-    EXPECT_NEAR(308180.23214297841, particleVect[1].pressure, Precision);
-    EXPECT_NEAR(308245.98258651618, particleVect[2].pressure, Precision);
+    EXPECT_NEAR(1888.98129432007, particleVect[0].pressure, Precision);
+    EXPECT_NEAR(1888.98129432007, particleVect[1].pressure, Precision);
+    EXPECT_NEAR(1890.3702396949423, particleVect[2].pressure, Precision);
 }
 
 void ForcesTestSuite::pressureForThreeNeighbours()
@@ -255,11 +250,10 @@ void ForcesTestSuite::pressureForThreeNeighbours()
     Forces::ComputeDensity(particleVect);
     Forces::ComputePressure(particleVect);
 
-    // TODO: Recalculate expected values
-    EXPECT_NEAR(463812.84224588028, particleVect[0].pressure, Precision);
-    EXPECT_NEAR(463588.97789892962, particleVect[1].pressure, Precision);
-    EXPECT_NEAR(463700.95079393883, particleVect[2].pressure, Precision);
-    EXPECT_NEAR(463501.45406627597, particleVect[3].pressure, Precision);
+    EXPECT_NEAR(1981.8307056442377, particleVect[0].pressure, Precision);
+    EXPECT_NEAR(1976.8866419808294, particleVect[1].pressure, Precision);
+    EXPECT_NEAR(1979.3587092179678, particleVect[2].pressure, Precision);
+    EXPECT_NEAR(1974.9176416904859, particleVect[3].pressure, Precision);
 }
 
 void ForcesTestSuite::internalForcesForOneNeighbour()
@@ -277,21 +271,20 @@ void ForcesTestSuite::internalForcesForOneNeighbour()
     Forces::ComputePressure(particleVect);
     Forces::ComputeInternalForces(particleVect);
 
-    // TODO: Recalculate expected values
     EXPECT_NEAR(0, particleVect[0].fPressure.x, Precision);
-    EXPECT_NEAR(-117926.16637639207, particleVect[0].fPressure.y, Precision);
+    EXPECT_NEAR(-2610.0498385862716, particleVect[0].fPressure.y, Precision);
     EXPECT_NEAR(0, particleVect[1].fPressure.x, Precision);
-    EXPECT_NEAR(117926.16637639207, particleVect[1].fPressure.y, Precision);
+    EXPECT_NEAR(2610.0498385862716, particleVect[1].fPressure.y, Precision);
 
-    EXPECT_NEAR(-0.015202002863630612, particleVect[0].fViscosity.x, Precision);
-    EXPECT_NEAR(-0.015202002863630612, particleVect[0].fViscosity.y, Precision);
-    EXPECT_NEAR(0.015202002863630612, particleVect[1].fViscosity.x, Precision);
-    EXPECT_NEAR(0.015202002863630612, particleVect[1].fViscosity.y, Precision);
+    EXPECT_NEAR(-11.300698863861873, particleVect[0].fViscosity.x, Precision);
+    EXPECT_NEAR(-11.300698863861873, particleVect[0].fViscosity.y, Precision);
+    EXPECT_NEAR(11.300698863861873, particleVect[1].fViscosity.x, Precision);
+    EXPECT_NEAR(11.300698863861873, particleVect[1].fViscosity.y, Precision);
 
-    EXPECT_NEAR(-0.015202002863630612, particleVect[0].fInternal.x, Precision);
-    EXPECT_NEAR(-117926.18157839493, particleVect[0].fInternal.y, Precision);
-    EXPECT_NEAR(0.015202002863630612, particleVect[1].fInternal.x, Precision);
-    EXPECT_NEAR(117926.18157839493, particleVect[1].fInternal.y, Precision);
+    EXPECT_NEAR(-11.300698863861873, particleVect[0].fInternal.x, Precision);
+    EXPECT_NEAR(-2621.3505374501333, particleVect[0].fInternal.y, Precision);
+    EXPECT_NEAR(11.300698863861873, particleVect[1].fInternal.x, Precision);
+    EXPECT_NEAR(2621.3505374501333, particleVect[1].fInternal.y, Precision);
 }
 
 void ForcesTestSuite::internalForcesForTwoNeighbours()
@@ -313,26 +306,26 @@ void ForcesTestSuite::internalForcesForTwoNeighbours()
     Forces::ComputeInternalForces(particleVect);
 
     // TODO: Recalculate expected values
-    EXPECT_NEAR(-98578.364211214794, particleVect[0].fPressure.x, Precision);
-    EXPECT_NEAR(-217662.26725528983, particleVect[0].fPressure.y, Precision);
-    EXPECT_NEAR(-98578.364211214794, particleVect[1].fPressure.x, Precision);
-    EXPECT_NEAR(217662.26725528983, particleVect[1].fPressure.y, Precision);
-    EXPECT_NEAR(197198.38709708242, particleVect[2].fPressure.x, Precision);
+    EXPECT_NEAR(-2030.0285948263722, particleVect[0].fPressure.x, Precision);
+    EXPECT_NEAR(-4722.5808205980848, particleVect[0].fPressure.y, Precision);
+    EXPECT_NEAR(-2030.0285948263722, particleVect[1].fPressure.x, Precision);
+    EXPECT_NEAR(4722.5808205980848, particleVect[1].fPressure.y, Precision);
+    EXPECT_NEAR(4061.2118516838846, particleVect[2].fPressure.x, Precision);
     EXPECT_NEAR(0.0, particleVect[2].fPressure.y, Precision);
 
-    EXPECT_NEAR(-0.0075993953611110041, particleVect[0].fViscosity.x, Precision);
-    EXPECT_NEAR(-0.015820530192803266, particleVect[0].fViscosity.y, Precision);
-    EXPECT_NEAR(0.015820530192803266, particleVect[1].fViscosity.x, Precision);
-    EXPECT_NEAR(0.0075993953611110041, particleVect[1].fViscosity.y, Precision);
-    EXPECT_NEAR(-0.0082228719348790037, particleVect[2].fViscosity.x, Precision);
-    EXPECT_NEAR(0.0082228719348790037, particleVect[2].fViscosity.y, Precision);
+    EXPECT_NEAR(-11.086437398868615, particleVect[0].fViscosity.x, Precision);
+    EXPECT_NEAR(-22.530413775020236, particleVect[0].fViscosity.y, Precision);
+    EXPECT_NEAR(22.530413775020236, particleVect[1].fViscosity.x, Precision);
+    EXPECT_NEAR(11.086437398868615, particleVect[1].fViscosity.y, Precision);
+    EXPECT_NEAR(-11.447230991638436, particleVect[2].fViscosity.x, Precision);
+    EXPECT_NEAR(11.447230991638436, particleVect[2].fViscosity.y, Precision);
 
-    EXPECT_NEAR(-98578.371810610159, particleVect[0].fInternal.x, Precision);
-    EXPECT_NEAR(-217662.28307582001, particleVect[0].fInternal.y, Precision);
-    EXPECT_NEAR(-98578.348390684594, particleVect[1].fInternal.x, Precision);
-    EXPECT_NEAR(217662.27485468518, particleVect[1].fInternal.y, Precision);
-    EXPECT_NEAR(197198.3788742105, particleVect[2].fInternal.x, Precision);
-    EXPECT_NEAR(0.0082228719348790037, particleVect[2].fInternal.y, Precision);
+    EXPECT_NEAR(-2041.1150322252408, particleVect[0].fInternal.x, Precision);
+    EXPECT_NEAR(-4745.1112343731047, particleVect[0].fInternal.y, Precision);
+    EXPECT_NEAR(-2007.498181051352, particleVect[1].fInternal.x, Precision);
+    EXPECT_NEAR(4733.6672579969536, particleVect[1].fInternal.y, Precision);
+    EXPECT_NEAR(4049.7646206922459, particleVect[2].fInternal.x, Precision);
+    EXPECT_NEAR(11.447230991638436, particleVect[2].fInternal.y, Precision);
 }
 
 void ForcesTestSuite::internalForcesForThreeNeighbours()
@@ -611,12 +604,12 @@ void ForcesTestSuite::allForcesForThreeNeighbours()
 
 using namespace SPHSDK::TestEnvironment;
 
-TEST(ForcesTestSuite, DISABLED_densityForFourNeighbours)
+TEST(ForcesTestSuite, densityForFourNeighbours)
 {
     ForcesTestSuite::densityForFourNeighbours();
 }
 
-TEST(ForcesTestSuite, DISABLED_pressureForFourNeighbours)
+TEST(ForcesTestSuite, pressureForFourNeighbours)
 {
     ForcesTestSuite::pressureForFourNeighbours();
 }
@@ -633,35 +626,35 @@ TEST(ForcesTestSuite, DISABLED_externalForcesForFourNeighbours)
 
 //---------------------------------------------
 
-TEST(ForcesTestSuite, DISABLED_densityForOneNeighbour)
+TEST(ForcesTestSuite, densityForOneNeighbour)
 {
     ForcesTestSuite::densityForOneNeighbour();
 }
-TEST(ForcesTestSuite, DISABLED_densityForTwoNeighbours)
+TEST(ForcesTestSuite, densityForTwoNeighbours)
 {
     ForcesTestSuite::densityForTwoNeighbours();
 }
-TEST(ForcesTestSuite, DISABLED_densityForThreeNeighbours)
+TEST(ForcesTestSuite, densityForThreeNeighbours)
 {
     ForcesTestSuite::densityForThreeNeighbours();
 }
-TEST(ForcesTestSuite, DISABLED_pressureForOneNeighbour)
+TEST(ForcesTestSuite, pressureForOneNeighbour)
 {
     ForcesTestSuite::pressureForOneNeighbour();
 }
-TEST(ForcesTestSuite, DISABLED_pressureForTwoNeighbours)
+TEST(ForcesTestSuite, pressureForTwoNeighbours)
 {
     ForcesTestSuite::pressureForTwoNeighbours();
 }
-TEST(ForcesTestSuite, DISABLED_pressureForThreeNeighbours)
+TEST(ForcesTestSuite, pressureForThreeNeighbours)
 {
     ForcesTestSuite::pressureForThreeNeighbours();
 }
-TEST(ForcesTestSuite, DISABLED_internalForcesForOneNeighbour)
+TEST(ForcesTestSuite, internalForcesForOneNeighbour)
 {
     ForcesTestSuite::internalForcesForOneNeighbour();
 }
-TEST(ForcesTestSuite, DISABLED_internalForcesForTwoNeighbours)
+TEST(ForcesTestSuite, internalForcesForTwoNeighbours)
 {
     ForcesTestSuite::internalForcesForTwoNeighbours();
 }
