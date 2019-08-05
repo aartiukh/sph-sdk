@@ -665,7 +665,7 @@ template <class T> void NeighboursSearch3D<T>:: addForBack(const size_t boxIndex
     SizetVector nearbyBoxes = m_nearbyBoxes[boxIndex];
     nearbyBoxes.push_back(boxIndex);
 
-    for (int i = 0; i < nearbyBoxes.size(); i++) {
+    for (size_t i = 0u; i < nearbyBoxes.size(); i++) {
         nearbyBoxes[i] += normalizedCuboidWidth;
         m_nearbyBoxes[boxIndex].push_back(nearbyBoxes[i]);
     }
@@ -676,7 +676,7 @@ template <class T> void NeighboursSearch3D<T>:: addForFront(const size_t boxInde
     SizetVector nearbyBoxes = m_nearbyBoxes[boxIndex];
     nearbyBoxes.push_back(boxIndex);
 
-    for (int i = 0; i < nearbyBoxes.size(); i++) {
+    for (size_t i = 0u; i < nearbyBoxes.size(); i++) {
         nearbyBoxes[i] -= normalizedCuboidWidth;
         m_nearbyBoxes[boxIndex].push_back(nearbyBoxes[i]);
     }
@@ -690,7 +690,7 @@ template <class T> void NeighboursSearch3D<T>:: addForMiddle(const size_t boxInd
 
     addForBack(boxIndex);
 
-    for (int i = 0; i < nearbyBoxes.size(); i++) {
+    for (size_t i = 0u; i < nearbyBoxes.size(); i++) {
         nearbyBoxes[i] -= normalizedCuboidWidth;
         m_nearbyBoxes[boxIndex].push_back(nearbyBoxes[i]);
     }

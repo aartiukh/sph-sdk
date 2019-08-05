@@ -22,6 +22,7 @@ namespace SPHSDK
     const SPHAlgorithms::Point3D Config::InitialGravitationalAcceleration(0.0, 0.0, -9.82);
     SPHAlgorithms::Point3D Config::GravitationalAcceleration(0.0, 0.0, -9.82);
     const SPHAlgorithms::Point3D Config::InitialVelocity(0.0, 0.0, 0.0);
+    const double Config::CollisionVelocityMultiplier = -0.5;
 
     const double Config::SpeedTreshold = 3.0;
 
