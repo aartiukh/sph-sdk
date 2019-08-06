@@ -27,10 +27,10 @@ void IntegratorTestSuite::oneParticleWithZeroVelocity()
 
     EXPECT_DOUBLE_EQ(0.003, particles[0].velocity.x);
     EXPECT_DOUBLE_EQ(0.003, particles[0].velocity.y);
-	EXPECT_DOUBLE_EQ(0.003, particles[0].velocity.z);
+    EXPECT_DOUBLE_EQ(0.003, particles[0].velocity.z);
     EXPECT_DOUBLE_EQ(5.0e-06, particles[0].position.x);
     EXPECT_DOUBLE_EQ(1.000005, particles[0].position.y);
-	EXPECT_DOUBLE_EQ(1.000005, particles[0].position.z);
+    EXPECT_DOUBLE_EQ(1.000005, particles[0].position.z);
 }
 
 void IntegratorTestSuite::oneParticleWithZeroDensity()
@@ -43,13 +43,13 @@ void IntegratorTestSuite::oneParticleWithZeroDensity()
 
     EXPECT_DOUBLE_EQ(0.1, particles[0].acceleration.x);
     EXPECT_DOUBLE_EQ(0.1, particles[0].acceleration.y);
-	EXPECT_DOUBLE_EQ(0.1, particles[0].acceleration.z);
+    EXPECT_DOUBLE_EQ(0.1, particles[0].acceleration.z);
     EXPECT_DOUBLE_EQ(0.001, particles[0].velocity.x);
     EXPECT_DOUBLE_EQ(0.001, particles[0].velocity.y);
-	EXPECT_DOUBLE_EQ(0.001, particles[0].velocity.z);
+    EXPECT_DOUBLE_EQ(0.001, particles[0].velocity.z);
     EXPECT_DOUBLE_EQ(5.0e-06, particles[0].position.x);
     EXPECT_DOUBLE_EQ(1.000005, particles[0].position.y);
-	EXPECT_DOUBLE_EQ(1.000005, particles[0].position.z);
+    EXPECT_DOUBLE_EQ(1.000005, particles[0].position.z);
 }
 
 } //TestEnvironment

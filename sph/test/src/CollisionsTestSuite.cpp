@@ -33,14 +33,14 @@ void CollisionsTestSuite::twoParticleCollision()
 	EXPECT_DOUBLE_EQ(0.1, particleVector[0].position.z);
     EXPECT_DOUBLE_EQ(0.1, particleVector[1].position.x);
     EXPECT_DOUBLE_EQ(0.1, particleVector[1].position.y);
-	EXPECT_DOUBLE_EQ(0.1, particleVector[1].position.z);
+    EXPECT_DOUBLE_EQ(0.1, particleVector[1].position.z);
 
     EXPECT_DOUBLE_EQ(-1, particleVector[0].velocity.x);
     EXPECT_DOUBLE_EQ(-1, particleVector[0].velocity.y);
 	EXPECT_DOUBLE_EQ(-1, particleVector[0].velocity.z);
     EXPECT_DOUBLE_EQ(1, particleVector[1].velocity.x);
     EXPECT_DOUBLE_EQ(1, particleVector[1].velocity.y);
-	EXPECT_DOUBLE_EQ(1, particleVector[1].velocity.z);
+    EXPECT_DOUBLE_EQ(1, particleVector[1].velocity.z);
 }
 
 void CollisionsTestSuite::threeParticleCollision()
@@ -61,23 +61,23 @@ void CollisionsTestSuite::threeParticleCollision()
 
     EXPECT_DOUBLE_EQ(1.6, particleVector[0].position.x);
     EXPECT_DOUBLE_EQ(1.6, particleVector[0].position.y);
-	EXPECT_DOUBLE_EQ(1.6, particleVector[0].position.z);
+    EXPECT_DOUBLE_EQ(1.6, particleVector[0].position.z);
     EXPECT_DOUBLE_EQ(2.4, particleVector[1].position.x);
     EXPECT_DOUBLE_EQ(1.6, particleVector[1].position.y);
-	EXPECT_DOUBLE_EQ(1.6, particleVector[1].position.z);
+    EXPECT_DOUBLE_EQ(1.6, particleVector[1].position.z);
     EXPECT_DOUBLE_EQ(2.0, particleVector[2].position.x);
     EXPECT_DOUBLE_EQ(2.0, particleVector[2].position.y);
-	EXPECT_DOUBLE_EQ(2.0, particleVector[2].position.z);
+    EXPECT_DOUBLE_EQ(2.0, particleVector[2].position.z);
 
     EXPECT_DOUBLE_EQ(-1.0, particleVector[0].velocity.x);
     EXPECT_DOUBLE_EQ(-1.0, particleVector[0].velocity.y);
-	EXPECT_DOUBLE_EQ(-1.0, particleVector[0].velocity.z);
+    EXPECT_DOUBLE_EQ(-1.0, particleVector[0].velocity.z);
     EXPECT_DOUBLE_EQ(1.0, particleVector[1].velocity.x);
     EXPECT_DOUBLE_EQ(-1.0, particleVector[1].velocity.y);
-	EXPECT_DOUBLE_EQ(-1.0, particleVector[1].velocity.z);
+    EXPECT_DOUBLE_EQ(-1.0, particleVector[1].velocity.z);
     EXPECT_DOUBLE_EQ(0.0, particleVector[2].velocity.x);
     EXPECT_DOUBLE_EQ(-2.0, particleVector[2].velocity.y);
-	EXPECT_DOUBLE_EQ(0.0, particleVector[2].velocity.z);
+    EXPECT_DOUBLE_EQ(0.0, particleVector[2].velocity.z);
 }
 
 void CollisionsTestSuite::fourParticleCollision()
@@ -308,11 +308,11 @@ void CollisionsTestSuite::oneOnBoundaryParticleCollision()
 
     EXPECT_DOUBLE_EQ(0.1, particleVector[0].position.x);
     EXPECT_DOUBLE_EQ(0.1, particleVector[0].position.y);
-	EXPECT_DOUBLE_EQ(0.1, particleVector[0].position.z);
+    EXPECT_DOUBLE_EQ(0.1, particleVector[0].position.z);
 
     EXPECT_DOUBLE_EQ(0.25, particleVector[0].velocity.x);
     EXPECT_DOUBLE_EQ(3.5, particleVector[0].velocity.y);
-	EXPECT_DOUBLE_EQ(0.5, particleVector[0].velocity.z);
+    EXPECT_DOUBLE_EQ(0.5, particleVector[0].velocity.z);
 }
 
 void CollisionsTestSuite::twoOnBoundaryParticleCollision()
@@ -330,10 +330,10 @@ void CollisionsTestSuite::twoOnBoundaryParticleCollision()
 
     EXPECT_DOUBLE_EQ(0.5, particleVector[0].velocity.x);
     EXPECT_DOUBLE_EQ(0.5, particleVector[0].velocity.y);
-	EXPECT_DOUBLE_EQ(1.0, particleVector[0].velocity.z);
+    EXPECT_DOUBLE_EQ(1.0, particleVector[0].velocity.z);
     EXPECT_DOUBLE_EQ(0.5, particleVector[1].velocity.x);
     EXPECT_DOUBLE_EQ(0.5, particleVector[1].velocity.y);
-	EXPECT_DOUBLE_EQ(1.0, particleVector[1].velocity.z);
+    EXPECT_DOUBLE_EQ(1.0, particleVector[1].velocity.z);
 }
 
 void CollisionsTestSuite::threeOnBoundaryParticleCollision()
@@ -351,13 +351,13 @@ void CollisionsTestSuite::threeOnBoundaryParticleCollision()
 
     EXPECT_DOUBLE_EQ(0.5, particleVector[0].velocity.x);
     EXPECT_DOUBLE_EQ(0.0, particleVector[0].velocity.y);
-	EXPECT_DOUBLE_EQ(1.0, particleVector[0].velocity.z);
+    EXPECT_DOUBLE_EQ(1.0, particleVector[0].velocity.z);
     EXPECT_DOUBLE_EQ(0.5, particleVector[1].velocity.x);
     EXPECT_DOUBLE_EQ(0.0, particleVector[1].velocity.y);
-	EXPECT_DOUBLE_EQ(1.0, particleVector[1].velocity.z);
+    EXPECT_DOUBLE_EQ(1.0, particleVector[1].velocity.z);
     EXPECT_DOUBLE_EQ(0.5, particleVector[2].velocity.x);
     EXPECT_DOUBLE_EQ(0.0, particleVector[2].velocity.y);
-	EXPECT_DOUBLE_EQ(1.0, particleVector[2].velocity.z);
+    EXPECT_DOUBLE_EQ(1.0, particleVector[2].velocity.z);
 }
 
 } // namespace TestEnvironment
