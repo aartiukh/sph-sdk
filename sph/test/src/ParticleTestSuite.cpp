@@ -1,13 +1,12 @@
 /**
-* @file ParticleTestSuite.h
-* @author Anton Artyukh (artyukhanton@gmail.com)
-* @date Created May 21, 2017
-**/
+ * @file ParticleTestSuite.h
+ * @author Anton Artyukh (artyukhanton@gmail.com)
+ * @date Created May 21, 2017
+ **/
 
 #include "ParticleTestSuite.h"
 
 #include "Particle.h"
-
 
 #include <gtest/gtest.h>
 
@@ -31,8 +30,8 @@ void ParticleTestSuite::particleIsValid()
     EXPECT_DOUBLE_EQ(0.0, particle.pressure);
 }
 
-} //TestEnvironment
-} //SPH
+} // namespace TestEnvironment
+} // namespace SPHSDK
 
 using namespace SPHSDK::TestEnvironment;
 

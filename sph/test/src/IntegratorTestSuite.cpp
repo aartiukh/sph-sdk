@@ -1,13 +1,12 @@
 /**
-* @file IntegratorTestSuite.cpp
-* @author Anton Artyukh (artyukhanton@gmail.com)
-* @date Created June 11, 2017
-**/
+ * @file IntegratorTestSuite.cpp
+ * @author Anton Artyukh (artyukhanton@gmail.com)
+ * @date Created June 11, 2017
+ **/
 
 #include "IntegratorTestSuite.h"
 
 #include "Integrator.h"
-
 
 #include <gtest/gtest.h>
 
@@ -18,7 +17,7 @@ namespace TestEnvironment
 
 void IntegratorTestSuite::oneParticleWithZeroVelocity()
 {
-    ParticleVect particles = { Particle(SPHAlgorithms::Point3D(0., 1.,1.), 0.1) };
+    ParticleVect particles = {Particle(SPHAlgorithms::Point3D(0., 1., 1.), 0.1)};
     particles[0].density = 0.5;
     particles[0].fTotal = SPHAlgorithms::Point3D(0.25, 0.25, 0.25);
     particles[0].acceleration = SPHAlgorithms::Point3D(0.1, 0.1, 0.1);
@@ -35,7 +34,7 @@ void IntegratorTestSuite::oneParticleWithZeroVelocity()
 
 void IntegratorTestSuite::oneParticleWithZeroDensity()
 {
-    ParticleVect particles = { Particle(SPHAlgorithms::Point3D(0., 1.,1.0), 0.1) };
+    ParticleVect particles = {Particle(SPHAlgorithms::Point3D(0., 1., 1.0), 0.1)};
     particles[0].fTotal = SPHAlgorithms::Point3D(0.25, 0.25, 0.25);
     particles[0].acceleration = SPHAlgorithms::Point3D(0.1, 0.1, 0.1);
 
@@ -52,8 +51,8 @@ void IntegratorTestSuite::oneParticleWithZeroDensity()
     EXPECT_DOUBLE_EQ(1.000005, particles[0].position.z);
 }
 
-} //TestEnvironment
-} //SPH
+} // namespace TestEnvironment
+} // namespace SPHSDK
 
 using namespace SPHSDK::TestEnvironment;
 

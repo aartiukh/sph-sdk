@@ -26,7 +26,8 @@ static void initGeneralParticles()
 {
     generalParticleVect.resize(numberOfParticles);
 
-    for (size_t i = 0; i < numberOfParticles; ++i) {
+    for (size_t i = 0; i < numberOfParticles; ++i)
+    {
         generalParticleVect[i] = Particle(SPHAlgorithms::Point3D(0.5 + 0.01 * i, 0.5 + 0.01 * i, 0.5 + 0.01 * i), 0.01);
         generalParticleVect[i].mass = Config::WaterParticleMass;
         generalParticleVect[i].supportRadius = Config::WaterSupportRadius;
@@ -39,7 +40,7 @@ static void initGeneralParticles()
     generalParticleVect[4].velocity = SPHAlgorithms::Point3D(-1.0, -1.0, -1.0);
 
     SPHAlgorithms::Volume volume(SPHAlgorithms::Cuboid(SPHAlgorithms::Point3D(0.0, 0.0, 0.0), 1.0, 1.0, 1.0));
-	SPHAlgorithms::NeighboursSearch3D<ParticleVect> searcher(volume, Config::WaterSupportRadius, 0.001);
+    SPHAlgorithms::NeighboursSearch3D<ParticleVect> searcher(volume, Config::WaterSupportRadius, 0.001);
     searcher.search(generalParticleVect);
 }
 
@@ -73,51 +74,51 @@ void ForcesTestSuite::internalForcesForFourNeighbours()
 
     EXPECT_NEAR(-2781.9657993131996, generalParticleVect[0].fPressure.x, Precision);
     EXPECT_NEAR(-2781.9657993131996, generalParticleVect[0].fPressure.y, Precision);
-	EXPECT_NEAR(-2781.9657993131996, generalParticleVect[0].fPressure.z, Precision);
+    EXPECT_NEAR(-2781.9657993131996, generalParticleVect[0].fPressure.z, Precision);
     EXPECT_NEAR(-1303.6387682093077, generalParticleVect[1].fPressure.x, Precision);
     EXPECT_NEAR(-1303.6387682093077, generalParticleVect[1].fPressure.y, Precision);
-	EXPECT_NEAR(-1303.6387682093077, generalParticleVect[1].fPressure.z, Precision);
+    EXPECT_NEAR(-1303.6387682093077, generalParticleVect[1].fPressure.z, Precision);
     EXPECT_NEAR(0, generalParticleVect[2].fPressure.x, Precision);
     EXPECT_NEAR(0, generalParticleVect[2].fPressure.y, Precision);
-	EXPECT_NEAR(0, generalParticleVect[2].fPressure.z, Precision);
+    EXPECT_NEAR(0, generalParticleVect[2].fPressure.z, Precision);
     EXPECT_NEAR(1303.6387682093077, generalParticleVect[3].fPressure.x, Precision);
     EXPECT_NEAR(1303.6387682093077, generalParticleVect[3].fPressure.y, Precision);
-	EXPECT_NEAR(1303.6387682093077, generalParticleVect[3].fPressure.z, Precision);
+    EXPECT_NEAR(1303.6387682093077, generalParticleVect[3].fPressure.z, Precision);
     EXPECT_NEAR(2781.9657993131996, generalParticleVect[4].fPressure.x, Precision);
     EXPECT_NEAR(2781.9657993131996, generalParticleVect[4].fPressure.y, Precision);
-	EXPECT_NEAR(2781.9657993131996, generalParticleVect[4].fPressure.z, Precision);
+    EXPECT_NEAR(2781.9657993131996, generalParticleVect[4].fPressure.z, Precision);
 
     EXPECT_NEAR(-145.2472804052253, generalParticleVect[0].fViscosity.x, Precision);
     EXPECT_NEAR(-145.2472804052253, generalParticleVect[0].fViscosity.y, Precision);
-	EXPECT_NEAR(-145.2472804052253, generalParticleVect[0].fViscosity.z, Precision);
+    EXPECT_NEAR(-145.2472804052253, generalParticleVect[0].fViscosity.z, Precision);
     EXPECT_NEAR(-82.77227382174101, generalParticleVect[1].fViscosity.x, Precision);
     EXPECT_NEAR(-82.77227382174101, generalParticleVect[1].fViscosity.y, Precision);
-	EXPECT_NEAR(-82.77227382174101, generalParticleVect[1].fViscosity.z, Precision);
+    EXPECT_NEAR(-82.77227382174101, generalParticleVect[1].fViscosity.z, Precision);
     EXPECT_NEAR(-1.8028680885943995, generalParticleVect[2].fViscosity.x, Precision);
     EXPECT_NEAR(-1.8028680885943995, generalParticleVect[2].fViscosity.y, Precision);
-	EXPECT_NEAR(-1.8028680885943995, generalParticleVect[2].fViscosity.z, Precision);
+    EXPECT_NEAR(-1.8028680885943995, generalParticleVect[2].fViscosity.z, Precision);
     EXPECT_NEAR(83.76713330738265, generalParticleVect[3].fViscosity.x, Precision);
     EXPECT_NEAR(83.76713330738265, generalParticleVect[3].fViscosity.y, Precision);
-	EXPECT_NEAR(83.76713330738265, generalParticleVect[3].fViscosity.z, Precision);
+    EXPECT_NEAR(83.76713330738265, generalParticleVect[3].fViscosity.z, Precision);
     EXPECT_NEAR(146.03372700208183, generalParticleVect[4].fViscosity.x, Precision);
     EXPECT_NEAR(146.03372700208183, generalParticleVect[4].fViscosity.y, Precision);
-	EXPECT_NEAR(146.03372700208183, generalParticleVect[4].fViscosity.z, Precision);
+    EXPECT_NEAR(146.03372700208183, generalParticleVect[4].fViscosity.z, Precision);
 
     EXPECT_NEAR(-2927.213079718425, generalParticleVect[0].fInternal.x, Precision);
     EXPECT_NEAR(-2927.213079718425, generalParticleVect[0].fInternal.y, Precision);
-	EXPECT_NEAR(-2927.213079718425, generalParticleVect[0].fInternal.z, Precision);
+    EXPECT_NEAR(-2927.213079718425, generalParticleVect[0].fInternal.z, Precision);
     EXPECT_NEAR(-1386.4110420310487, generalParticleVect[1].fInternal.x, Precision);
     EXPECT_NEAR(-1386.4110420310487, generalParticleVect[1].fInternal.y, Precision);
-	EXPECT_NEAR(-1386.4110420310487, generalParticleVect[1].fInternal.z, Precision);
+    EXPECT_NEAR(-1386.4110420310487, generalParticleVect[1].fInternal.z, Precision);
     EXPECT_NEAR(-1.8028680885941721, generalParticleVect[2].fInternal.x, Precision);
     EXPECT_NEAR(-1.8028680885941721, generalParticleVect[2].fInternal.y, Precision);
-	EXPECT_NEAR(-1.8028680885941721, generalParticleVect[2].fInternal.z, Precision);
+    EXPECT_NEAR(-1.8028680885941721, generalParticleVect[2].fInternal.z, Precision);
     EXPECT_NEAR(1387.4059015166904, generalParticleVect[3].fInternal.x, Precision);
     EXPECT_NEAR(1387.4059015166904, generalParticleVect[3].fInternal.y, Precision);
-	EXPECT_NEAR(1387.4059015166904, generalParticleVect[3].fInternal.z, Precision);
+    EXPECT_NEAR(1387.4059015166904, generalParticleVect[3].fInternal.z, Precision);
     EXPECT_NEAR(2927.9995263152814, generalParticleVect[4].fInternal.x, Precision);
     EXPECT_NEAR(2927.9995263152814, generalParticleVect[4].fInternal.y, Precision);
-	EXPECT_NEAR(2927.9995263152814, generalParticleVect[4].fInternal.z, Precision);
+    EXPECT_NEAR(2927.9995263152814, generalParticleVect[4].fInternal.z, Precision);
 }
 
 void ForcesTestSuite::externalForcesForFourNeighbours()
@@ -126,19 +127,19 @@ void ForcesTestSuite::externalForcesForFourNeighbours()
 
     EXPECT_NEAR(0, generalParticleVect[0].fGravity.x, Precision);
     EXPECT_NEAR(0, generalParticleVect[0].fGravity.y, Precision);
-	EXPECT_NEAR(-16038.288091388411, generalParticleVect[0].fGravity.z, Precision);
+    EXPECT_NEAR(-16038.288091388411, generalParticleVect[0].fGravity.z, Precision);
     EXPECT_NEAR(0, generalParticleVect[1].fGravity.x, Precision);
     EXPECT_NEAR(0, generalParticleVect[1].fGravity.y, Precision);
-	EXPECT_NEAR(-16275.849589631494, generalParticleVect[1].fGravity.z, Precision);
+    EXPECT_NEAR(-16275.849589631494, generalParticleVect[1].fGravity.z, Precision);
     EXPECT_NEAR(0, generalParticleVect[2].fGravity.x, Precision);
     EXPECT_NEAR(0, generalParticleVect[2].fGravity.y, Precision);
-	EXPECT_NEAR(-16365.836893768685, generalParticleVect[2].fGravity.z, Precision);
+    EXPECT_NEAR(-16365.836893768685, generalParticleVect[2].fGravity.z, Precision);
     EXPECT_NEAR(0, generalParticleVect[3].fGravity.x, Precision);
     EXPECT_NEAR(0, generalParticleVect[3].fGravity.y, Precision);
-	EXPECT_NEAR(-16275.849589631494, generalParticleVect[3].fGravity.z, Precision);
+    EXPECT_NEAR(-16275.849589631494, generalParticleVect[3].fGravity.z, Precision);
     EXPECT_NEAR(0, generalParticleVect[4].fGravity.x, Precision);
     EXPECT_NEAR(0, generalParticleVect[4].fGravity.y, Precision);
-	EXPECT_NEAR(-16038.288091388411, generalParticleVect[4].fGravity.z, Precision);
+    EXPECT_NEAR(-16038.288091388411, generalParticleVect[4].fGravity.z, Precision);
 
     EXPECT_NEAR(0, generalParticleVect[0].fSurfaceTension.x, Precision);
     EXPECT_NEAR(0, generalParticleVect[0].fSurfaceTension.y, Precision);
@@ -153,19 +154,19 @@ void ForcesTestSuite::externalForcesForFourNeighbours()
 
     EXPECT_NEAR(0, generalParticleVect[0].fExternal.x, Precision);
     EXPECT_NEAR(0, generalParticleVect[0].fExternal.y, Precision);
-	EXPECT_NEAR(-16038.288091388411, generalParticleVect[0].fExternal.z, Precision);
+    EXPECT_NEAR(-16038.288091388411, generalParticleVect[0].fExternal.z, Precision);
     EXPECT_NEAR(0, generalParticleVect[1].fExternal.x, Precision);
     EXPECT_NEAR(0, generalParticleVect[1].fExternal.y, Precision);
-	EXPECT_NEAR(-16275.849589631494, generalParticleVect[1].fExternal.z, Precision);
+    EXPECT_NEAR(-16275.849589631494, generalParticleVect[1].fExternal.z, Precision);
     EXPECT_NEAR(0, generalParticleVect[2].fExternal.x, Precision);
     EXPECT_NEAR(0, generalParticleVect[2].fExternal.y, Precision);
-	EXPECT_NEAR(-16365.836893768685, generalParticleVect[2].fExternal.z, Precision);
+    EXPECT_NEAR(-16365.836893768685, generalParticleVect[2].fExternal.z, Precision);
     EXPECT_NEAR(0, generalParticleVect[3].fExternal.x, Precision);
     EXPECT_NEAR(0, generalParticleVect[3].fExternal.y, Precision);
-	EXPECT_NEAR(-16275.849589631494, generalParticleVect[3].fExternal.z, Precision);
+    EXPECT_NEAR(-16275.849589631494, generalParticleVect[3].fExternal.z, Precision);
     EXPECT_NEAR(0, generalParticleVect[4].fExternal.x, Precision);
     EXPECT_NEAR(0, generalParticleVect[4].fExternal.y, Precision);
-	EXPECT_NEAR(-16038.288091388411, generalParticleVect[4].fExternal.z, Precision);
+    EXPECT_NEAR(-16038.288091388411, generalParticleVect[4].fExternal.z, Precision);
 }
 
 //---------------------------------------------
@@ -298,25 +299,24 @@ void ForcesTestSuite::internalForcesForOneNeighbour()
 
     EXPECT_NEAR(0, particleVect[0].fPressure.x, Precision);
     EXPECT_NEAR(-2610.0498385862716, particleVect[0].fPressure.y, Precision);
-	EXPECT_NEAR(0, particleVect[0].fPressure.z, Precision);
+    EXPECT_NEAR(0, particleVect[0].fPressure.z, Precision);
     EXPECT_NEAR(0, particleVect[1].fPressure.x, Precision);
     EXPECT_NEAR(2610.0498385862716, particleVect[1].fPressure.y, Precision);
-	EXPECT_NEAR(0, particleVect[1].fPressure.z, Precision);
-
+    EXPECT_NEAR(0, particleVect[1].fPressure.z, Precision);
 
     EXPECT_NEAR(-11.300698863861873, particleVect[0].fViscosity.x, Precision);
     EXPECT_NEAR(-11.300698863861873, particleVect[0].fViscosity.y, Precision);
-	EXPECT_NEAR(0, particleVect[0].fViscosity.z, Precision);
+    EXPECT_NEAR(0, particleVect[0].fViscosity.z, Precision);
     EXPECT_NEAR(11.300698863861873, particleVect[1].fViscosity.x, Precision);
     EXPECT_NEAR(11.300698863861873, particleVect[1].fViscosity.y, Precision);
-	EXPECT_NEAR(0, particleVect[1].fViscosity.z, Precision);
+    EXPECT_NEAR(0, particleVect[1].fViscosity.z, Precision);
 
     EXPECT_NEAR(-11.300698863861873, particleVect[0].fInternal.x, Precision);
     EXPECT_NEAR(-2621.3505374501333, particleVect[0].fInternal.y, Precision);
-	EXPECT_NEAR(0, particleVect[0].fInternal.z, Precision);
+    EXPECT_NEAR(0, particleVect[0].fInternal.z, Precision);
     EXPECT_NEAR(11.300698863861873, particleVect[1].fInternal.x, Precision);
     EXPECT_NEAR(2621.3505374501333, particleVect[1].fInternal.y, Precision);
-	EXPECT_NEAR(0, particleVect[1].fInternal.z, Precision);
+    EXPECT_NEAR(0, particleVect[1].fInternal.z, Precision);
 }
 
 void ForcesTestSuite::internalForcesForTwoNeighbours()
@@ -426,18 +426,18 @@ void ForcesTestSuite::externalForcesForOneNeighbour()
 
     EXPECT_NEAR(0.0, particleVect[0].fSurfaceTension.x, Precision);
     EXPECT_NEAR(0.0, particleVect[0].fSurfaceTension.y, Precision);
-	EXPECT_NEAR(0.0, particleVect[0].fSurfaceTension.z, Precision);
+    EXPECT_NEAR(0.0, particleVect[0].fSurfaceTension.z, Precision);
     EXPECT_NEAR(0.0, particleVect[1].fSurfaceTension.x, Precision);
     EXPECT_NEAR(0.0, particleVect[1].fSurfaceTension.y, Precision);
-	EXPECT_NEAR(0.0, particleVect[1].fSurfaceTension.z, Precision);
+    EXPECT_NEAR(0.0, particleVect[1].fSurfaceTension.z, Precision);
 
     EXPECT_NEAR(0.0, particleVect[0].fExternal.x, Precision);
-	EXPECT_NEAR(0.0, particleVect[0].fExternal.y, Precision);
-	EXPECT_NEAR(-15683.369400682386, particleVect[0].fExternal.z, Precision);
+    EXPECT_NEAR(0.0, particleVect[0].fExternal.y, Precision);
+    EXPECT_NEAR(-15683.369400682386, particleVect[0].fExternal.z, Precision);
 
     EXPECT_NEAR(0.0, particleVect[1].fExternal.x, Precision);
-	EXPECT_NEAR(0.0, particleVect[1].fExternal.y, Precision);
-	EXPECT_NEAR(-15683.369400682386, particleVect[1].fExternal.z, Precision);
+    EXPECT_NEAR(0.0, particleVect[1].fExternal.y, Precision);
+    EXPECT_NEAR(-15683.369400682386, particleVect[1].fExternal.z, Precision);
 }
 
 void ForcesTestSuite::externalForcesForTwoNeighbours()
@@ -461,23 +461,23 @@ void ForcesTestSuite::externalForcesForTwoNeighbours()
 
     EXPECT_NEAR(0.0, particleVect[0].fSurfaceTension.x, Precision);
     EXPECT_NEAR(0.0, particleVect[0].fSurfaceTension.y, Precision);
-	EXPECT_NEAR(0.0, particleVect[0].fSurfaceTension.z, Precision);
+    EXPECT_NEAR(0.0, particleVect[0].fSurfaceTension.z, Precision);
     EXPECT_NEAR(0.0, particleVect[1].fSurfaceTension.x, Precision);
     EXPECT_NEAR(0.0, particleVect[1].fSurfaceTension.y, Precision);
-	EXPECT_NEAR(0.0, particleVect[1].fSurfaceTension.z, Precision);
+    EXPECT_NEAR(0.0, particleVect[1].fSurfaceTension.z, Precision);
     EXPECT_NEAR(0.0, particleVect[2].fSurfaceTension.x, Precision);
     EXPECT_NEAR(0.0, particleVect[2].fSurfaceTension.y, Precision);
-	EXPECT_NEAR(0.0, particleVect[2].fSurfaceTension.z, Precision);
+    EXPECT_NEAR(0.0, particleVect[2].fSurfaceTension.z, Precision);
 
     EXPECT_NEAR(0.0, particleVect[0].fExternal.x, Precision);
     EXPECT_NEAR(0.0, particleVect[0].fExternal.y, Precision);
-	EXPECT_NEAR(-15986.473236741029, particleVect[0].fExternal.z, Precision);
+    EXPECT_NEAR(-15986.473236741029, particleVect[0].fExternal.z, Precision);
     EXPECT_NEAR(0.0, particleVect[1].fExternal.x, Precision);
     EXPECT_NEAR(0.0, particleVect[1].fExternal.y, Precision);
-	EXPECT_NEAR(-15986.473236741029, particleVect[1].fExternal.z, Precision);
+    EXPECT_NEAR(-15986.473236741029, particleVect[1].fExternal.z, Precision);
     EXPECT_NEAR(0.0, particleVect[2].fExternal.x, Precision);
     EXPECT_NEAR(0.0, particleVect[2].fExternal.y, Precision);
-	EXPECT_NEAR(-15991.019717934778, particleVect[2].fExternal.z, Precision);
+    EXPECT_NEAR(-15991.019717934778, particleVect[2].fExternal.z, Precision);
 }
 
 void ForcesTestSuite::externalForcesForThreeNeighbours()
@@ -504,29 +504,29 @@ void ForcesTestSuite::externalForcesForThreeNeighbours()
 
     EXPECT_NEAR(0.0, particleVect[0].fSurfaceTension.x, Precision);
     EXPECT_NEAR(0.0, particleVect[0].fSurfaceTension.y, Precision);
-	EXPECT_NEAR(0.0, particleVect[0].fSurfaceTension.z, Precision);
+    EXPECT_NEAR(0.0, particleVect[0].fSurfaceTension.z, Precision);
     EXPECT_NEAR(0.0, particleVect[1].fSurfaceTension.x, Precision);
     EXPECT_NEAR(0.0, particleVect[1].fSurfaceTension.y, Precision);
-	EXPECT_NEAR(0.0, particleVect[1].fSurfaceTension.z, Precision);
+    EXPECT_NEAR(0.0, particleVect[1].fSurfaceTension.z, Precision);
     EXPECT_NEAR(0.0, particleVect[2].fSurfaceTension.x, Precision);
     EXPECT_NEAR(0.0, particleVect[2].fSurfaceTension.y, Precision);
-	EXPECT_NEAR(0.0, particleVect[2].fSurfaceTension.z, Precision);
+    EXPECT_NEAR(0.0, particleVect[2].fSurfaceTension.z, Precision);
     EXPECT_NEAR(0.0, particleVect[3].fSurfaceTension.x, Precision);
     EXPECT_NEAR(0.0, particleVect[3].fSurfaceTension.y, Precision);
-	EXPECT_NEAR(0.0, particleVect[3].fSurfaceTension.z, Precision);
+    EXPECT_NEAR(0.0, particleVect[3].fSurfaceTension.z, Precision);
 
     EXPECT_NEAR(0.0, particleVect[0].fExternal.x, Precision);
     EXPECT_NEAR(0.0, particleVect[0].fExternal.y, Precision);
-	EXPECT_NEAR(-16290.400309808805, particleVect[0].fExternal.z, Precision);
+    EXPECT_NEAR(-16290.400309808805, particleVect[0].fExternal.z, Precision);
     EXPECT_NEAR(0.0, particleVect[1].fExternal.x, Precision);
     EXPECT_NEAR(0.0, particleVect[1].fExternal.y, Precision);
-	EXPECT_NEAR(-16274.216741417249, particleVect[1].fExternal.z, Precision);
+    EXPECT_NEAR(-16274.216741417249, particleVect[1].fExternal.z, Precision);
     EXPECT_NEAR(0.0, particleVect[2].fExternal.x, Precision);
     EXPECT_NEAR(0.0, particleVect[2].fExternal.y, Precision);
-	EXPECT_NEAR(-16282.308641506814, particleVect[2].fExternal.z, Precision);
+    EXPECT_NEAR(-16282.308641506814, particleVect[2].fExternal.z, Precision);
     EXPECT_NEAR(0.0, particleVect[3].fExternal.x, Precision);
     EXPECT_NEAR(0.0, particleVect[3].fExternal.y, Precision);
-	EXPECT_NEAR(-16267.771547133523, particleVect[3].fExternal.z, Precision);
+    EXPECT_NEAR(-16267.771547133523, particleVect[3].fExternal.z, Precision);
 }
 
 void ForcesTestSuite::externalForcesForFiveNeighbours()
@@ -554,37 +554,37 @@ void ForcesTestSuite::externalForcesForFiveNeighbours()
     Forces::ComputeInternalForces(particleVect);
     Forces::ComputeExternalForces(particleVect);
 
-	EXPECT_NEAR(0.0, particleVect[0].fSurfaceTension.x, Precision);
-	EXPECT_NEAR(0.0, particleVect[0].fSurfaceTension.y, Precision);
-	EXPECT_NEAR(0.0, particleVect[0].fSurfaceTension.z, Precision);
-	EXPECT_NEAR(0.0, particleVect[1].fSurfaceTension.x, Precision);
-	EXPECT_NEAR(0.0, particleVect[1].fSurfaceTension.y, Precision);
-	EXPECT_NEAR(0.0, particleVect[1].fSurfaceTension.z, Precision);
-	EXPECT_NEAR(0.0, particleVect[2].fSurfaceTension.x, Precision);
-	EXPECT_NEAR(0.0, particleVect[2].fSurfaceTension.y, Precision);
-	EXPECT_NEAR(0.0, particleVect[2].fSurfaceTension.z, Precision);
-	EXPECT_NEAR(0.0, particleVect[3].fSurfaceTension.x, Precision);
-	EXPECT_NEAR(0.0, particleVect[3].fSurfaceTension.y, Precision);
-	EXPECT_NEAR(0.0, particleVect[3].fSurfaceTension.z, Precision);
-	EXPECT_NEAR(0.0, particleVect[4].fSurfaceTension.x, Precision);
-	EXPECT_NEAR(0.0, particleVect[4].fSurfaceTension.y, Precision);
-	EXPECT_NEAR(0.0, particleVect[4].fSurfaceTension.z, Precision);
+    EXPECT_NEAR(0.0, particleVect[0].fSurfaceTension.x, Precision);
+    EXPECT_NEAR(0.0, particleVect[0].fSurfaceTension.y, Precision);
+    EXPECT_NEAR(0.0, particleVect[0].fSurfaceTension.z, Precision);
+    EXPECT_NEAR(0.0, particleVect[1].fSurfaceTension.x, Precision);
+    EXPECT_NEAR(0.0, particleVect[1].fSurfaceTension.y, Precision);
+    EXPECT_NEAR(0.0, particleVect[1].fSurfaceTension.z, Precision);
+    EXPECT_NEAR(0.0, particleVect[2].fSurfaceTension.x, Precision);
+    EXPECT_NEAR(0.0, particleVect[2].fSurfaceTension.y, Precision);
+    EXPECT_NEAR(0.0, particleVect[2].fSurfaceTension.z, Precision);
+    EXPECT_NEAR(0.0, particleVect[3].fSurfaceTension.x, Precision);
+    EXPECT_NEAR(0.0, particleVect[3].fSurfaceTension.y, Precision);
+    EXPECT_NEAR(0.0, particleVect[3].fSurfaceTension.z, Precision);
+    EXPECT_NEAR(0.0, particleVect[4].fSurfaceTension.x, Precision);
+    EXPECT_NEAR(0.0, particleVect[4].fSurfaceTension.y, Precision);
+    EXPECT_NEAR(0.0, particleVect[4].fSurfaceTension.z, Precision);
 
-	EXPECT_NEAR(0.0, particleVect[0].fExternal.x, Precision);
+    EXPECT_NEAR(0.0, particleVect[0].fExternal.x, Precision);
     EXPECT_NEAR(0.0, particleVect[0].fExternal.y, Precision);
-	EXPECT_NEAR(-16458.472539451439, particleVect[0].fExternal.z, Precision);
+    EXPECT_NEAR(-16458.472539451439, particleVect[0].fExternal.z, Precision);
     EXPECT_NEAR(0.0, particleVect[1].fExternal.x, Precision);
     EXPECT_NEAR(0.0, particleVect[1].fExternal.y, Precision);
-	EXPECT_NEAR(-16458.472539451439, particleVect[1].fExternal.z, Precision);
+    EXPECT_NEAR(-16458.472539451439, particleVect[1].fExternal.z, Precision);
     EXPECT_NEAR(0.0, particleVect[2].fExternal.x, Precision);
     EXPECT_NEAR(0.0, particleVect[2].fExternal.y, Precision);
-	EXPECT_NEAR(-16458.472539451439, particleVect[2].fExternal.z, Precision);
+    EXPECT_NEAR(-16458.472539451439, particleVect[2].fExternal.z, Precision);
     EXPECT_NEAR(0.0, particleVect[3].fExternal.x, Precision);
     EXPECT_NEAR(0.0, particleVect[3].fExternal.y, Precision);
-	EXPECT_NEAR(-16458.472539451439, particleVect[3].fExternal.z, Precision);
-	EXPECT_NEAR(0.0, particleVect[4].fExternal.x, Precision);
-	EXPECT_NEAR(0.0, particleVect[4].fExternal.y, Precision);
-	EXPECT_NEAR(-16543.217007339656, particleVect[4].fExternal.z, Precision);
+    EXPECT_NEAR(-16458.472539451439, particleVect[3].fExternal.z, Precision);
+    EXPECT_NEAR(0.0, particleVect[4].fExternal.x, Precision);
+    EXPECT_NEAR(0.0, particleVect[4].fExternal.y, Precision);
+    EXPECT_NEAR(-16543.217007339656, particleVect[4].fExternal.z, Precision);
 }
 
 void ForcesTestSuite::allForcesForOneNeighbour()
@@ -606,10 +606,10 @@ void ForcesTestSuite::allForcesForOneNeighbour()
 
     EXPECT_NEAR(0.0, particleVect[0].fTotal.x, Precision);
     EXPECT_NEAR(-2621.3505374501456, particleVect[0].fTotal.y, Precision);
-	EXPECT_NEAR(-15683.369400682386, particleVect[0].fTotal.z, Precision);
+    EXPECT_NEAR(-15683.369400682386, particleVect[0].fTotal.z, Precision);
     EXPECT_NEAR(0.0, particleVect[1].fTotal.x, Precision);
     EXPECT_NEAR(2621.3505374501456, particleVect[1].fTotal.y, Precision);
-	EXPECT_NEAR(-15683.369400682386, particleVect[1].fTotal.z, Precision);
+    EXPECT_NEAR(-15683.369400682386, particleVect[1].fTotal.z, Precision);
 }
 
 void ForcesTestSuite::allForcesForTwoNeighbours()
@@ -634,13 +634,13 @@ void ForcesTestSuite::allForcesForTwoNeighbours()
 
     EXPECT_NEAR(-2035.750583014448, particleVect[0].fTotal.x, Precision);
     EXPECT_NEAR(-4745.1112343731047, particleVect[0].fTotal.y, Precision);
-	EXPECT_NEAR(-15986.473236741029, particleVect[0].fTotal.z, Precision);
+    EXPECT_NEAR(-15986.473236741029, particleVect[0].fTotal.z, Precision);
     EXPECT_NEAR(-2035.750583014448, particleVect[1].fTotal.x, Precision);
     EXPECT_NEAR(4733.6672579969536, particleVect[1].fTotal.y, Precision);
-	EXPECT_NEAR(-15986.473236741029, particleVect[1].fTotal.z, Precision);
+    EXPECT_NEAR(-15986.473236741029, particleVect[1].fTotal.z, Precision);
     EXPECT_NEAR(4072.6590826755232, particleVect[2].fTotal.x, Precision);
     EXPECT_NEAR(11.447230991638436, particleVect[2].fTotal.y, Precision);
-	EXPECT_NEAR(-15991.019717934778, particleVect[2].fTotal.z, Precision);
+    EXPECT_NEAR(-15991.019717934778, particleVect[2].fTotal.z, Precision);
 }
 
 void ForcesTestSuite::allForcesForThreeNeighbours()
@@ -668,16 +668,16 @@ void ForcesTestSuite::allForcesForThreeNeighbours()
 
     EXPECT_NEAR(250.7834526486244, particleVect[0].fTotal.x, Precision);
     EXPECT_NEAR(-3010.9579413390843, particleVect[0].fTotal.y, Precision);
-	EXPECT_NEAR(-16290.400309808805, particleVect[0].fTotal.z, Precision);
+    EXPECT_NEAR(-16290.400309808805, particleVect[0].fTotal.z, Precision);
     EXPECT_NEAR(-1254.5412416742606, particleVect[1].fTotal.x, Precision);
     EXPECT_NEAR(7209.2210415996369, particleVect[1].fTotal.y, Precision);
-	EXPECT_NEAR(-16274.216741417249, particleVect[1].fTotal.z, Precision);
+    EXPECT_NEAR(-16274.216741417249, particleVect[1].fTotal.z, Precision);
     EXPECT_NEAR(6101.9615495983116, particleVect[2].fTotal.x, Precision);
     EXPECT_NEAR(1735.4665012865582, particleVect[2].fTotal.y, Precision);
-	EXPECT_NEAR(-16282.308641506814, particleVect[2].fTotal.z, Precision);
+    EXPECT_NEAR(-16282.308641506814, particleVect[2].fTotal.z, Precision);
     EXPECT_NEAR(-5092.904321115343, particleVect[3].fTotal.x, Precision);
     EXPECT_NEAR(-5933.5075099181722, particleVect[3].fTotal.y, Precision);
-	EXPECT_NEAR(-16267.771547133523, particleVect[3].fTotal.z, Precision);
+    EXPECT_NEAR(-16267.771547133523, particleVect[3].fTotal.z, Precision);
 }
 
 } // namespace TestEnvironment
