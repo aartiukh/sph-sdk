@@ -19,7 +19,7 @@ include_directories(${PROJECT_SOURCE_DIR}/src)
 
 if(BUILD_UNIT_TESTS)
     # TODO: fix unit tests after migration to 3D
-    #add_subdirectory(${PROJECT_SOURCE_DIR}/test)
+    add_subdirectory(${PROJECT_SOURCE_DIR}/test)
 endif()
 
 add_library(${PROJECT_NAME} ${SPH_SRC_LIST_INCLUDE} ${SPH_SRC_LIST_SOURCE})

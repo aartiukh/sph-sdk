@@ -1,12 +1,11 @@
 /**
-* @file CollisionsTestSuite.h
-* @author Anton Artyukh (artyukhanton@gmail.com)
-* @date Created May 28, 2017
-**/
+ * @file CollisionsTestSuite.h
+ * @author Anton Artyukh (artyukhanton@gmail.com)
+ * @date Created May 28, 2017
+ **/
 
 #ifndef COLLISIONS_TEST_SUITE_H_96192C2023784EE0B4976A48A1A8779B
 #define COLLISIONS_TEST_SUITE_H_96192C2023784EE0B4976A48A1A8779B
-
 
 namespace SPHSDK
 {
@@ -17,7 +16,6 @@ namespace TestEnvironment
 class CollisionsTestSuite
 {
 public:
-
     static void twoParticleCollision();
 
     static void threeParticleCollision();
@@ -37,10 +35,9 @@ public:
     static void twoOnBoundaryParticleCollision();
 
     static void threeOnBoundaryParticleCollision();
-
 };
 
-} //TestEnvironment
-} //SPH
+} // namespace TestEnvironment
+} // namespace SPHSDK
 
 #endif // COLLISIONS_TEST_SUITE_H_96192C2023784EE0B4976A48A1A8779B
