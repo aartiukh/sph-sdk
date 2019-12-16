@@ -27,7 +27,7 @@ static void generateObjFile(const std::vector<SPHAlgorithms::Point3F>& vertices,
     // write vertices
     for (auto const& v : vertices)
     {
-        file << "v " << v.x << ' ' << v.y << ' ' << v.z << '\n';
+        file << "v " << v[0] << ' ' << v[1] << ' ' << v[2] << '\n';
     }
 
     const size_t size = vertices.size();
@@ -47,7 +47,7 @@ namespace TestEnvironment
 
 void MarchingCubesTestSuite::generatePawnMesh()
 {
-    const Point3FVector mesh = SPHAlgorithms::MarchingCubes::generateMesh(Shapes::Pawn);
+    const std::vector<Point3F> mesh = SPHAlgorithms::MarchingCubes::generateMesh(Shapes::Pawn);
 
     ASSERT_EQ(37128u, mesh.size());
 
@@ -56,7 +56,7 @@ void MarchingCubesTestSuite::generatePawnMesh()
 
 void MarchingCubesTestSuite::generateBishopMesh()
 {
-    const Point3FVector mesh = SPHAlgorithms::MarchingCubes::generateMesh(Shapes::Bishop);
+    const std::vector<Point3F> mesh = SPHAlgorithms::MarchingCubes::generateMesh(Shapes::Bishop);
 
     ASSERT_EQ(45552u, mesh.size());
 

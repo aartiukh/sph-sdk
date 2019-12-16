@@ -27,7 +27,7 @@ static float angle = 360;
 
 static SPHSDK::SPH sph;
 
-static SPHAlgorithms::Point3FVector mesh;
+static std::vector<SPHAlgorithms::Point3F> mesh;
 
 void renderSphere(float x, float y, float z, double radius, double velocity, int subdivisions, GLUquadricObj* quadric)
 {
@@ -128,16 +128,17 @@ void MyDisplay(void)
     glBegin(GL_TRIANGLES);
     for (const auto& triangle : mesh)
     {
-        glColor3f(1.0f / cubeSize, 1.5f * triangle.y / cubeSize, 2.5f * triangle.z / cubeSize);
-        glVertex3f(triangle.x, triangle.y, triangle.z);
+        glColor3f(1.0f / cubeSize, 1.5f * triangle[1] / cubeSize, 2.5f * triangle[2] / cubeSize);
+        glVertex3f(triangle[0], triangle[1], triangle[2]);
     }
     glEnd();
 
     for (auto& particle : sph.particles)
     {
-        renderSphere_convenient(static_cast<float>(particle.position.x), static_cast<float>(particle.position.y),
-                                static_cast<float>(particle.position.z), particle.radius,
-                                particle.velocity.calcNormSqr(), 4);
+        renderSphere_convenient(static_cast<float>(particle.position[0]),
+                                static_cast<float>(particle.position[1]),
+                                static_cast<float>(particle.position[2]), particle.radius,
+                                particle.velocity.norm(), 4);
     }
 
     glColor3f(1.0, 0.0, 0.0);
@@ -227,11 +228,11 @@ void updateGravity()
     //   |0   cos θ    −sin θ| |y| = |y cos θ − z sin θ| = |y'|
     //   |0   sin θ     cos θ| |z|   |y sin θ + z cos θ|   |z'|
     SPHSDK::Config::GravitationalAcceleration =
-        SPHAlgorithms::Point3D(SPHSDK::Config::InitialGravitationalAcceleration.x,
-                               SPHSDK::Config::InitialGravitationalAcceleration.y * cos(angle / 180 * M_PI) -
-                                   SPHSDK::Config::InitialGravitationalAcceleration.z * sin(angle / 180 * M_PI),
-                               SPHSDK::Config::InitialGravitationalAcceleration.y * sin(angle / 180 * M_PI) +
-                                   SPHSDK::Config::InitialGravitationalAcceleration.z * cos(angle / 180 * M_PI));
+        SPHAlgorithms::Point3D{ SPHSDK::Config::InitialGravitationalAcceleration[0],
+                               SPHSDK::Config::InitialGravitationalAcceleration[1] * cos(angle / 180 * M_PI) -
+                                   SPHSDK::Config::InitialGravitationalAcceleration[2] * sin(angle / 180 * M_PI),
+                               SPHSDK::Config::InitialGravitationalAcceleration[1] * sin(angle / 180 * M_PI) +
+                                   SPHSDK::Config::InitialGravitationalAcceleration[2] * cos(angle / 180 * M_PI) };
 }
 
 void processSpecialKeys(int key, int /*xx*/, int /*yy*/)
@@ -248,7 +249,7 @@ void processSpecialKeys(int key, int /*xx*/, int /*yy*/)
             break;
         case GLUT_KEY_HOME:
             angle = 360.0;
-            SPHSDK::Config::GravitationalAcceleration = SPHAlgorithms::Point3D(0.0, 0.0, -9.82);
+            SPHSDK::Config::GravitationalAcceleration = SPHAlgorithms::Point3D{ 0.0, 0.0, -9.82 };
             break;
     }
 }

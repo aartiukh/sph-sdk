@@ -24,14 +24,14 @@ namespace
 {
 inline SPHAlgorithms::Point3D SpericalToCartesian(double r, double fi, double teta)
 {
-    return SPHAlgorithms::Point3D(r * sin(teta) * cos(fi) + 1.5, r * sin(teta) * sin(fi) + 1.5, r * cos(teta) + 2.);
+    return SPHAlgorithms::Point3D{ r * sin(teta) * cos(fi) + 1.5, r * sin(teta) * sin(fi) + 1.5, r * cos(teta) + 2. };
 }
 } // namespace
 
 SPH::SPH(const std::function<float(float, float, float)>* obstacle)
     : particles(Config::ParticlesNumber)
     , m_volume(SPHAlgorithms::Volume(
-          SPHAlgorithms::Cuboid(SPHAlgorithms::Point3D(), Config::CubeSize, Config::CubeSize, Config::CubeSize)))
+          SPHAlgorithms::Cuboid(SPHAlgorithms::Point3D{0., 0., 0.}, Config::CubeSize, Config::CubeSize, Config::CubeSize)))
     , m_searcher(SPHAlgorithms::NeighboursSearch3D<ParticleVect>(m_volume, Config::WaterSupportRadius, 0.001))
     , m_obstacle(obstacle)
 {

@@ -27,7 +27,7 @@ void Integrator::integrate(double timeStep, ParticleVect& particles)
 
         iter->velocity += (prevAcceleration + iter->acceleration) / 2.0 * timeStep;
 
-        if (iter->velocity.calcNormSqr() > Config::SpeedTreshold)
+        if (iter->velocity.norm() > Config::SpeedTreshold)
             iter->velocity = prevVelocity;
 
         iter->position += prevVelocity * timeStep + prevAcceleration / 2.0 * timeStep * timeStep;

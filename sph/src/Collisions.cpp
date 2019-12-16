@@ -10,21 +10,21 @@ namespace SPHSDK
 // (Formula 4.35)
 static double calculateF(SPHAlgorithms::Point3D differenceParticleNeighbour)
 {
-    return differenceParticleNeighbour.calcNormSqr() - Config::ParticleRadius * Config::ParticleRadius;
+    return differenceParticleNeighbour.norm() - Config::ParticleRadius * Config::ParticleRadius;
 }
 
 // (Formula 4.36)
 static SPHAlgorithms::Point3D calculateContactPoint(SPHAlgorithms::Point3D particlePosition,
                                                     SPHAlgorithms::Point3D differenceParticleNeighbour)
 {
-    double particleDistance = differenceParticleNeighbour.calcNorm();
+    double particleDistance = std::sqrt( differenceParticleNeighbour.norm() );
     return particlePosition + (differenceParticleNeighbour / particleDistance) * Config::ParticleRadius;
 }
 
 // (Formula 4.38)
 static SPHAlgorithms::Point3D calculateSurfaceNormal(SPHAlgorithms::Point3D differenceParticleNeighbour)
 {
-    double particleDistance = differenceParticleNeighbour.calcNorm();
+    double particleDistance = std::sqrt( differenceParticleNeighbour.norm() );
     return -differenceParticleNeighbour / particleDistance;
 }
 
@@ -32,9 +32,9 @@ static SPHAlgorithms::Point3D calculateSurfaceNormal(SPHAlgorithms::Point3D diff
 static SPHAlgorithms::Point3D calculateVelocity(SPHAlgorithms::Point3D particleVelocity,
                                                 SPHAlgorithms::Point3D differenceParticleNeighbour)
 {
-    double scalarProduct = particleVelocity.x * differenceParticleNeighbour.x +
-                           particleVelocity.y * differenceParticleNeighbour.y +
-                           particleVelocity.z * differenceParticleNeighbour.z;
+    double scalarProduct = particleVelocity[0] * differenceParticleNeighbour[0] +
+                           particleVelocity[1] * differenceParticleNeighbour[1] +
+                           particleVelocity[2] * differenceParticleNeighbour[2];
     return particleVelocity - differenceParticleNeighbour * 2 * scalarProduct;
 }
 
@@ -68,47 +68,48 @@ void Collision::detectCollisions(ParticleVect&                                  
 
         const SPHAlgorithms::Cuboid cuboid = volume.getBoundingCuboid();
 
-        if (particleVect[i].position.x > cuboid.width - particleVect[i].radius)
+        if (particleVect[i].position[0] > cuboid.width - particleVect[i].radius)
         {
-            particleVect[i].position.x = cuboid.width - particleVect[i].radius;
-            particleVect[i].velocity.x *= Config::CollisionVelocityMultiplier;
+            particleVect[i].position[0] = cuboid.width - particleVect[i].radius;
+            particleVect[i].velocity[0] *= Config::CollisionVelocityMultiplier;
         }
 
-        if (particleVect[i].position.x < particleVect[i].radius)
+        if (particleVect[i].position[0] < particleVect[i].radius)
         {
-            particleVect[i].position.x = particleVect[i].radius;
-            particleVect[i].velocity.x *= Config::CollisionVelocityMultiplier;
+            particleVect[i].position[0] = particleVect[i].radius;
+            particleVect[i].velocity[0] *= Config::CollisionVelocityMultiplier;
         }
 
-        if (particleVect[i].position.y > cuboid.length - particleVect[i].radius)
+        if (particleVect[i].position[1] > cuboid.length - particleVect[i].radius)
         {
-            particleVect[i].position.y = cuboid.length - particleVect[i].radius;
-            particleVect[i].velocity.y *= Config::CollisionVelocityMultiplier;
+            particleVect[i].position[1] = cuboid.length - particleVect[i].radius;
+            particleVect[i].velocity[1] *= Config::CollisionVelocityMultiplier;
         }
 
-        if (particleVect[i].position.y < particleVect[i].radius)
+        if (particleVect[i].position[1] < particleVect[i].radius)
         {
-            particleVect[i].position.y = particleVect[i].radius;
-            particleVect[i].velocity.y *= Config::CollisionVelocityMultiplier;
+            particleVect[i].position[1] = particleVect[i].radius;
+            particleVect[i].velocity[1] *= Config::CollisionVelocityMultiplier;
         }
 
-        if (particleVect[i].position.z > cuboid.height - particleVect[i].radius)
+        if (particleVect[i].position[2] > cuboid.height - particleVect[i].radius)
         {
-            particleVect[i].position.z = cuboid.height - particleVect[i].radius;
-            particleVect[i].velocity.z *= Config::CollisionVelocityMultiplier;
+            particleVect[i].position[2] = cuboid.height - particleVect[i].radius;
+            particleVect[i].velocity[2] *= Config::CollisionVelocityMultiplier;
         }
 
-        if (particleVect[i].position.z < particleVect[i].radius)
+        if (particleVect[i].position[2] < particleVect[i].radius)
         {
-            particleVect[i].position.z = particleVect[i].radius;
-            particleVect[i].velocity.z *= Config::CollisionVelocityMultiplier;
+            particleVect[i].position[2] = particleVect[i].radius;
+            particleVect[i].velocity[2] *= Config::CollisionVelocityMultiplier;
         }
 
         /* Obstacle collision */
 
         if (obstacle != nullptr &&
-            (*obstacle)(static_cast<float>(particleVect[i].position.x), static_cast<float>(particleVect[i].position.y),
-                        static_cast<float>(particleVect[i].position.z)) > 0.f)
+            (*obstacle)(static_cast<float>(particleVect[i].position[0]),
+                        static_cast<float>(particleVect[i].position[1]),
+                        static_cast<float>(particleVect[i].position[2])) > 0.f)
         {
             particleVect[i].position = particleVect[i].previous_position;
             particleVect[i].velocity *= Config::CollisionVelocityMultiplier;

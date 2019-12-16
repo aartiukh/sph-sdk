@@ -24,8 +24,8 @@ NeighboursSearch<T>::NeighboursSearch(const Area& area, double radius, double ep
 {
     const Rect rect = m_Area.getBoundingRect();
 
-    m_rectWidth = rect.rightBottom.x - rect.leftTop.x;
-    m_rectHeight = rect.rightBottom.y - rect.leftTop.y;
+    m_rectWidth = rect.rightBottom[0] - rect.leftTop[0];
+    m_rectHeight = rect.rightBottom[1] - rect.leftTop[1];
 
     try
     {
@@ -69,8 +69,8 @@ template <class T> void NeighboursSearch<T>::search(T& points)
             {
                 if (j != k)
                 {
-                    double distanceSqr = pow(points[m_boxes[i][j]].position.x - points[m_boxes[i][k]].position.x, 2) +
-                                         pow(points[m_boxes[i][j]].position.y - points[m_boxes[i][k]].position.y, 2);
+                    double distanceSqr = pow(points[ m_boxes[i][j] ].position[0] - points[ m_boxes[i][k] ].position[0], 2) +
+                                         pow(points[ m_boxes[i][j] ].position[1] - points[ m_boxes[i][k] ].position[1], 2);
                     if (distanceSqr <= pow(m_radius, 2))
                         points[m_boxes[i][j]].neighbours.push_back(m_boxes[i][k]);
                 }
@@ -88,8 +88,8 @@ template <class T> void NeighboursSearch<T>::search(T& points)
                 for (size_t q = 0; q < m_boxes[m_nearbyBoxes[i][k]].size(); q++)
                 {
                     double distanceSqr =
-                        pow(points[m_boxes[i][j]].position.x - points[m_boxes[m_nearbyBoxes[i][k]][q]].position.x, 2) +
-                        pow(points[m_boxes[i][j]].position.y - points[m_boxes[m_nearbyBoxes[i][k]][q]].position.y, 2);
+                        pow(points[ m_boxes[i][j] ].position[0] - points[ m_boxes[m_nearbyBoxes[i][k]][q] ].position[0], 2) +
+                        pow(points[ m_boxes[i][j] ].position[1] - points[ m_boxes[m_nearbyBoxes[i][k]][q] ].position[1], 2);
                     if (distanceSqr - pow(m_radius, 2) <= DBL_EPSILON)
                         points[m_boxes[i][j]].neighbours.push_back(m_boxes[m_nearbyBoxes[i][k]][q]);
                 }
@@ -108,14 +108,14 @@ template <class T> void NeighboursSearch<T>::insertPointsIntoBoxes(const T& poin
 
     for (size_t i = 0; i < m_pointsSize; i++)
     {
-        size_t j = static_cast<size_t>(points[i].position.x / m_radius) +
-                   static_cast<size_t>(points[i].position.y / m_radius) *
+        size_t j = static_cast<size_t>(points[i].position[0] / m_radius) +
+                   static_cast<size_t>(points[i].position[1] / m_radius) *
                    static_cast<size_t>(m_rectWidth / m_radius);
 
-        if (std::abs(points[i].position.x - m_rectWidth) < m_eps)
+        if (std::abs(points[i].position[0] - m_rectWidth) < m_eps)
             --j;
 
-        if (std::abs(points[i].position.y - m_rectHeight) < m_eps)
+        if (std::abs(points[i].position[1] - m_rectHeight) < m_eps)
             j -= static_cast<size_t>(m_rectWidth / m_radius);
 
         m_boxes[j].push_back(i);
@@ -258,7 +258,7 @@ template <class T> void NeighboursSearch3D<T>::search(T& points)
                 {
                     Point3D difference = points[m_boxes[boxIndex][pointIndex]].position -
                                          points[m_boxes[boxIndex][nearbyPointIndex]].position;
-                    if (difference.calcNormSqr() <= pow(m_radius, 2))
+                    if (difference.norm() <= pow(m_radius, 2))
                         points[m_boxes[boxIndex][pointIndex]].neighbours.push_back(m_boxes[boxIndex][nearbyPointIndex]);
                 }
     // 4
@@ -269,7 +269,7 @@ template <class T> void NeighboursSearch3D<T>::search(T& points)
                 {
                     Point3D difference = points[m_boxes[boxIndex][pointIndex]].position -
                                          points[m_boxes[m_nearbyBoxes[boxIndex][nearbyBoxIndex]][nearbyPointIndex]].position;
-                    if (difference.calcNormSqr() - pow(m_radius, 2) <= DBL_EPSILON)
+                    if (difference.norm() - pow(m_radius, 2) <= DBL_EPSILON)
                         points[m_boxes[boxIndex][pointIndex]]
                             .neighbours
                             .push_back(m_boxes[m_nearbyBoxes[boxIndex][nearbyBoxIndex]][nearbyPointIndex]);
@@ -302,19 +302,19 @@ template <class T> void NeighboursSearch3D<T>::insertPointsIntoBoxes(const T& po
     {
         // The Formula is created manually using height layers approach
 
-        size_t widthOffset = static_cast<size_t>(points[i].position.x / m_radius);
-        size_t lengthOffset = static_cast<size_t>(points[i].position.y / m_radius) *
+        size_t widthOffset = static_cast<size_t>(points[i].position[0] / m_radius);
+        size_t lengthOffset = static_cast<size_t>(points[i].position[1] / m_radius) *
                               normalizedCuboidWidth;
-        size_t heightOffset = static_cast<size_t>(points[i].position.z / m_radius) *
+        size_t heightOffset = static_cast<size_t>(points[i].position[2] / m_radius) *
                               normalizedCuboidLength * normalizedCuboidWidth;
 
-        if (std::abs(points[i].position.x - m_cuboid.width) < m_eps)
+        if (std::abs(points[i].position[0] - m_cuboid.width) < m_eps)
             widthOffset -= 1;
 
-        if (std::abs(points[i].position.y - m_cuboid.length) < m_eps)
+        if (std::abs(points[i].position[1] - m_cuboid.length) < m_eps)
             lengthOffset -= normalizedCuboidLength;
 
-        if (std::abs(points[i].position.z - m_cuboid.height) < m_eps)
+        if (std::abs(points[i].position[2] - m_cuboid.height) < m_eps)
             heightOffset -= normalizedCuboidLength * normalizedCuboidWidth;
 
         size_t boxIndex = widthOffset + lengthOffset + heightOffset;

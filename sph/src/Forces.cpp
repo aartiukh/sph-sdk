@@ -19,13 +19,13 @@ static const double OwnDensity = 315.0 / (64.0 * M_PI * pow(Config::WaterSupport
 
 static double defaultKernel(SPHAlgorithms::Point3D differenceParticleNeighbour) {
     // (Formula 4.3)
-    const double particleDistanceSqr = differenceParticleNeighbour.calcNormSqr();
+    const double particleDistanceSqr = differenceParticleNeighbour.norm();
     return KernelDefaultMultiplier * pow(SupportRadiusSqr - particleDistanceSqr, 3);
 }
 
 static SPHAlgorithms::Point3D defaultKernelGradient(SPHAlgorithms::Point3D differenceParticleNeighbour) {
     // (Formula 4.4)
-    const double particleDistanceSqr = differenceParticleNeighbour.calcNormSqr();
+    const double particleDistanceSqr = differenceParticleNeighbour.norm();
     return differenceParticleNeighbour * KernelDefaultGradientMultiplier
                                        * (SupportRadiusSqr - particleDistanceSqr)
                                        * (SupportRadiusSqr - particleDistanceSqr);
@@ -33,14 +33,14 @@ static SPHAlgorithms::Point3D defaultKernelGradient(SPHAlgorithms::Point3D diffe
 
 static double defaultKernelLaplacian(SPHAlgorithms::Point3D differenceParticleNeighbour) {
     // (Formula 4.5)
-    const double particleDistanceSqr = differenceParticleNeighbour.calcNormSqr();
+    const double particleDistanceSqr = differenceParticleNeighbour.norm();
     return KernelDefaultGradientMultiplier * (SupportRadiusSqr - particleDistanceSqr)
                                            * (3.0 * SupportRadiusSqr - 7.0 * particleDistanceSqr);
 }
 
 static SPHAlgorithms::Point3D pressureKernelGradient(SPHAlgorithms::Point3D differenceParticleNeighbour) {
     // (Formula 4.14)
-    const double particleDistance = differenceParticleNeighbour.calcNorm();
+    const double particleDistance = std::sqrt( differenceParticleNeighbour.norm() );
     return differenceParticleNeighbour * KernelPressureGradientMultiplier / particleDistance
                                        * (Config::WaterSupportRadius - particleDistance)
                                        * (Config::WaterSupportRadius - particleDistance);
@@ -48,7 +48,7 @@ static SPHAlgorithms::Point3D pressureKernelGradient(SPHAlgorithms::Point3D diff
 
 static double viscosityKernelLaplacian(SPHAlgorithms::Point3D differenceParticleNeighbour) {
     // (Formula 4.22)
-    const double particleDistance = differenceParticleNeighbour.calcNorm();
+    const double particleDistance = std::sqrt( differenceParticleNeighbour.norm() );
     return KernelViscosityLaplacianMultiplier * (Config::WaterSupportRadius - particleDistance);
 }
 
@@ -64,7 +64,7 @@ void Forces::ComputeDensity(ParticleVect& particleVect)
             const SPHAlgorithms::Point3D differenceParticleNeighbour =
                 particleVect[i].position - particleVect[particleVect[i].neighbours[j]].position;
 
-            if (Config::WaterSupportRadius - differenceParticleNeighbour.calcNorm() > DBL_EPSILON)
+            if (Config::WaterSupportRadius - std::sqrt(differenceParticleNeighbour.norm()) > DBL_EPSILON)
                 particleVect[i].density += Config::WaterParticleMass * defaultKernel(differenceParticleNeighbour);
         }
     }
@@ -81,8 +81,8 @@ void Forces::ComputeInternalForces(ParticleVect& particleVect)
 {
     for (size_t i = 0; i < particleVect.size(); i++)
     {
-        particleVect[i].fPressure = SPHAlgorithms::Point3D();
-        particleVect[i].fViscosity = SPHAlgorithms::Point3D();
+        particleVect[i].fPressure = SPHAlgorithms::Point3D{0., 0., 0.};
+        particleVect[i].fViscosity = SPHAlgorithms::Point3D{0., 0., 0.};
 
         for (size_t j = 0; j < particleVect[i].neighbours.size(); j++)
         {
@@ -92,7 +92,7 @@ void Forces::ComputeInternalForces(ParticleVect& particleVect)
             const SPHAlgorithms::Point3D differenceParticleNeighbour =
                 particleVect[i].position - particleVect[particleVect[i].neighbours[j]].position;
 
-            const double particleDistance = differenceParticleNeighbour.calcNorm();
+            const double particleDistance = std::sqrt( differenceParticleNeighbour.norm() );
 
             if (std::abs(particleDistance) > 0.)
             {
@@ -129,9 +129,9 @@ void Forces::ComputeSurfaceTension(ParticleVect& particleVect)
 {
     for (size_t i = 0; i < particleVect.size(); i++)
     {
-        particleVect[i].fSurfaceTension = SPHAlgorithms::Point3D();
+        particleVect[i].fSurfaceTension = SPHAlgorithms::Point3D{0., 0., 0.};
 
-        SPHAlgorithms::Point3D surfaceTensionGradient = SPHAlgorithms::Point3D();
+        SPHAlgorithms::Point3D surfaceTensionGradient = SPHAlgorithms::Point3D{0., 0., 0.};
         double surfaceTensionLaplacian = 0.0;
 
         for (size_t j = 0; j < particleVect[i].neighbours.size(); j++)
@@ -142,7 +142,7 @@ void Forces::ComputeSurfaceTension(ParticleVect& particleVect)
             const SPHAlgorithms::Point3D differenceParticleNeighbour =
                 particleVect[i].position - particleVect[particleVect[i].neighbours[j]].position;
 
-            if (differenceParticleNeighbour.calcNormSqr() <= SupportRadiusSqr)
+            if (differenceParticleNeighbour.norm() <= SupportRadiusSqr)
             {
                 const double dividedMassDensity =
                     Config::WaterParticleMass / particleVect[particleVect[i].neighbours[j]].density;
@@ -156,9 +156,9 @@ void Forces::ComputeSurfaceTension(ParticleVect& particleVect)
         }
 
         // (Formulae 4.32 & 5.17)
-        if (surfaceTensionGradient.calcNorm() >= std::sqrt(Config::WaterDensity / particleVect[i].neighbours.size()))
+        if (surfaceTensionGradient.norm() >= std::sqrt(Config::WaterDensity / particleVect[i].neighbours.size()))
             // (Formula 4.26 is presented by combination of 4.27 & 4.5 - laplacian - and 4.28 & 4.4 - gradient)
-            particleVect[i].fSurfaceTension = -surfaceTensionGradient / surfaceTensionGradient.calcNorm() *
+            particleVect[i].fSurfaceTension = -surfaceTensionGradient / std::sqrt(surfaceTensionGradient.norm()) *
                                                surfaceTensionLaplacian * Config::WaterSurfaceTension;
     }
 }

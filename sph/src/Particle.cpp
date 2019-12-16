@@ -13,33 +13,33 @@ Particle::Particle() :
     radius(0.0),
     density(0.0),
     pressure(0.0),
-    position(SPHAlgorithms::Point3D()),
-    velocity(SPHAlgorithms::Point3D()),
-    acceleration(SPHAlgorithms::Point3D()),
-    fGravity(SPHAlgorithms::Point3D()),
-    fSurfaceTension(SPHAlgorithms::Point3D()),
-    fViscosity(SPHAlgorithms::Point3D()),
-    fPressure(SPHAlgorithms::Point3D()),
-    fExternal(SPHAlgorithms::Point3D()),
-    fInternal(SPHAlgorithms::Point3D()),
-    fTotal(SPHAlgorithms::Point3D())
+    position(SPHAlgorithms::Point3D{0., 0., 0.}),
+    velocity(SPHAlgorithms::Point3D{0., 0., 0.}),
+    acceleration(SPHAlgorithms::Point3D{0., 0., 0.}),
+    fGravity(SPHAlgorithms::Point3D{0., 0., 0.}),
+    fSurfaceTension(SPHAlgorithms::Point3D{0., 0., 0.}),
+    fViscosity(SPHAlgorithms::Point3D{0., 0., 0.}),
+    fPressure(SPHAlgorithms::Point3D{0., 0., 0.}),
+    fExternal(SPHAlgorithms::Point3D{0., 0., 0.}),
+    fInternal(SPHAlgorithms::Point3D{0., 0., 0.}),
+    fTotal(SPHAlgorithms::Point3D{0., 0., 0.})
 {
 }
 
-Particle::Particle(const SPHAlgorithms::Point3D & position, double radius) :
+Particle::Particle(SPHAlgorithms::Point3D && position, double radius) :
     radius(radius),
     density(0.0),
     pressure(0.0),
-    position(position),
-    velocity(SPHAlgorithms::Point3D()),
-    acceleration(SPHAlgorithms::Point3D()),
-    fGravity(SPHAlgorithms::Point3D()),
-    fSurfaceTension(SPHAlgorithms::Point3D()),
-    fViscosity(SPHAlgorithms::Point3D()),
-    fPressure(SPHAlgorithms::Point3D()),
-    fExternal(SPHAlgorithms::Point3D()),
-    fInternal(SPHAlgorithms::Point3D()),
-    fTotal(SPHAlgorithms::Point3D())
+    position( std::forward<SPHAlgorithms::Point3D>(position) ),
+    velocity(SPHAlgorithms::Point3D{0., 0., 0.}),
+    acceleration(SPHAlgorithms::Point3D{0., 0., 0.}),
+    fGravity(SPHAlgorithms::Point3D{0., 0., 0.}),
+    fSurfaceTension(SPHAlgorithms::Point3D{0., 0., 0.}),
+    fViscosity(SPHAlgorithms::Point3D{0., 0., 0.}),
+    fPressure(SPHAlgorithms::Point3D{0., 0., 0.}),
+    fExternal(SPHAlgorithms::Point3D{0., 0., 0.}),
+    fInternal(SPHAlgorithms::Point3D{0., 0., 0.}),
+    fTotal(SPHAlgorithms::Point3D{0., 0., 0.})
 {
 }
 

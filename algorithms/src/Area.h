@@ -20,8 +20,8 @@ struct Rect
     Point2D rightBottom;
 
     Rect() :
-        leftTop(Point2D()),
-        rightBottom(Point2D()) {}
+        leftTop( Point2D{0., 0.} ),
+        rightBottom( Point2D{0., 0.} ) {}
 
     Rect(const Point2D& leftTop_, const Point2D& rightBotom_) :
         leftTop(leftTop_),
@@ -37,7 +37,7 @@ struct Cuboid
     double width, length, height; // x, y, z axis
 
     Cuboid() :
-        startingPoint(Point3D()),
+        startingPoint( Point3D{0., 0., 0.} ),
         width(0.),
         length(0.),
         height(0.) {}

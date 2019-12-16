@@ -25,15 +25,15 @@ public:
      * @brief Generates triangles mesh from function
      * @param f    The function that represents the domain equation
      */
-    static Point3FVector generateMesh(std::function<float(float, float, float)> f);
+    static std::vector<Point3F> generateMesh(std::function<float(float, float, float)> f);
 
 private:
-    static Point3FVector MarchingCube(std::function<float(float, float, float)> f, float fX, float fY, float fZ);
+    static std::vector<Point3F> MarchingCube(std::function<float(float, float, float)> f, float fX, float fY, float fZ);
 
     static void
-    fillFoundTriangles(Point3FVector& resultEdgeVertex, const Point3FVector& EdgeVertex, const int iFlagIndex);
+    fillFoundTriangles(std::vector<Point3F>& resultEdgeVertex, const std::vector<Point3F>& EdgeVertex, const int iFlagIndex);
 
-    static Point3FVector findPointIntersection(
+    static std::vector<Point3F> findPointIntersection(
         const int iEdgeFlags, const float CubeValue[], const float fX, const float fY, const float fZ);
 
     static int determineFlag(const float CubeValue[]);

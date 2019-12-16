@@ -28,7 +28,7 @@ class Particle
 
 public:
     Particle();
-    Particle(const SPHAlgorithms::Point3D& position, double radius = Config::ParticleRadius);
+    Particle(SPHAlgorithms::Point3D && position, double radius = Config::ParticleRadius);
 
     double radius;
     double density;

@@ -160,11 +160,11 @@ private:
                            const VectorOfSizetVectors& expectedPointNeighbours);
 
     static void testInsert3D(const SPHAlgorithms::Cuboid&               cuboid,
-                           double                      radius,
-                           double                      accuracy,
-                           TestPoints3D&               points,
-                           const SizetVector&          expectedBoxSizes,
-                           const VectorOfSizetVectors& expectedPointsInBoxes);
+                             double                      radius,
+                             double                      accuracy,
+                             TestPoints3D&               points,
+                             const SizetVector&          expectedBoxSizes,
+                             const VectorOfSizetVectors& expectedPointsInBoxes);
 
 };
 

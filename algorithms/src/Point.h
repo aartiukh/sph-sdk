@@ -1,74 +1,119 @@
-/**
- * @file Point.h
- * @author Anton Artyukh (artyukhanton@gmail.com)
- * @date Created Feb 26, 2017
- **/
+#pragma once
 
-#ifndef POINT_H_DE836BDF10964E14A5C9BA80FEDE6734
-#define POINT_H_DE836BDF10964E14A5C9BA80FEDE6734
 
-#include <vector>
+#include <array>
 
-namespace SPHAlgorithms
-{
 
-/**
- * @brief Point2 class defines point in 2D.
- */
-template <typename _Tp> class Point2
-{
-public:
-    typedef _Tp value_type;
+namespace SPHAlgorithms {
 
-    Point2();
-    Point2(_Tp _x, _Tp _y);
-    Point2(const Point2& pt);
+    template<typename _T, size_t _Dim, typename = std::make_index_sequence<_Dim>>
+    class Point;
 
-    auto calcNormSqr() const;
-    auto calcNorm() const;
+    template<typename _T, size_t _Dim, std::size_t ... _Idx>
+    class Point<_T, _Dim, std::index_sequence<_Idx ...>> : public std::array<_T, _Dim>
+    {
+        public:
+            bool within(const Point<_T, _Dim> & _other, const _T & _range) const
+            {
+                _T accumulated = ( std::pow(_other[_Idx] - (*this)[_Idx], 2) + ... );
+                if ( accumulated > _range * _range )
+                    return false;
+                return true;
+            }
 
-    Point2& operator=(const Point2& pt);
+            bool operator ==(const Point<_T, _Dim,
+                             std::index_sequence<_Idx ...>> & _other) const
+            {
+                bool res = (true & ... & ((*this)[_Idx] == _other[_Idx]) );
+                return res;
+            }
+            _T norm() const
+            {
+                return ( std::pow( (*this)[_Idx], 2) + ... );
+            }
 
-    _Tp x, y; //< the point coordinates
-};
+            Point<_T, _Dim> operator-(const Point<_T, _Dim, std::index_sequence<_Idx ...>> & _other) const
+            {
+                Point<_T, _Dim> p/*{ { ( ((*this)[_Idx] - _other[_Idx]) , ... ) } }*/;
+                ( (p[_Idx] = (*this)[_Idx] - _other[_Idx]) , ... );
+                return p;
+            }
 
-using Point2D = Point2<double>;
-using Point2F = Point2<float>;
-using Point2I = Point2<int>;
+            Point<_T, _Dim> operator-() const
+            {
+                Point<_T, _Dim> p/*{ { ( ((*this)[_Idx] - _other[_Idx]) , ... ) } }*/;
+                ( (p[_Idx] = -(*this)[_Idx]) , ... );
+                return p;
+            }
 
-using Point2DVector = std::vector<Point2D>;
-using Point2FVector = std::vector<Point2F>;
-using Point2IVector = std::vector<Point2I>;
+            Point<_T, _Dim> & operator-=(_T _value)
+            {
+                ( ((*this)[_Idx] -= _value) , ... );
+                return *this;
+            }
 
-/**
- * @brief Point3 class defines point in 3D.
- */
+            Point<_T, _Dim> operator+(const Point<_T, _Dim, std::index_sequence<_Idx ...>> & _other) const
+            {
+                Point<_T, _Dim> p/*{ { ( ((*this)[_Idx] + _other[_Idx]) , ... ) } }*/;
+                ( (p[_Idx] = (*this)[_Idx] + _other[_Idx]) , ... );
+                return p;
+            }
 
-template <typename _Tp> class Point3
-{
-public:
-    typedef _Tp value_type;
+            Point<_T, _Dim> & operator+=(const Point<_T, _Dim, std::index_sequence<_Idx ...>> & _other)
+            {
+                ( ((*this)[_Idx] += _other[_Idx]) , ... );
+                return *this;
+            }
 
-    Point3();
-    Point3(_Tp _x, _Tp _y, _Tp _z);
-    Point3(const Point3& pt);
+            Point<_T, _Dim> operator*(_T _value) const
+            {
+                Point<_T, _Dim> p;
+                ( (p[_Idx] = (*this)[_Idx] * _value) , ... );
+                return p;
+            }
 
-    auto calcNormSqr() const;
-    auto calcNorm() const;
+            Point<_T, _Dim> & operator*=(_T _value)
+            {
+                ( ((*this)[_Idx] *= _value) , ... );
+                return *this;
+            }
 
-    Point3& operator=(const Point3& pt);
+            Point<_T, _Dim> operator/(_T _value) const
+            {
+                Point<_T, _Dim> p;
+                ( (p[_Idx] = (*this)[_Idx] / _value) , ... );
+                return p;
+            }
 
-    _Tp x, y, z; //< the point coordinates
-};
+            Point<_T, _Dim> & operator/=(_T _value)
+            {
+                ( ((*this)[_Idx] /= _value) , ... );
+                return *this;
+            }
 
-using Point3D = Point3<double>;
-using Point3F = Point3<float>;
+            Point<_T, _Dim> operator/(const Point<_T, _Dim, std::index_sequence<_Idx ...>> & _other) const
+            {
+                Point<_T, _Dim> p;
+                ( (p[_Idx] = (*this)[_Idx] / _other[_Idx]) , ... );
+                return p;
+            }
 
-using Point3DVector = std::vector<Point3D>;
-using Point3FVector = std::vector<Point3F>;
+            Point<_T, _Dim> & operator/=(const Point<_T, _Dim, std::index_sequence<_Idx ...>> & _other)
+            {
+                ( ((*this)[_Idx] /= _other[_Idx]) , ... );
+                return *this;
+            }
+    };
 
-} // namespace SPHAlgorithms
+    using Point2D = Point<double, 2>;
+    using Point2F = Point<float, 2>;
+    using Point2I = Point<int, 2>;
 
-#include "Point.hpp"
+    using Point3D = Point<double, 3>;
+    using Point3F = Point<float, 3>;
 
-#endif // POINT_H_DE836BDF10964E14A5C9BA80FEDE6734
+}
+
+
+
+
