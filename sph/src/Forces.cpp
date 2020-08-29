@@ -17,13 +17,14 @@ static const double KernelPressureGradientMultiplier = -45.0 / PiPowH6;
 static const double KernelViscosityLaplacianMultiplier = 45.0 / PiPowH6;
 static const double OwnDensity = 315.0 / (64.0 * M_PI * pow(Config::WaterSupportRadius, 3));
 
-static double defaultKernel(SPHAlgorithms::Point3D differenceParticleNeighbour) {
+
+static double defaultKernel(const SPHAlgorithms::Point3D& differenceParticleNeighbour) {
     // (Formula 4.3)
     const double particleDistanceSqr = differenceParticleNeighbour.calcNormSqr();
     return KernelDefaultMultiplier * pow(SupportRadiusSqr - particleDistanceSqr, 3);
 }
 
-static SPHAlgorithms::Point3D defaultKernelGradient(SPHAlgorithms::Point3D differenceParticleNeighbour) {
+static SPHAlgorithms::Point3D defaultKernelGradient(const SPHAlgorithms::Point3D& differenceParticleNeighbour) {
     // (Formula 4.4)
     const double particleDistanceSqr = differenceParticleNeighbour.calcNormSqr();
     return differenceParticleNeighbour * KernelDefaultGradientMultiplier
@@ -31,14 +32,14 @@ static SPHAlgorithms::Point3D defaultKernelGradient(SPHAlgorithms::Point3D diffe
                                        * (SupportRadiusSqr - particleDistanceSqr);
 }
 
-static double defaultKernelLaplacian(SPHAlgorithms::Point3D differenceParticleNeighbour) {
+static double defaultKernelLaplacian(const SPHAlgorithms::Point3D& differenceParticleNeighbour) {
     // (Formula 4.5)
     const double particleDistanceSqr = differenceParticleNeighbour.calcNormSqr();
     return KernelDefaultGradientMultiplier * (SupportRadiusSqr - particleDistanceSqr)
                                            * (3.0 * SupportRadiusSqr - 7.0 * particleDistanceSqr);
 }
 
-static SPHAlgorithms::Point3D pressureKernelGradient(SPHAlgorithms::Point3D differenceParticleNeighbour) {
+static SPHAlgorithms::Point3D pressureKernelGradient(const SPHAlgorithms::Point3D& differenceParticleNeighbour) {
     // (Formula 4.14)
     const double particleDistance = differenceParticleNeighbour.calcNorm();
     return differenceParticleNeighbour * KernelPressureGradientMultiplier / particleDistance
@@ -46,7 +47,7 @@ static SPHAlgorithms::Point3D pressureKernelGradient(SPHAlgorithms::Point3D diff
                                        * (Config::WaterSupportRadius - particleDistance);
 }
 
-static double viscosityKernelLaplacian(SPHAlgorithms::Point3D differenceParticleNeighbour) {
+static double viscosityKernelLaplacian(const SPHAlgorithms::Point3D& differenceParticleNeighbour) {
     // (Formula 4.22)
     const double particleDistance = differenceParticleNeighbour.calcNorm();
     return KernelViscosityLaplacianMultiplier * (Config::WaterSupportRadius - particleDistance);
@@ -73,8 +74,10 @@ void Forces::ComputeDensity(ParticleVect& particleVect)
 void Forces::ComputePressure(ParticleVect& particleVect)
 {
     // (Formula 4.12)
-    for (ParticleVectIter iter = particleVect.begin(); iter != particleVect.end(); ++iter)
-        iter->pressure = Config::WaterStiffness * (iter->density - Config::WaterDensity);
+    for (auto& particle : particleVect)
+    {
+        particle.pressure = Config::WaterStiffness * (particle.density - Config::WaterDensity);
+    }
 }
 
 void Forces::ComputeInternalForces(ParticleVect& particleVect)
@@ -121,8 +124,10 @@ void Forces::ComputeInternalForces(ParticleVect& particleVect)
 
 void Forces::ComputeGravityForce(ParticleVect& particleVect)
 {
-    for (ParticleVectIter iter = particleVect.begin(); iter != particleVect.end(); ++iter)
-        iter->fGravity = Config::GravitationalAcceleration * iter->density;
+    for (auto& particle : particleVect)
+    {
+        particle.fGravity = Config::GravitationalAcceleration * particle.density;
+    }
 }
 
 void Forces::ComputeSurfaceTension(ParticleVect& particleVect)
@@ -168,8 +173,10 @@ void Forces::ComputeExternalForces(ParticleVect& particleVect)
     Forces::ComputeGravityForce(particleVect);
     Forces::ComputeSurfaceTension(particleVect);
 
-    for (ParticleVectIter iter = particleVect.begin(); iter != particleVect.end(); ++iter)
-        iter->fExternal = iter->fSurfaceTension + iter->fGravity;
+    for (auto& particle : particleVect)
+    {
+        particle.fExternal = particle.fSurfaceTension + particle.fGravity;
+    }
 }
 
 void Forces::ComputeAllForces(ParticleVect& particleVect)
@@ -179,8 +186,10 @@ void Forces::ComputeAllForces(ParticleVect& particleVect)
     Forces::ComputeInternalForces(particleVect);
     Forces::ComputeExternalForces(particleVect);
 
-    for (ParticleVectIter iter = particleVect.begin(); iter != particleVect.end(); ++iter)
-        iter->fTotal = iter->fExternal + iter->fInternal;
+    for (auto& particle : particleVect)
+    {
+        particle.fTotal = particle.fExternal + particle.fInternal;
+    }
 }
 
 } // namespace SPHSDK
