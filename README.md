@@ -8,7 +8,7 @@ C++ implementation of Smoothed Particle Hydrodynamics.
 
 ### Ubuntu
 
-* `sudo apt-get install libxtst-dev libxrandr-dev`
+* `sudo apt-get install libxtst-dev libxrandr-dev libxxf86vm-dev`
 * `cd build`
 * `cmake -DBUILD_UNIT_TESTS=ON -DCMAKE_BUILD_TYPE=Release ..`
 *  `make -j`
