@@ -19,11 +19,6 @@ Area::Area(const Rect& rect) : m_boundingRect(rect)
 {
 }
 
-double Area::areaFunction(double /*x*/, double /*y*/)
-{
-    return 0.;
-}
-
 Rect Area::getBoundingRect() const
 {
     return m_boundingRect;
