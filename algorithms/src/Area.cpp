@@ -19,10 +19,6 @@ Area::Area(const Rect& rect) : m_boundingRect(rect)
 {
 }
 
-Area::~Area()
-{
-}
-
 double Area::areaFunction(double /*x*/, double /*y*/)
 {
     return 0.;
@@ -45,9 +41,6 @@ Volume::Volume() :
 
 Volume::Volume(const Cuboid& cube) :
     m_boundingCuboid(cube) {}
-
-Volume::~Volume()
-    {}
 
 Cuboid Volume::getBoundingCuboid() const
 {

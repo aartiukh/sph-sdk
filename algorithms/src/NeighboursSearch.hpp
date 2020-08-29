@@ -124,8 +124,8 @@ template <class T> void NeighboursSearch<T>::insertPointsIntoBoxes(const T& poin
 
 template <class T> void NeighboursSearch<T>::findNearbyBoxes()
 {
-    size_t eqvW = static_cast<size_t>(m_rectWidth / m_radius);
-    size_t eqvH = static_cast<size_t>(m_rectHeight / m_radius);
+    auto eqvW = static_cast<size_t>(m_rectWidth / m_radius);
+    auto eqvH = static_cast<size_t>(m_rectHeight / m_radius);
 
     bool top = false;
     bool left = false;
@@ -302,7 +302,7 @@ template <class T> void NeighboursSearch3D<T>::insertPointsIntoBoxes(const T& po
     {
         // The Formula is created manually using height layers approach
 
-        size_t widthOffset = static_cast<size_t>(points[i].position.x / m_radius);
+        auto widthOffset = static_cast<size_t>(points[i].position.x / m_radius);
         size_t lengthOffset = static_cast<size_t>(points[i].position.y / m_radius) *
                               normalizedCuboidWidth;
         size_t heightOffset = static_cast<size_t>(points[i].position.z / m_radius) *

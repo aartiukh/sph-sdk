@@ -58,9 +58,9 @@ public:
 
     Area();
 
-    Area(const Rect& rect);
+    explicit Area(const Rect& rect);
 
-    ~Area();
+    ~Area() = default;
 
     double areaFunction(double x, double y);
 
@@ -84,9 +84,10 @@ class Volume
 public:
 
     Volume();
-    Volume(const Cuboid& cube);
 
-    ~Volume();
+    explicit Volume(const Cuboid& cube);
+
+    ~Volume() = default;
 
     Cuboid getBoundingCuboid() const;
 
