@@ -15,6 +15,11 @@ Area::Area() : m_boundingRect(Rect())
 {
 }
 
+double Area::areaFunction(double /*x*/, double /*y*/)
+{
+  return 0.;
+}
+
 Area::Area(const Rect& rect) : m_boundingRect(rect)
 {
 }

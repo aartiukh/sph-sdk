@@ -62,6 +62,8 @@ public:
 
     ~Area() = default;
 
+    double areaFunction(double x, double y);
+
     Rect getBoundingRect() const;
 
     bool isInsideArea(const Point2D& point);
