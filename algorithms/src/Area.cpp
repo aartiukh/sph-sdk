@@ -34,8 +34,6 @@ bool Area::isInsideArea(const Point2D& /*point*/)
     return false;
 }
 
-// ---------------------------
-
 Volume::Volume() :
     m_boundingCuboid(Cuboid()) {}
 
