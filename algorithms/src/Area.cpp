@@ -15,17 +15,13 @@ Area::Area() : m_boundingRect(Rect())
 {
 }
 
-Area::Area(const Rect& rect) : m_boundingRect(rect)
-{
-}
-
-Area::~Area()
-{
-}
-
 double Area::areaFunction(double /*x*/, double /*y*/)
 {
-    return 0.;
+  return 0.;
+}
+
+Area::Area(const Rect& rect) : m_boundingRect(rect)
+{
 }
 
 Rect Area::getBoundingRect() const
@@ -38,16 +34,11 @@ bool Area::isInsideArea(const Point2D& /*point*/)
     return false;
 }
 
-// ---------------------------
-
 Volume::Volume() :
     m_boundingCuboid(Cuboid()) {}
 
 Volume::Volume(const Cuboid& cube) :
     m_boundingCuboid(cube) {}
-
-Volume::~Volume()
-    {}
 
 Cuboid Volume::getBoundingCuboid() const
 {

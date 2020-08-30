@@ -8,9 +8,9 @@
 #define DEFINES_H_B25DE75875BB40248241AD0DFE5A69FC
 
 #include <vector>
-#include <stddef.h>
+#include <cstddef>
 
-//TODO: move to commom
+//TODO: move to common
 
 namespace SPHAlgorithms
 {

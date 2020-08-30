@@ -14,23 +14,23 @@ namespace SPHSDK
 
 void Integrator::integrate(double timeStep, ParticleVect& particles)
 {
-    for (ParticleVectIter iter = particles.begin(); iter != particles.end(); ++iter)
+    for (auto& particle : particles)
     {
-        iter->previous_position = iter->position;
+        particle.previous_position = particle.position;
 
-        const SPHAlgorithms::Point3D prevAcceleration = iter->acceleration;
+        const SPHAlgorithms::Point3D prevAcceleration = particle.acceleration;
 
-        if (std::abs(iter->density) > 0.)
-            iter->acceleration = iter->fTotal / iter->density;
+        if (std::abs(particle.density) > 0.)
+            particle.acceleration = particle.fTotal / particle.density;
 
-        const SPHAlgorithms::Point3D prevVelocity = iter->velocity;
+        const SPHAlgorithms::Point3D prevVelocity = particle.velocity;
 
-        iter->velocity += (prevAcceleration + iter->acceleration) / 2.0 * timeStep;
+        particle.velocity += (prevAcceleration + particle.acceleration) / 2.0 * timeStep;
 
-        if (iter->velocity.calcNormSqr() > Config::SpeedTreshold)
-            iter->velocity = prevVelocity;
+        if (particle.velocity.calcNormSqr() > Config::SpeedTreshold)
+            particle.velocity = prevVelocity;
 
-        iter->position += prevVelocity * timeStep + prevAcceleration / 2.0 * timeStep * timeStep;
+        particle.position += prevVelocity * timeStep + prevAcceleration / 2.0 * timeStep * timeStep;
     }
 }
 

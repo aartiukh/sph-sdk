@@ -2,39 +2,39 @@
 
 #include "Config.h"
 #include "algorithms/src/Area.h"
-#include "algorithms/src/NeighboursSearch.h"
+
 
 namespace SPHSDK
 {
 
 // (Formula 4.35)
-static double calculateF(SPHAlgorithms::Point3D differenceParticleNeighbour)
+static double calculateF(const SPHAlgorithms::Point3D& differenceParticleNeighbour)
 {
     return differenceParticleNeighbour.calcNormSqr() - Config::ParticleRadius * Config::ParticleRadius;
 }
 
 // (Formula 4.36)
-static SPHAlgorithms::Point3D calculateContactPoint(SPHAlgorithms::Point3D particlePosition,
-                                                    SPHAlgorithms::Point3D differenceParticleNeighbour)
+static SPHAlgorithms::Point3D calculateContactPoint(const SPHAlgorithms::Point3D& particlePosition,
+                                                    const SPHAlgorithms::Point3D& differenceParticleNeighbour)
 {
-    double particleDistance = differenceParticleNeighbour.calcNorm();
+    const double particleDistance = differenceParticleNeighbour.calcNorm();
     return particlePosition + (differenceParticleNeighbour / particleDistance) * Config::ParticleRadius;
 }
 
 // (Formula 4.38)
-static SPHAlgorithms::Point3D calculateSurfaceNormal(SPHAlgorithms::Point3D differenceParticleNeighbour)
+static SPHAlgorithms::Point3D calculateSurfaceNormal(const SPHAlgorithms::Point3D& differenceParticleNeighbour)
 {
-    double particleDistance = differenceParticleNeighbour.calcNorm();
+    const double particleDistance = differenceParticleNeighbour.calcNorm();
     return -differenceParticleNeighbour / particleDistance;
 }
 
 // (Formula 4.56)
-static SPHAlgorithms::Point3D calculateVelocity(SPHAlgorithms::Point3D particleVelocity,
-                                                SPHAlgorithms::Point3D differenceParticleNeighbour)
+static SPHAlgorithms::Point3D calculateVelocity(const SPHAlgorithms::Point3D& particleVelocity,
+                                                const SPHAlgorithms::Point3D& differenceParticleNeighbour)
 {
-    double scalarProduct = particleVelocity.x * differenceParticleNeighbour.x +
-                           particleVelocity.y * differenceParticleNeighbour.y +
-                           particleVelocity.z * differenceParticleNeighbour.z;
+    const double scalarProduct = particleVelocity.x * differenceParticleNeighbour.x +
+                                 particleVelocity.y * differenceParticleNeighbour.y +
+                                 particleVelocity.z * differenceParticleNeighbour.z;
     return particleVelocity - differenceParticleNeighbour * 2 * scalarProduct;
 }
 
