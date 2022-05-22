@@ -1,5 +1,5 @@
 project(algorithms_tests)
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.1)
 
 file(GLOB ALGORITHMS_TEST_SRC_LIST_INCLUDE "${PROJECT_SOURCE_DIR}/src/NeighboursSearchTestSuite.h"
                                            "${PROJECT_SOURCE_DIR}/src/ROperationsTestSuite.h"
