@@ -35,3 +35,4 @@ build/*
 *.user
 .idea/*
 cmake-*/
+.vscode/
