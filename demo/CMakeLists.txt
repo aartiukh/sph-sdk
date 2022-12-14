@@ -1,13 +1,9 @@
-project(sph-demo)
-cmake_minimum_required(VERSION 3.1)
+file(GLOB SPH_DEMO_SRC_LIST_SOURCE  "src/main.cpp"
+                                    "src/Draw.cpp")
 
-file(GLOB SPH_DEMO_SRC_LIST_SOURCE  "${PROJECT_SOURCE_DIR}/src/main.cpp"
-                                    "${PROJECT_SOURCE_DIR}/src/Draw.cpp")
-
-file(GLOB SPH_DEMO_INC_LIST_SOURCE  "${PROJECT_SOURCE_DIR}/src/Draw.h")
+file(GLOB SPH_DEMO_INC_LIST_SOURCE  "src/Draw.h")
 
 find_package(OpenGL REQUIRED)
-find_package(FreeGlutBuild REQUIRED)
 
 include_directories(${GLUT_INCLUDE_DIR} ${OPENGL_INCLUDE_DIR})
 
@@ -16,5 +12,3 @@ target_link_libraries(${PROJECT_NAME} algorithms sph ${GLUT_LIBRARIES} ${OPENGL_
 if (UNIX)
     target_link_libraries(${PROJECT_NAME} X11 Xrandr Xxf86vm Xi)
 endif()
-
-add_dependencies(${PROJECT_NAME} freeglut-external)

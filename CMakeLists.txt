@@ -1,4 +1,5 @@
-project(sph-sdk)
+cmake_policy(SET CMP0048 NEW)
+project(sph-sdk VERSION 1.0.0 LANGUAGES CXX)
 cmake_minimum_required(VERSION 3.1)
 
 set(SPH_SDK_VERSION_MAJOR 1)
@@ -42,4 +43,4 @@ endif()
 add_subdirectory(thirdparty)
 add_subdirectory(algorithms)
 add_subdirectory(sph)
-add_subdirectory(demo)
+# add_subdirectory(demo)
