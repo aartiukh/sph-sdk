@@ -1,6 +1,8 @@
 #include "Draw.h"
 
-#include <GL/glut.h>
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
+
 #include <iostream>
 #include <stdlib.h>
 #include <time.h>
@@ -29,7 +31,7 @@ static SPHSDK::SPH sph;
 
 static SPHAlgorithms::Point3FVector mesh;
 
-void renderSphere(float x, float y, float z, double radius, double velocity, int subdivisions, GLUquadricObj* quadric)
+void renderSphere(float x, float y, float z, double radius, double velocity, int subdivisions/*, GLUquadricObj* quadric*/)
 {
     glPushMatrix();
     glTranslatef(x, y, z);
@@ -56,7 +58,7 @@ void renderSphere(float x, float y, float z, double radius, double velocity, int
     }
 
     glColor3f(red, green, blue);
-    gluSphere(quadric, radius, subdivisions, subdivisions);
+    // gluSphere(quadric, radius, subdivisions, subdivisions);
 
     glPopMatrix();
 }
@@ -64,10 +66,10 @@ void renderSphere(float x, float y, float z, double radius, double velocity, int
 void renderSphere_convenient(float x, float y, float z, double radius, double velocity, int subdivisions)
 {
     // the same quadric can be re-used for drawing many spheres
-    GLUquadricObj* quadric = gluNewQuadric();
-    gluQuadricNormals(quadric, GLU_SMOOTH);
-    renderSphere(x, y, z, radius, velocity, subdivisions, quadric);
-    gluDeleteQuadric(quadric);
+    // GLUquadricObj* quadric = gluNewQuadric();
+    // gluQuadricNormals(quadric, GLU_SMOOTH);
+    // renderSphere(x, y, z, radius, velocity, subdivisions, quadric);
+    // gluDeleteQuadric(quadric);
 }
 
 void setOrthographicProjection()
@@ -83,7 +85,7 @@ void setOrthographicProjection()
     glLoadIdentity();
 
     // set a 2D orthographic projection
-    gluOrtho2D(0, width, height, 0);
+    // gluOrtho2D(0, width, height, 0);
 
     // switch back to modelview mode
     glMatrixMode(GL_MODELVIEW);
@@ -117,7 +119,7 @@ void MyDisplay(void)
     glMatrixMode(GL_MODELVIEW);
 
     glLoadIdentity();
-    gluLookAt(7.0, 8.0, 5.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
+    // gluLookAt(7.0, 8.0, 5.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
     glRotatef(angle, -1, 0, 0);
 
     sph.run();
@@ -184,7 +186,7 @@ void MyDisplay(void)
 
     setOrthographicProjection();
     resetPerspectiveProjection();
-    glutSwapBuffers();
+    // glutSwapBuffers();
 
     glFlush();
 }
@@ -192,24 +194,24 @@ void MyDisplay(void)
 // reshape function
 void reshape(int w, int h)
 {
-    const double aspect = static_cast<double>(w) / h;
+    // const double aspect = static_cast<double>(w) / h;
 
     glViewport(0, 0, w, h);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
+    // glMatrixMode(GL_PROJECTION);
+    // glLoadIdentity();
 
     // enable perspective projection with fovy, aspect, zNear and zFar
-    gluPerspective(35.0, aspect, 0.1, 1000.0);
+    // gluPerspective(35.0, aspect, 0.1, 1000.0);
 }
 
 /// timer function
 void timf(int /*value*/)
 {
     // redraw windows
-    glutPostRedisplay();
+    // glutPostRedisplay();
 
     // setup next timer
-    glutTimerFunc(30, timf, 0);
+    // glutTimerFunc(30, timf, 0);
 }
 
 void processNormalKeys(unsigned char key, int /*x*/, int /*y*/)
@@ -236,21 +238,21 @@ void updateGravity()
 
 void processSpecialKeys(int key, int /*xx*/, int /*yy*/)
 {
-    switch (key)
-    {
-        case GLUT_KEY_UP:
-            angle -= 0.5;
-            updateGravity();
-            break;
-        case GLUT_KEY_DOWN:
-            angle += 0.5;
-            updateGravity();
-            break;
-        case GLUT_KEY_HOME:
-            angle = 360.0;
-            SPHSDK::Config::GravitationalAcceleration = SPHAlgorithms::Point3D(0.0, 0.0, -9.82);
-            break;
-    }
+    // switch (key)
+    // {
+    //     case GLUT_KEY_UP:
+    //         angle -= 0.5;
+    //         updateGravity();
+    //         break;
+    //     case GLUT_KEY_DOWN:
+    //         angle += 0.5;
+    //         updateGravity();
+    //         break;
+    //     case GLUT_KEY_HOME:
+    //         angle = 360.0;
+    //         SPHSDK::Config::GravitationalAcceleration = SPHAlgorithms::Point3D(0.0, 0.0, -9.82);
+    //         break;
+    // }
 }
 
 void Draw::MainDraw(int argc, char** argv)
@@ -261,38 +263,38 @@ void Draw::MainDraw(int argc, char** argv)
     mesh = SPHAlgorithms::MarchingCubes::generateMesh(obstacle);
 
     // GLUT initialization
-    glutInit(&argc, argv);
+    // glutInit(&argc, argv);
 
     // set up window size
-    glutInitWindowSize(width, height);
+    // glutInitWindowSize(width, height);
 
     // set up window position
-    glutInitWindowPosition(0, 0);
+    // glutInitWindowPosition(0, 0);
 
     // create GLUT window
-    glutCreateWindow("SPH model");
+    // glutCreateWindow("SPH model");
 
     // set up display mode
-    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+    // glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 
     glEnable(GL_DEPTH_TEST);
 
-    glutKeyboardFunc(processNormalKeys);
+    // glutKeyboardFunc(processNormalKeys);
 
-    glutSpecialFunc(processSpecialKeys);
+    // glutSpecialFunc(processSpecialKeys);
 
     // run main display function
-    glutDisplayFunc(MyDisplay);
+    // glutDisplayFunc(MyDisplay);
 
     // run reshape function
-    glutReshapeFunc(reshape);
+    // glutReshapeFunc(reshape);
 
     // set up timer for 40ms, about 25 fps
-    glutTimerFunc(0, timf, 0);
+    // glutTimerFunc(0, timf, 0);
 
     // set up color
-    glClearColor(0., 0., 0., 0);
+    // glClearColor(0., 0., 0., 0);
 
     // enter the GLUT event processing loop
-    glutMainLoop();
+    // glutMainLoop();
 }
