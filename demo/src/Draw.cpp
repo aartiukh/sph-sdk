@@ -26,6 +26,8 @@
 #include "sph/src/Config.h"
 #include "sph/src/SPH.h"
 
+// Window dimensions
+float aspect_ratio = 1.;
 static int width = 900;
 static int height = 900;
 
@@ -182,15 +184,6 @@ void MyDisplay(void)
     glFlush();
 }
 
-void processNormalKeys(unsigned char key, int /*x*/, int /*y*/)
-{
-    switch (key)
-    {
-        case 27: // ESC
-            exit(0);
-    }
-}
-
 void updateGravity()
 {
     //   |1     0           0| |x|   |        x        |   |x'|
@@ -203,6 +196,13 @@ void updateGravity()
                                SPHSDK::Config::InitialGravitationalAcceleration.y * sin(angle / 180 * M_PI) +
                                    SPHSDK::Config::InitialGravitationalAcceleration.z * cos(angle / 180 * M_PI));
 }
+
+void resize_callback(GLFWwindow* window, int width, int height)
+{
+    glViewport(0, 0, width, height);
+    aspect_ratio = height ? width / (float) height : 1.f;
+}
+
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
@@ -252,22 +252,15 @@ void Draw::MainDraw(int argc, char** argv)
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
 
+    glfwSetFramebufferSizeCallback(window, resize_callback);
     glfwSetKeyCallback(window, key_callback);
+
+    // Set initial aspect ratio
+    glfwGetFramebufferSize(window, &width, &height);
+    resize_callback(window, width, height);
 
     while (!glfwWindowShouldClose(window))
     {
-        glfwGetFramebufferSize(window, &width, &height);
-        const float ratio = width / (float) height;
-
-        glViewport(0, 0, width, height);
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        mat4x4 m, p, mvp;
-        mat4x4_identity(m);
-        mat4x4_rotate_Z(m, m, (float) glfwGetTime());
-        mat4x4_ortho(p, -ratio, ratio, -1.f, 1.f, 1.f, -1.f);
-        mat4x4_mul(mvp, p, m);
-
         MyDisplay();
 
         glfwSwapBuffers(window);
