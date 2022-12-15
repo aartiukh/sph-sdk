@@ -262,8 +262,10 @@ void Draw::MainDraw(int argc, char** argv)
 
     mesh = SPHAlgorithms::MarchingCubes::generateMesh(obstacle);
 
-    // GLUT initialization
-    // glutInit(&argc, argv);
+    // GLFW initialization
+    if (!glfwInit()) {
+        exit(EXIT_FAILURE);
+    }
 
     // set up window size
     // glutInitWindowSize(width, height);
@@ -277,7 +279,7 @@ void Draw::MainDraw(int argc, char** argv)
     // set up display mode
     // glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 
-    glEnable(GL_DEPTH_TEST);
+    // glEnable(GL_DEPTH_TEST);
 
     // glutKeyboardFunc(processNormalKeys);
 

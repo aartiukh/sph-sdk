@@ -14,4 +14,10 @@ target_link_libraries(${PROJECT_NAME} algorithms sph ${GLFW_LIBRARY} ${OPENGL_LI
 #    target_link_libraries(${PROJECT_NAME} X11 Xrandr Xxf86vm Xi)
 # endif()
 
+if (APPLE)
+    find_library(COCOA_LIBRARY Cocoa)
+    find_library(IO_KIT_LIBRARY IOKit)
+    target_link_libraries(${PROJECT_NAME} ${COCOA_LIBRARY} ${IO_KIT_LIBRARY})
+endif()
+
 add_dependencies(${PROJECT_NAME} glfw-external)
