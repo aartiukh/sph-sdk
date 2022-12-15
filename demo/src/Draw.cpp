@@ -78,42 +78,32 @@ void renderSphere_convenient(float x, float y, float z, double radius, double ve
     // gluDeleteQuadric(quadric);
 }
 
-void setOrthographicProjection()
-{
-    // switch to projection mode
-    glMatrixMode(GL_PROJECTION);
-
-    // save previous matrix which contains the
-    // settings for the perspective projection
-    glPushMatrix();
-
-    // reset matrix
-    glLoadIdentity();
-
-    // set a 2D orthographic projection
-    // gluOrtho2D(0, width, height, 0);
-
-    // switch back to modelview mode
-    glMatrixMode(GL_MODELVIEW);
-}
-
-void resetPerspectiveProjection()
-{
-    glMatrixMode(GL_PROJECTION);
-    glPopMatrix();
-    glMatrixMode(GL_MODELVIEW);
-}
-
 void MyDisplay(void)
 {
-    // clock_t t;
-    // t = clock();
+    mat4x4 view;
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    // Enable depth test
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LEQUAL);
+
+    // Setup orthogonal projection matrix
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(-3.0 * aspect_ratio, 3.0 * aspect_ratio, -3.0, 3.0, 1.0, 50.0);
+
     glMatrixMode(GL_MODELVIEW);
 
     glLoadIdentity();
-    // gluLookAt(7.0, 8.0, 5.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
+    {
+      vec3 eye = { 7.f, 8.f, 5.f };
+      vec3 center = { 0.f, 0.f, 0.f };
+      vec3 up = { 0.f, 0.f, 1.f };
+      mat4x4_look_at( view, eye, center, up );
+    }
+
+    glLoadMatrixf((const GLfloat*) view);
     glRotatef(angle, -1, 0, 0);
 
     sph.run();
@@ -177,9 +167,6 @@ void MyDisplay(void)
     glVertex3f(0.f, cubeSize, 0.f);
     glVertex3f(cubeSize, cubeSize, 0.f);
     glEnd();
-
-    setOrthographicProjection();
-    resetPerspectiveProjection();
 
     glFlush();
 }
