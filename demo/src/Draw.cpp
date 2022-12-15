@@ -76,7 +76,7 @@ void renderSphere_convenient(float x, float y, float z, double radius, double ve
     // gluDeleteQuadric(quadric);
 }
 
-void cd ()
+void setOrthographicProjection()
 {
     // switch to projection mode
     glMatrixMode(GL_PROJECTION);
