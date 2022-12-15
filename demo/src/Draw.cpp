@@ -267,8 +267,19 @@ void Draw::MainDraw(int argc, char** argv)
         exit(EXIT_FAILURE);
     }
 
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+
     // set up window size
-    // glutInitWindowSize(width, height);
+    auto window = glfwCreateWindow(width, height, "SPH model", NULL, NULL);
+    if (!window)
+    {
+        glfwTerminate();
+        exit(EXIT_FAILURE);
+    }
+
+    glfwMakeContextCurrent(window);
+    glfwSwapInterval(1);
 
     // set up window position
     // glutInitWindowPosition(0, 0);
@@ -299,4 +310,15 @@ void Draw::MainDraw(int argc, char** argv)
 
     // enter the GLUT event processing loop
     // glutMainLoop();
+
+    while (!glfwWindowShouldClose(window))
+    {
+        // draw_scene(window, glfwGetTime());
+
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
+
+    glfwDestroyWindow(window);
+    glfwTerminate();
 }
