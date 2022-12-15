@@ -1,7 +1,11 @@
 #include "Draw.h"
 
+#define GL_SILENCE_DEPRECATION
+
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
+
+#include "linmath.h"
 
 #include <iostream>
 #include <stdlib.h>
@@ -72,7 +76,7 @@ void renderSphere_convenient(float x, float y, float z, double radius, double ve
     // gluDeleteQuadric(quadric);
 }
 
-void setOrthographicProjection()
+void cd ()
 {
     // switch to projection mode
     glMatrixMode(GL_PROJECTION);
@@ -97,18 +101,6 @@ void resetPerspectiveProjection()
     glPopMatrix();
     glMatrixMode(GL_MODELVIEW);
 }
-
-// void renderVerticalBitmapString(float x, float y, int bitmapHeight, void *font, char *string)
-//{
-//    char *c;
-//    int i;
-//
-//    for (c = string, i = 0; *c != '\0'; i++, c++)
-//    {
-//        glRasterPos2f(x + bitmapHeight * i, y);
-//        glutBitmapCharacter(font, *c);
-//    }
-//}
 
 void MyDisplay(void)
 {
@@ -186,32 +178,8 @@ void MyDisplay(void)
 
     setOrthographicProjection();
     resetPerspectiveProjection();
-    // glutSwapBuffers();
 
     glFlush();
-}
-
-// reshape function
-void reshape(int w, int h)
-{
-    // const double aspect = static_cast<double>(w) / h;
-
-    glViewport(0, 0, w, h);
-    // glMatrixMode(GL_PROJECTION);
-    // glLoadIdentity();
-
-    // enable perspective projection with fovy, aspect, zNear and zFar
-    // gluPerspective(35.0, aspect, 0.1, 1000.0);
-}
-
-/// timer function
-void timf(int /*value*/)
-{
-    // redraw windows
-    // glutPostRedisplay();
-
-    // setup next timer
-    // glutTimerFunc(30, timf, 0);
 }
 
 void processNormalKeys(unsigned char key, int /*x*/, int /*y*/)
@@ -236,23 +204,26 @@ void updateGravity()
                                    SPHSDK::Config::InitialGravitationalAcceleration.z * cos(angle / 180 * M_PI));
 }
 
-void processSpecialKeys(int key, int /*xx*/, int /*yy*/)
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-    // switch (key)
-    // {
-    //     case GLUT_KEY_UP:
-    //         angle -= 0.5;
-    //         updateGravity();
-    //         break;
-    //     case GLUT_KEY_DOWN:
-    //         angle += 0.5;
-    //         updateGravity();
-    //         break;
-    //     case GLUT_KEY_HOME:
-    //         angle = 360.0;
-    //         SPHSDK::Config::GravitationalAcceleration = SPHAlgorithms::Point3D(0.0, 0.0, -9.82);
-    //         break;
-    // }
+    switch (key)
+    {
+        case GLFW_KEY_UP:
+            angle -= 0.5;
+            updateGravity();
+            break;
+        case GLFW_KEY_DOWN:
+            angle += 0.5;
+            updateGravity();
+            break;
+        case GLFW_KEY_HOME:
+            angle = 360.0;
+            SPHSDK::Config::GravitationalAcceleration = SPHAlgorithms::Point3D(0.0, 0.0, -9.82);
+            break;
+        case GLFW_KEY_ESCAPE:
+            glfwSetWindowShouldClose(window, GLFW_TRUE);
+            break;
+    }
 }
 
 void Draw::MainDraw(int argc, char** argv)
@@ -281,39 +252,23 @@ void Draw::MainDraw(int argc, char** argv)
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
 
-    // set up window position
-    // glutInitWindowPosition(0, 0);
-
-    // create GLUT window
-    // glutCreateWindow("SPH model");
-
-    // set up display mode
-    // glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
-
-    // glEnable(GL_DEPTH_TEST);
-
-    // glutKeyboardFunc(processNormalKeys);
-
-    // glutSpecialFunc(processSpecialKeys);
-
-    // run main display function
-    // glutDisplayFunc(MyDisplay);
-
-    // run reshape function
-    // glutReshapeFunc(reshape);
-
-    // set up timer for 40ms, about 25 fps
-    // glutTimerFunc(0, timf, 0);
-
-    // set up color
-    // glClearColor(0., 0., 0., 0);
-
-    // enter the GLUT event processing loop
-    // glutMainLoop();
+    glfwSetKeyCallback(window, key_callback);
 
     while (!glfwWindowShouldClose(window))
     {
-        // draw_scene(window, glfwGetTime());
+        glfwGetFramebufferSize(window, &width, &height);
+        const float ratio = width / (float) height;
+
+        glViewport(0, 0, width, height);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        mat4x4 m, p, mvp;
+        mat4x4_identity(m);
+        mat4x4_rotate_Z(m, m, (float) glfwGetTime());
+        mat4x4_ortho(p, -ratio, ratio, -1.f, 1.f, 1.f, -1.f);
+        mat4x4_mul(mvp, p, m);
+
+        MyDisplay();
 
         glfwSwapBuffers(window);
         glfwPollEvents();
