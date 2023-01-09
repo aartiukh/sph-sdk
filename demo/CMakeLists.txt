@@ -18,7 +18,7 @@ if (APPLE)
     find_library(IO_KIT_LIBRARY IOKit)
     target_link_libraries(${PROJECT_NAME} ${COCOA_LIBRARY} ${IO_KIT_LIBRARY})
 elseif (UNIX) 
-    target_link_libraries(${PROJECT_NAME} X11 Xrandr Xxf86vm Xi Threads::Threads)
+    target_link_libraries(${PROJECT_NAME} X11 Xrandr Xxf86vm Xi Threads::Threads ${CMAKE_DL_LIBS})
 endif()
 
 add_dependencies(${PROJECT_NAME} glfw-external)
