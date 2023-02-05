@@ -69,14 +69,12 @@ void renderSphere(float x, float y, float z, double radius, double velocity, int
     glPopMatrix();
 }
 
-void renderSphere_convenient(float x, float y, float z, double radius, double velocity, int subdivisions)
+struct SVertex
 {
-    // the same quadric can be re-used for drawing many spheres
-    // GLUquadricObj* quadric = gluNewQuadric();
-    // gluQuadricNormals(quadric, GLU_SMOOTH);
-    // renderSphere(x, y, z, radius, velocity, subdivisions, quadric);
-    // gluDeleteQuadric(quadric);
-}
+    GLfloat x,y,z;
+    GLfloat r,g,b;
+};
+
 
 void MyDisplay(void)
 {
@@ -119,12 +117,49 @@ void MyDisplay(void)
     }
     glEnd();
 
-    for (auto& particle : sph.particles)
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_COLOR_ARRAY);
+    glPointSize(5);
+
+    auto points = new SVertex[SPHSDK::Config::ParticlesNumber];
+
+    for (size_t i = 0; i < sph.particles.size(); ++i)
     {
-        renderSphere_convenient(static_cast<float>(particle.position.x), static_cast<float>(particle.position.y),
-                                static_cast<float>(particle.position.z), particle.radius,
-                                particle.velocity.calcNormSqr(), 4);
+        points[i].x = static_cast<GLfloat>(sph.particles[i].position.x);
+        points[i].y = static_cast<GLfloat>(sph.particles[i].position.y);
+        points[i].z = static_cast<GLfloat>(sph.particles[i].position.z);
+
+        const double velocity = sph.particles[i].velocity.calcNormSqr();
+        // color depends on velocity
+        if (velocity > SPHSDK::Config::SpeedTreshold / 2.)
+        {
+            points[i].r = 1.0f;
+            points[i].g = 0.0f;
+            points[i].b = 0.0f;
+        }
+        else if (velocity > SPHSDK::Config::SpeedTreshold / 4.)
+        {
+            points[i].r = 0.99f;
+            points[i].g = 0.7f;
+            points[i].b = 0.0f;
+        }
+        else
+        {
+            points[i].r = 0.0f;
+            points[i].g = 0.0f;
+            points[i].b = 1.0f;
+        }
     }
+
+
+    glVertexPointer(3, GL_FLOAT, sizeof(SVertex), points);
+    glColorPointer(3, GL_FLOAT, sizeof(SVertex),&points[0].r);
+    glDrawArrays(GL_POINTS, 0, SPHSDK::Config::ParticlesNumber);
+
+    delete [] points;
+
+    glDisableClientState(GL_COLOR_ARRAY);
+    glDisableClientState(GL_VERTEX_ARRAY);
 
     glColor3f(1.0, 0.0, 0.0);
 
