@@ -32,6 +32,7 @@ static int width = 900;
 static int height = 900;
 
 static float angle = 360;
+static const GLfloat pointSize = 5.f;
 
 static SPHSDK::SPH sph;
 
@@ -89,7 +90,7 @@ void MyDisplay(void)
 
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
-    glPointSize(5);
+    glPointSize(pointSize);
 
     for (size_t i = 0; i < sph.particles.size(); ++i)
     {
