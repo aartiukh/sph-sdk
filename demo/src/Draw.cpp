@@ -1,6 +1,12 @@
 #include "Draw.h"
 
-#include <GL/glut.h>
+#define GL_SILENCE_DEPRECATION
+
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
+
+#include "linmath.h"
+
 #include <iostream>
 #include <stdlib.h>
 #include <time.h>
@@ -20,104 +26,53 @@
 #include "sph/src/Config.h"
 #include "sph/src/SPH.h"
 
+// Window dimensions
+float aspect_ratio = 1.;
 static int width = 900;
 static int height = 900;
 
 static float angle = 360;
+static const GLfloat pointSize = 5.f;
 
 static SPHSDK::SPH sph;
 
 static SPHAlgorithms::Point3FVector mesh;
 
-void renderSphere(float x, float y, float z, double radius, double velocity, int subdivisions, GLUquadricObj* quadric)
+struct SVertex
 {
-    glPushMatrix();
-    glTranslatef(x, y, z);
+    GLfloat x,y,z;
+    GLfloat r,g,b;
+};
 
-    float red = 0.f;
-    float blue = 0.f;
-    float green = 0.f;
-
-    glColor3f(red, green, blue);
-
-    // color depends on velocity
-    if (velocity > SPHSDK::Config::SpeedTreshold / 2.)
-    {
-        red = 1.0f;
-    }
-    else if (velocity > SPHSDK::Config::SpeedTreshold / 4.)
-    {
-        red = 0.99f;
-        green = 0.7f;
-    }
-    else
-    {
-        blue = 1.0f;
-    }
-
-    glColor3f(red, green, blue);
-    gluSphere(quadric, radius, subdivisions, subdivisions);
-
-    glPopMatrix();
-}
-
-void renderSphere_convenient(float x, float y, float z, double radius, double velocity, int subdivisions)
-{
-    // the same quadric can be re-used for drawing many spheres
-    GLUquadricObj* quadric = gluNewQuadric();
-    gluQuadricNormals(quadric, GLU_SMOOTH);
-    renderSphere(x, y, z, radius, velocity, subdivisions, quadric);
-    gluDeleteQuadric(quadric);
-}
-
-void setOrthographicProjection()
-{
-    // switch to projection mode
-    glMatrixMode(GL_PROJECTION);
-
-    // save previous matrix which contains the
-    // settings for the perspective projection
-    glPushMatrix();
-
-    // reset matrix
-    glLoadIdentity();
-
-    // set a 2D orthographic projection
-    gluOrtho2D(0, width, height, 0);
-
-    // switch back to modelview mode
-    glMatrixMode(GL_MODELVIEW);
-}
-
-void resetPerspectiveProjection()
-{
-    glMatrixMode(GL_PROJECTION);
-    glPopMatrix();
-    glMatrixMode(GL_MODELVIEW);
-}
-
-// void renderVerticalBitmapString(float x, float y, int bitmapHeight, void *font, char *string)
-//{
-//    char *c;
-//    int i;
-//
-//    for (c = string, i = 0; *c != '\0'; i++, c++)
-//    {
-//        glRasterPos2f(x + bitmapHeight * i, y);
-//        glutBitmapCharacter(font, *c);
-//    }
-//}
+// TODO: optimize this, do not copy arrays to draw
+std::vector<SVertex> points(SPHSDK::Config::ParticlesNumber);
 
 void MyDisplay(void)
 {
-    // clock_t t;
-    // t = clock();
+    mat4x4 view;
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    // Enable depth test
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LEQUAL);
+
+    // Setup orthogonal projection matrix
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(-3.0 * aspect_ratio, 3.0 * aspect_ratio, -3.0, 3.0, 1.0, 50.0);
+
     glMatrixMode(GL_MODELVIEW);
 
     glLoadIdentity();
-    gluLookAt(7.0, 8.0, 5.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
+    {
+      vec3 eye = { 7.f, 8.f, 5.f };
+      vec3 center = { 0.f, 0.f, 0.f };
+      vec3 up = { 0.f, 0.f, 1.f };
+      mat4x4_look_at(view, eye, center, up);
+    }
+
+    glLoadMatrixf((const GLfloat*) view);
     glRotatef(angle, -1, 0, 0);
 
     sph.run();
@@ -133,12 +88,44 @@ void MyDisplay(void)
     }
     glEnd();
 
-    for (auto& particle : sph.particles)
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_COLOR_ARRAY);
+    glPointSize(pointSize);
+
+    for (size_t i = 0; i < sph.particles.size(); ++i)
     {
-        renderSphere_convenient(static_cast<float>(particle.position.x), static_cast<float>(particle.position.y),
-                                static_cast<float>(particle.position.z), particle.radius,
-                                particle.velocity.calcNormSqr(), 4);
+        points[i].x = static_cast<GLfloat>(sph.particles[i].position.x);
+        points[i].y = static_cast<GLfloat>(sph.particles[i].position.y);
+        points[i].z = static_cast<GLfloat>(sph.particles[i].position.z);
+
+        const double velocity = sph.particles[i].velocity.calcNormSqr();
+        // color depends on velocity
+        if (velocity > SPHSDK::Config::SpeedTreshold / 2.)
+        {
+            points[i].r = 1.0f;
+            points[i].g = 0.0f;
+            points[i].b = 0.0f;
+        }
+        else if (velocity > SPHSDK::Config::SpeedTreshold / 4.)
+        {
+            points[i].r = 0.99f;
+            points[i].g = 0.7f;
+            points[i].b = 0.0f;
+        }
+        else
+        {
+            points[i].r = 0.0f;
+            points[i].g = 0.0f;
+            points[i].b = 1.0f;
+        }
     }
+
+    glVertexPointer(3, GL_FLOAT, sizeof(SVertex), points.data());
+    glColorPointer(3, GL_FLOAT, sizeof(SVertex), &points[0].r);
+    glDrawArrays(GL_POINTS, 0, SPHSDK::Config::ParticlesNumber);
+
+    glDisableClientState(GL_COLOR_ARRAY);
+    glDisableClientState(GL_VERTEX_ARRAY);
 
     glColor3f(1.0, 0.0, 0.0);
 
@@ -182,43 +169,7 @@ void MyDisplay(void)
     glVertex3f(cubeSize, cubeSize, 0.f);
     glEnd();
 
-    setOrthographicProjection();
-    resetPerspectiveProjection();
-    glutSwapBuffers();
-
     glFlush();
-}
-
-// reshape function
-void reshape(int w, int h)
-{
-    const double aspect = static_cast<double>(w) / h;
-
-    glViewport(0, 0, w, h);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-
-    // enable perspective projection with fovy, aspect, zNear and zFar
-    gluPerspective(35.0, aspect, 0.1, 1000.0);
-}
-
-/// timer function
-void timf(int /*value*/)
-{
-    // redraw windows
-    glutPostRedisplay();
-
-    // setup next timer
-    glutTimerFunc(30, timf, 0);
-}
-
-void processNormalKeys(unsigned char key, int /*x*/, int /*y*/)
-{
-    switch (key)
-    {
-        case 27: // ESC
-            exit(0);
-    }
 }
 
 void updateGravity()
@@ -234,21 +185,31 @@ void updateGravity()
                                    SPHSDK::Config::InitialGravitationalAcceleration.z * cos(angle / 180 * M_PI));
 }
 
-void processSpecialKeys(int key, int /*xx*/, int /*yy*/)
+void resize_callback(GLFWwindow* window, int width, int height)
+{
+    glViewport(0, 0, width, height);
+    aspect_ratio = height ? width / (float) height : 1.f;
+}
+
+
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     switch (key)
     {
-        case GLUT_KEY_UP:
+        case GLFW_KEY_UP:
             angle -= 0.5;
             updateGravity();
             break;
-        case GLUT_KEY_DOWN:
+        case GLFW_KEY_DOWN:
             angle += 0.5;
             updateGravity();
             break;
-        case GLUT_KEY_HOME:
+        case GLFW_KEY_HOME:
             angle = 360.0;
             SPHSDK::Config::GravitationalAcceleration = SPHAlgorithms::Point3D(0.0, 0.0, -9.82);
+            break;
+        case GLFW_KEY_ESCAPE:
+            glfwSetWindowShouldClose(window, GLFW_TRUE);
             break;
     }
 }
@@ -260,39 +221,40 @@ void Draw::MainDraw(int argc, char** argv)
 
     mesh = SPHAlgorithms::MarchingCubes::generateMesh(obstacle);
 
-    // GLUT initialization
-    glutInit(&argc, argv);
+    // GLFW initialization
+    if (!glfwInit()) {
+        exit(EXIT_FAILURE);
+    }
+
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 
     // set up window size
-    glutInitWindowSize(width, height);
+    auto window = glfwCreateWindow(width, height, "SPH model", NULL, NULL);
+    if (!window)
+    {
+        glfwTerminate();
+        exit(EXIT_FAILURE);
+    }
 
-    // set up window position
-    glutInitWindowPosition(0, 0);
+    glfwMakeContextCurrent(window);
+    glfwSwapInterval(1);
 
-    // create GLUT window
-    glutCreateWindow("SPH model");
+    glfwSetFramebufferSizeCallback(window, resize_callback);
+    glfwSetKeyCallback(window, key_callback);
 
-    // set up display mode
-    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+    // Set initial aspect ratio
+    glfwGetFramebufferSize(window, &width, &height);
+    resize_callback(window, width, height);
 
-    glEnable(GL_DEPTH_TEST);
+    while (!glfwWindowShouldClose(window))
+    {
+        MyDisplay();
 
-    glutKeyboardFunc(processNormalKeys);
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
 
-    glutSpecialFunc(processSpecialKeys);
-
-    // run main display function
-    glutDisplayFunc(MyDisplay);
-
-    // run reshape function
-    glutReshapeFunc(reshape);
-
-    // set up timer for 40ms, about 25 fps
-    glutTimerFunc(0, timf, 0);
-
-    // set up color
-    glClearColor(0., 0., 0., 0);
-
-    // enter the GLUT event processing loop
-    glutMainLoop();
+    glfwDestroyWindow(window);
+    glfwTerminate();
 }
