@@ -11,6 +11,7 @@
 
 #include "Area.h"
 #include "NeighboursSearch.h"
+
 #include <stdexcept>
 
 #include <gtest/gtest.h>
