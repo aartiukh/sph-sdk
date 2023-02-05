@@ -46,7 +46,7 @@ static void initGeneralParticles()
 
 void ForcesTestSuite::densityForFourNeighbours()
 {
-    initGeneralParticles();
+    // initGeneralParticles();
 
     // Forces::ComputeDensity(generalParticleVect);
 
