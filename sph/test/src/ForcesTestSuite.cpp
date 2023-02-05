@@ -28,19 +28,19 @@ static void initGeneralParticles()
 
     for (size_t i = 0; i < numberOfParticles; ++i)
     {
-        generalParticleVect[i] = Particle(SPHAlgorithms::Point3D(0.5 + 0.1 * i, 0.5 + 0.1 * i, 0.5 + 0.1 * i), 0.1);
+        generalParticleVect[i] = Particle(SPHAlgorithms::Point3D(0.5 + 0.01 * i, 0.5 + 0.01 * i, 0.5 + 0.01 * i), 0.01);
         generalParticleVect[i].mass = Config::WaterParticleMass;
         generalParticleVect[i].supportRadius = Config::WaterSupportRadius;
     }
 
     generalParticleVect[0].velocity = SPHAlgorithms::Point3D(1.0, 1.0, 1.0);
     generalParticleVect[1].velocity = SPHAlgorithms::Point3D(0.5, 0.5, 0.5);
-    generalParticleVect[2].velocity = SPHAlgorithms::Point3D(0.1, 0.1, 0.1);
+    generalParticleVect[2].velocity = SPHAlgorithms::Point3D(0.01, 0.01, 0.01);
     generalParticleVect[3].velocity = SPHAlgorithms::Point3D(-0.5, -0.5, -0.5);
     generalParticleVect[4].velocity = SPHAlgorithms::Point3D(-1.0, -1.0, -1.0);
 
     SPHAlgorithms::Volume volume(SPHAlgorithms::Cuboid(SPHAlgorithms::Point3D(0.0, 0.0, 0.0), 1.0, 1.0, 1.0));
-    SPHAlgorithms::NeighboursSearch3D<ParticleVect> searcher(volume, Config::WaterSupportRadius, 0.01);
+    SPHAlgorithms::NeighboursSearch3D<ParticleVect> searcher(volume, Config::WaterSupportRadius, 0.001);
     searcher.search(generalParticleVect);
 }
 
