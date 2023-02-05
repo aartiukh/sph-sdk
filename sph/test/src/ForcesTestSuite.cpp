@@ -28,33 +28,33 @@ static void initGeneralParticles()
 
     for (size_t i = 0; i < numberOfParticles; ++i)
     {
-        generalParticleVect[i] = Particle(SPHAlgorithms::Point3D(0.5 + 0.01 * i, 0.5 + 0.01 * i, 0.5 + 0.01 * i), 0.01);
+        generalParticleVect[i] = Particle(SPHAlgorithms::Point3D(0.5 + 0.1 * i, 0.5 + 0.1 * i, 0.5 + 0.1 * i), 0.1);
         generalParticleVect[i].mass = Config::WaterParticleMass;
         generalParticleVect[i].supportRadius = Config::WaterSupportRadius;
     }
 
     generalParticleVect[0].velocity = SPHAlgorithms::Point3D(1.0, 1.0, 1.0);
     generalParticleVect[1].velocity = SPHAlgorithms::Point3D(0.5, 0.5, 0.5);
-    generalParticleVect[2].velocity = SPHAlgorithms::Point3D(0.01, 0.01, 0.01);
+    generalParticleVect[2].velocity = SPHAlgorithms::Point3D(0.1, 0.1, 0.1);
     generalParticleVect[3].velocity = SPHAlgorithms::Point3D(-0.5, -0.5, -0.5);
     generalParticleVect[4].velocity = SPHAlgorithms::Point3D(-1.0, -1.0, -1.0);
 
     SPHAlgorithms::Volume volume(SPHAlgorithms::Cuboid(SPHAlgorithms::Point3D(0.0, 0.0, 0.0), 1.0, 1.0, 1.0));
-    SPHAlgorithms::NeighboursSearch3D<ParticleVect> searcher(volume, Config::WaterSupportRadius, 0.001);
+    SPHAlgorithms::NeighboursSearch3D<ParticleVect> searcher(volume, Config::WaterSupportRadius, 0.01);
     searcher.search(generalParticleVect);
 }
 
 void ForcesTestSuite::densityForFourNeighbours()
 {
-    // initGeneralParticles();
+    initGeneralParticles();
 
-    // Forces::ComputeDensity(generalParticleVect);
+    Forces::ComputeDensity(generalParticleVect);
 
-    // EXPECT_NEAR(1633.2268932167424, generalParticleVect[0].density, Precision);
-    // EXPECT_NEAR(1657.4184918158344, generalParticleVect[1].density, Precision);
-    // EXPECT_NEAR(1666.5821684082164, generalParticleVect[2].density, Precision);
-    // EXPECT_NEAR(1657.4184918158344, generalParticleVect[3].density, Precision);
-    // EXPECT_NEAR(1633.2268932167424, generalParticleVect[4].density, Precision);
+    EXPECT_NEAR(1633.2268932167424, generalParticleVect[0].density, Precision);
+    EXPECT_NEAR(1657.4184918158344, generalParticleVect[1].density, Precision);
+    EXPECT_NEAR(1666.5821684082164, generalParticleVect[2].density, Precision);
+    EXPECT_NEAR(1657.4184918158344, generalParticleVect[3].density, Precision);
+    EXPECT_NEAR(1633.2268932167424, generalParticleVect[4].density, Precision);
 }
 
 void ForcesTestSuite::pressureForFourNeighbours()
