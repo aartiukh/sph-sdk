@@ -37,44 +37,14 @@ static SPHSDK::SPH sph;
 
 static SPHAlgorithms::Point3FVector mesh;
 
-void renderSphere(float x, float y, float z, double radius, double velocity, int subdivisions/*, GLUquadricObj* quadric*/)
-{
-    glPushMatrix();
-    glTranslatef(x, y, z);
-
-    float red = 0.f;
-    float blue = 0.f;
-    float green = 0.f;
-
-    glColor3f(red, green, blue);
-
-    // color depends on velocity
-    if (velocity > SPHSDK::Config::SpeedTreshold / 2.)
-    {
-        red = 1.0f;
-    }
-    else if (velocity > SPHSDK::Config::SpeedTreshold / 4.)
-    {
-        red = 0.99f;
-        green = 0.7f;
-    }
-    else
-    {
-        blue = 1.0f;
-    }
-
-    glColor3f(red, green, blue);
-    // gluSphere(quadric, radius, subdivisions, subdivisions);
-
-    glPopMatrix();
-}
-
 struct SVertex
 {
     GLfloat x,y,z;
     GLfloat r,g,b;
 };
 
+// TODO: optimize this, do not copy arrays to draw
+std::vector<SVertex> points(SPHSDK::Config::ParticlesNumber);
 
 void MyDisplay(void)
 {
@@ -98,7 +68,7 @@ void MyDisplay(void)
       vec3 eye = { 7.f, 8.f, 5.f };
       vec3 center = { 0.f, 0.f, 0.f };
       vec3 up = { 0.f, 0.f, 1.f };
-      mat4x4_look_at( view, eye, center, up );
+      mat4x4_look_at(view, eye, center, up);
     }
 
     glLoadMatrixf((const GLfloat*) view);
@@ -120,8 +90,6 @@ void MyDisplay(void)
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
     glPointSize(5);
-
-    auto points = new SVertex[SPHSDK::Config::ParticlesNumber];
 
     for (size_t i = 0; i < sph.particles.size(); ++i)
     {
@@ -151,12 +119,9 @@ void MyDisplay(void)
         }
     }
 
-
-    glVertexPointer(3, GL_FLOAT, sizeof(SVertex), points);
-    glColorPointer(3, GL_FLOAT, sizeof(SVertex),&points[0].r);
+    glVertexPointer(3, GL_FLOAT, sizeof(SVertex), points.data());
+    glColorPointer(3, GL_FLOAT, sizeof(SVertex), &points[0].r);
     glDrawArrays(GL_POINTS, 0, SPHSDK::Config::ParticlesNumber);
-
-    delete [] points;
 
     glDisableClientState(GL_COLOR_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);
