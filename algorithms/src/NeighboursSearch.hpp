@@ -12,6 +12,7 @@
 #include <cfloat>
 #include <cmath>
 
+
 namespace SPHAlgorithms
 {
 
@@ -206,10 +207,6 @@ template <class T> void NeighboursSearch<T>::findNearbyBoxes()
 
 // ---------------------------
 
-static size_t normalizedCuboidWidth;
-static size_t normalizedCuboidLength;
-static size_t normalizedCuboidHeight;
-
 template <class T>
 NeighboursSearch3D<T>::NeighboursSearch3D(const Volume& volume, double radius, double eps)
     : m_volume(volume)
@@ -221,13 +218,13 @@ NeighboursSearch3D<T>::NeighboursSearch3D(const Volume& volume, double radius, d
 
         m_cuboid = cuboid;
 
-        normalizedCuboidWidth = static_cast<size_t>(m_cuboid.width / m_radius);
-        normalizedCuboidLength = static_cast<size_t>(m_cuboid.length / m_radius);
-        normalizedCuboidHeight = static_cast<size_t>(m_cuboid.height / m_radius);
+        m_normalizedCuboidWidth = static_cast<size_t>(m_cuboid.width / m_radius);
+        m_normalizedCuboidLength = static_cast<size_t>(m_cuboid.length / m_radius);
+        m_normalizedCuboidHeight = static_cast<size_t>(m_cuboid.height / m_radius); 
 
-        m_boxesNumber = static_cast<size_t>(normalizedCuboidWidth *
-                                            normalizedCuboidLength *
-                                            normalizedCuboidHeight);
+        m_boxesNumber = static_cast<size_t>(m_normalizedCuboidWidth *
+                                            m_normalizedCuboidLength *
+                                            m_normalizedCuboidHeight);
         m_boxes.resize(m_boxesNumber);
         m_nearbyBoxes.resize(m_boxesNumber);
 
@@ -304,18 +301,18 @@ template <class T> void NeighboursSearch3D<T>::insertPointsIntoBoxes(const T& po
 
         auto widthOffset = static_cast<size_t>(points[i].position.x / m_radius);
         size_t lengthOffset = static_cast<size_t>(points[i].position.y / m_radius) *
-                              normalizedCuboidWidth;
+                              m_normalizedCuboidWidth;
         size_t heightOffset = static_cast<size_t>(points[i].position.z / m_radius) *
-                              normalizedCuboidLength * normalizedCuboidWidth;
+                              m_normalizedCuboidLength * m_normalizedCuboidWidth;
 
         if (std::abs(points[i].position.x - m_cuboid.width) < m_eps)
             widthOffset -= 1;
 
         if (std::abs(points[i].position.y - m_cuboid.length) < m_eps)
-            lengthOffset -= normalizedCuboidLength;
+            lengthOffset -= m_normalizedCuboidLength;
 
         if (std::abs(points[i].position.z - m_cuboid.height) < m_eps)
-            heightOffset -= normalizedCuboidLength * normalizedCuboidWidth;
+            heightOffset -= m_normalizedCuboidLength * m_normalizedCuboidWidth;
 
         size_t boxIndex = widthOffset + lengthOffset + heightOffset;
 
@@ -362,12 +359,12 @@ template <class T> void NeighboursSearch3D<T>::findNearbyBoxes()
 
 template <class T> SizetVector NeighboursSearch3D<T>::getComponentsOfBoxIndex(const size_t boxIndex)
 {
-    size_t boxWidth = boxIndex % normalizedCuboidWidth;
-    size_t boxHeight = (boxIndex - boxWidth) / (normalizedCuboidWidth * normalizedCuboidLength);
-    size_t boxLength = (boxIndex - boxWidth -
-                        boxHeight * normalizedCuboidWidth * normalizedCuboidLength) / normalizedCuboidWidth;
+    const size_t boxWidth = boxIndex % m_normalizedCuboidWidth;
+    const size_t boxHeight = (boxIndex - boxWidth) / (m_normalizedCuboidWidth * m_normalizedCuboidLength);
+    const size_t boxLength = (boxIndex - boxWidth -
+                              boxHeight * m_normalizedCuboidWidth * m_normalizedCuboidLength) / m_normalizedCuboidWidth;
 
-    SizetVector components = {boxWidth, boxLength, boxHeight};
+    const SizetVector components = {boxWidth, boxLength, boxHeight};
 
     return components;
 }
@@ -378,52 +375,52 @@ template <class T> SizetVector NeighboursSearch3D<T>::getComponentsOfBoxIndex(co
 
 template <class T> typename NeighboursSearch3D<T>::BoxType NeighboursSearch3D<T>::getBoxType(const SizetVector& components)
 {
-    if ((components[0] == 0 || components[0] == normalizedCuboidWidth - 1) &&
-        (components[1] == 0 || components[1] == normalizedCuboidLength - 1) &&
-        (components[2] == 0 || components[2] == normalizedCuboidHeight - 1))
+    if ((components[0] == 0 || components[0] == m_normalizedCuboidWidth - 1) &&
+        (components[1] == 0 || components[1] == m_normalizedCuboidLength - 1) &&
+        (components[2] == 0 || components[2] == m_normalizedCuboidHeight - 1))
     {
         return outerCorner;
     }
 
-    if ((components[0] != 0 && components[0] != normalizedCuboidWidth - 1) &&
-        (components[1] == 0 || components[1] == normalizedCuboidLength - 1) &&
-        (components[2] != 0 && components[2] != normalizedCuboidHeight - 1))
+    if ((components[0] != 0 && components[0] != m_normalizedCuboidWidth - 1) &&
+        (components[1] == 0 || components[1] == m_normalizedCuboidLength - 1) &&
+        (components[2] != 0 && components[2] != m_normalizedCuboidHeight - 1))
     {
         return outerCenter;
     }
 
-    if ((components[1] == 0 || components[1] == normalizedCuboidLength - 1) &&
+    if ((components[1] == 0 || components[1] == m_normalizedCuboidLength - 1) &&
         (
-         ((components[0] != 0 && components[0] != normalizedCuboidWidth - 1) &&
-          (components[2] == 0 || components[2] == normalizedCuboidHeight - 1)) ||
-         ((components[0] == 0 || components[0] == normalizedCuboidWidth - 1) &&
-          (components[2] != 0 && components[2] != normalizedCuboidHeight - 1))
+         ((components[0] != 0 && components[0] != m_normalizedCuboidWidth - 1) &&
+          (components[2] == 0 || components[2] == m_normalizedCuboidHeight - 1)) ||
+         ((components[0] == 0 || components[0] == m_normalizedCuboidWidth - 1) &&
+          (components[2] != 0 && components[2] != m_normalizedCuboidHeight - 1))
          )
         )
     {
         return outerLongitual;
     }
 
-    if ((components[0] == 0 || components[0] == normalizedCuboidWidth - 1) &&
-        (components[1] != 0 && components[1] != normalizedCuboidLength - 1) &&
-        (components[2] == 0 || components[2] == normalizedCuboidHeight - 1))
+    if ((components[0] == 0 || components[0] == m_normalizedCuboidWidth - 1) &&
+        (components[1] != 0 && components[1] != m_normalizedCuboidLength - 1) &&
+        (components[2] == 0 || components[2] == m_normalizedCuboidHeight - 1))
     {
         return innerCorner;
     }
 
-    if ((components[0] != 0 && components[0] != normalizedCuboidWidth - 1) &&
-        (components[1] != 0 && components[1] != normalizedCuboidLength - 1) &&
-        (components[2] != 0 && components[2] != normalizedCuboidHeight - 1))
+    if ((components[0] != 0 && components[0] != m_normalizedCuboidWidth - 1) &&
+        (components[1] != 0 && components[1] != m_normalizedCuboidLength - 1) &&
+        (components[2] != 0 && components[2] != m_normalizedCuboidHeight - 1))
     {
         return innerCenter;
     }
 
-    if ((components[1] != 0 && components[1] != normalizedCuboidLength - 1) &&
+    if ((components[1] != 0 && components[1] != m_normalizedCuboidLength - 1) &&
         (
-         ((components[0] != 0 && components[0] != normalizedCuboidWidth - 1) &&
-          (components[2] == 0 || components[2] == normalizedCuboidHeight - 1)) ||
-         ((components[0] == 0 || components[0] == normalizedCuboidWidth - 1) &&
-          (components[2] != 0 && components[2] != normalizedCuboidHeight - 1))
+         ((components[0] != 0 && components[0] != m_normalizedCuboidWidth - 1) &&
+          (components[2] == 0 || components[2] == m_normalizedCuboidHeight - 1)) ||
+         ((components[0] == 0 || components[0] == m_normalizedCuboidWidth - 1) &&
+          (components[2] != 0 && components[2] != m_normalizedCuboidHeight - 1))
          )
         )
     {
@@ -442,11 +439,11 @@ template <class T> void NeighboursSearch3D<T>::defineNearbyBoxes(const Neighbour
                                                                  const size_t boxIndex)
 {
     bool isLeft     = components[0] == 0;
-    bool isRight    = components[0] == normalizedCuboidWidth - 1;
+    bool isRight    = components[0] == m_normalizedCuboidWidth - 1;
     bool isBack     = components[1] == 0;
-//  bool isFront    = components[1] == normalizedCuboidLength - 1; // commented as not used
+//  bool isFront    = components[1] == m_normalizedCuboidLength - 1; // commented as not used
     bool isBottom   = components[2] == 0;
-    bool isTop      = components[2] == normalizedCuboidHeight - 1;
+    bool isTop      = components[2] == m_normalizedCuboidHeight - 1;
 
     switch (boxType) {
         case outerCorner:
@@ -541,9 +538,9 @@ template <class T> void NeighboursSearch3D<T>:: addForTopLeft(const SizetVector&
     // addRight
     m_nearbyBoxes[boxIndex].push_back(boxIndex + 1);
     // addBotom
-    m_nearbyBoxes[boxIndex].push_back(boxIndex - normalizedCuboidWidth * normalizedCuboidLength);
+    m_nearbyBoxes[boxIndex].push_back(boxIndex - m_normalizedCuboidWidth * m_normalizedCuboidLength);
     // addBottomRight
-    m_nearbyBoxes[boxIndex].push_back(boxIndex - normalizedCuboidWidth * normalizedCuboidLength + 1);
+    m_nearbyBoxes[boxIndex].push_back(boxIndex - m_normalizedCuboidWidth * m_normalizedCuboidLength + 1);
 }
 
 template <class T> void NeighboursSearch3D<T>:: addForTopRight(const SizetVector& /*components*/,
@@ -552,9 +549,9 @@ template <class T> void NeighboursSearch3D<T>:: addForTopRight(const SizetVector
     // addLeft
     m_nearbyBoxes[boxIndex].push_back(boxIndex - 1);
     // addBotom
-    m_nearbyBoxes[boxIndex].push_back(boxIndex - normalizedCuboidWidth * normalizedCuboidLength);
+    m_nearbyBoxes[boxIndex].push_back(boxIndex - m_normalizedCuboidWidth * m_normalizedCuboidLength);
     // addBottomLeft
-    m_nearbyBoxes[boxIndex].push_back(boxIndex - normalizedCuboidWidth * normalizedCuboidLength - 1);
+    m_nearbyBoxes[boxIndex].push_back(boxIndex - m_normalizedCuboidWidth * m_normalizedCuboidLength - 1);
 }
 
 template <class T> void NeighboursSearch3D<T>:: addForBottomLeft(const SizetVector& /*components*/,
@@ -563,9 +560,9 @@ template <class T> void NeighboursSearch3D<T>:: addForBottomLeft(const SizetVect
     // addRight
     m_nearbyBoxes[boxIndex].push_back(boxIndex + 1);
     // addTop
-    m_nearbyBoxes[boxIndex].push_back(boxIndex + normalizedCuboidWidth * normalizedCuboidLength);
+    m_nearbyBoxes[boxIndex].push_back(boxIndex + m_normalizedCuboidWidth * m_normalizedCuboidLength);
     // addTopRight
-    m_nearbyBoxes[boxIndex].push_back(boxIndex + normalizedCuboidWidth * normalizedCuboidLength + 1);
+    m_nearbyBoxes[boxIndex].push_back(boxIndex + m_normalizedCuboidWidth * m_normalizedCuboidLength + 1);
 }
 
 template <class T> void NeighboursSearch3D<T>:: addForBottomRight(const SizetVector& /*components*/,
@@ -574,9 +571,9 @@ template <class T> void NeighboursSearch3D<T>:: addForBottomRight(const SizetVec
     // addLeft
     m_nearbyBoxes[boxIndex].push_back(boxIndex - 1);
     // addTop
-    m_nearbyBoxes[boxIndex].push_back(boxIndex + normalizedCuboidWidth * normalizedCuboidLength);
+    m_nearbyBoxes[boxIndex].push_back(boxIndex + m_normalizedCuboidWidth * m_normalizedCuboidLength);
     // addTopLeft
-    m_nearbyBoxes[boxIndex].push_back(boxIndex + normalizedCuboidWidth * normalizedCuboidLength - 1);
+    m_nearbyBoxes[boxIndex].push_back(boxIndex + m_normalizedCuboidWidth * m_normalizedCuboidLength - 1);
 }
 
 template <class T> void NeighboursSearch3D<T>:: addForCenter(const SizetVector& /*components*/,
@@ -587,17 +584,17 @@ template <class T> void NeighboursSearch3D<T>:: addForCenter(const SizetVector& 
     // addLeft
     m_nearbyBoxes[boxIndex].push_back(boxIndex - 1);
     // addTop
-    m_nearbyBoxes[boxIndex].push_back(boxIndex + normalizedCuboidWidth * normalizedCuboidLength);
+    m_nearbyBoxes[boxIndex].push_back(boxIndex + m_normalizedCuboidWidth * m_normalizedCuboidLength);
     // addBottom
-    m_nearbyBoxes[boxIndex].push_back(boxIndex - normalizedCuboidWidth * normalizedCuboidLength);
+    m_nearbyBoxes[boxIndex].push_back(boxIndex - m_normalizedCuboidWidth * m_normalizedCuboidLength);
     // addTopRight
-    m_nearbyBoxes[boxIndex].push_back(boxIndex + normalizedCuboidWidth * normalizedCuboidLength + 1);
+    m_nearbyBoxes[boxIndex].push_back(boxIndex + m_normalizedCuboidWidth * m_normalizedCuboidLength + 1);
     // addTopLeft
-    m_nearbyBoxes[boxIndex].push_back(boxIndex + normalizedCuboidWidth * normalizedCuboidLength - 1);
+    m_nearbyBoxes[boxIndex].push_back(boxIndex + m_normalizedCuboidWidth * m_normalizedCuboidLength - 1);
     // addBottomRight
-    m_nearbyBoxes[boxIndex].push_back(boxIndex - normalizedCuboidWidth * normalizedCuboidLength + 1);
+    m_nearbyBoxes[boxIndex].push_back(boxIndex - m_normalizedCuboidWidth * m_normalizedCuboidLength + 1);
     // addBottomLeft
-    m_nearbyBoxes[boxIndex].push_back(boxIndex - normalizedCuboidWidth * normalizedCuboidLength - 1);
+    m_nearbyBoxes[boxIndex].push_back(boxIndex - m_normalizedCuboidWidth * m_normalizedCuboidLength - 1);
 }
 
 template <class T> void NeighboursSearch3D<T>:: addForLeft(const SizetVector& /*components*/,
@@ -606,13 +603,13 @@ template <class T> void NeighboursSearch3D<T>:: addForLeft(const SizetVector& /*
     // addRight
     m_nearbyBoxes[boxIndex].push_back(boxIndex + 1);
     // addTop
-    m_nearbyBoxes[boxIndex].push_back(boxIndex + normalizedCuboidWidth * normalizedCuboidLength);
+    m_nearbyBoxes[boxIndex].push_back(boxIndex + m_normalizedCuboidWidth * m_normalizedCuboidLength);
     // addBottom
-    m_nearbyBoxes[boxIndex].push_back(boxIndex - normalizedCuboidWidth * normalizedCuboidLength);
+    m_nearbyBoxes[boxIndex].push_back(boxIndex - m_normalizedCuboidWidth * m_normalizedCuboidLength);
     // addTopRight
-    m_nearbyBoxes[boxIndex].push_back(boxIndex + normalizedCuboidWidth * normalizedCuboidLength + 1);
+    m_nearbyBoxes[boxIndex].push_back(boxIndex + m_normalizedCuboidWidth * m_normalizedCuboidLength + 1);
     // addBottomRight
-    m_nearbyBoxes[boxIndex].push_back(boxIndex - normalizedCuboidWidth * normalizedCuboidLength + 1);
+    m_nearbyBoxes[boxIndex].push_back(boxIndex - m_normalizedCuboidWidth * m_normalizedCuboidLength + 1);
 }
 
 template <class T> void NeighboursSearch3D<T>:: addForRight(const SizetVector& /*components*/,
@@ -621,13 +618,13 @@ template <class T> void NeighboursSearch3D<T>:: addForRight(const SizetVector& /
     // addLeft
     m_nearbyBoxes[boxIndex].push_back(boxIndex - 1);
     // addTop
-    m_nearbyBoxes[boxIndex].push_back(boxIndex + normalizedCuboidWidth * normalizedCuboidLength);
+    m_nearbyBoxes[boxIndex].push_back(boxIndex + m_normalizedCuboidWidth * m_normalizedCuboidLength);
     // addBottom
-    m_nearbyBoxes[boxIndex].push_back(boxIndex - normalizedCuboidWidth * normalizedCuboidLength);
+    m_nearbyBoxes[boxIndex].push_back(boxIndex - m_normalizedCuboidWidth * m_normalizedCuboidLength);
     // addTopLeft
-    m_nearbyBoxes[boxIndex].push_back(boxIndex + normalizedCuboidWidth * normalizedCuboidLength - 1);
+    m_nearbyBoxes[boxIndex].push_back(boxIndex + m_normalizedCuboidWidth * m_normalizedCuboidLength - 1);
     // addBottomLeft
-    m_nearbyBoxes[boxIndex].push_back(boxIndex - normalizedCuboidWidth * normalizedCuboidLength - 1);
+    m_nearbyBoxes[boxIndex].push_back(boxIndex - m_normalizedCuboidWidth * m_normalizedCuboidLength - 1);
 }
 
 template <class T> void NeighboursSearch3D<T>:: addForTop(const SizetVector& /*components*/,
@@ -638,11 +635,11 @@ template <class T> void NeighboursSearch3D<T>:: addForTop(const SizetVector& /*c
     // addLeft
     m_nearbyBoxes[boxIndex].push_back(boxIndex - 1);
     // addBottom
-    m_nearbyBoxes[boxIndex].push_back(boxIndex - normalizedCuboidWidth * normalizedCuboidLength);
+    m_nearbyBoxes[boxIndex].push_back(boxIndex - m_normalizedCuboidWidth * m_normalizedCuboidLength);
     // addBottomRight
-    m_nearbyBoxes[boxIndex].push_back(boxIndex - normalizedCuboidWidth * normalizedCuboidLength + 1);
+    m_nearbyBoxes[boxIndex].push_back(boxIndex - m_normalizedCuboidWidth * m_normalizedCuboidLength + 1);
     // addBottomLeft
-    m_nearbyBoxes[boxIndex].push_back(boxIndex - normalizedCuboidWidth * normalizedCuboidLength - 1);
+    m_nearbyBoxes[boxIndex].push_back(boxIndex - m_normalizedCuboidWidth * m_normalizedCuboidLength - 1);
 }
 
 template <class T> void NeighboursSearch3D<T>:: addForBottom(const SizetVector& /*components*/,
@@ -653,11 +650,11 @@ template <class T> void NeighboursSearch3D<T>:: addForBottom(const SizetVector& 
     // addLeft
     m_nearbyBoxes[boxIndex].push_back(boxIndex - 1);
     // addTop
-    m_nearbyBoxes[boxIndex].push_back(boxIndex + normalizedCuboidWidth * normalizedCuboidLength);
+    m_nearbyBoxes[boxIndex].push_back(boxIndex + m_normalizedCuboidWidth * m_normalizedCuboidLength);
     // addTopRight
-    m_nearbyBoxes[boxIndex].push_back(boxIndex + normalizedCuboidWidth * normalizedCuboidLength + 1);
+    m_nearbyBoxes[boxIndex].push_back(boxIndex + m_normalizedCuboidWidth * m_normalizedCuboidLength + 1);
     // addTopLeft
-    m_nearbyBoxes[boxIndex].push_back(boxIndex + normalizedCuboidWidth * normalizedCuboidLength - 1);
+    m_nearbyBoxes[boxIndex].push_back(boxIndex + m_normalizedCuboidWidth * m_normalizedCuboidLength - 1);
 }
 
 template <class T> void NeighboursSearch3D<T>:: addForBack(const size_t boxIndex)
@@ -666,7 +663,7 @@ template <class T> void NeighboursSearch3D<T>:: addForBack(const size_t boxIndex
     nearbyBoxes.push_back(boxIndex);
 
     for (size_t i = 0u; i < nearbyBoxes.size(); i++) {
-        nearbyBoxes[i] += normalizedCuboidWidth;
+        nearbyBoxes[i] += m_normalizedCuboidWidth;
         m_nearbyBoxes[boxIndex].push_back(nearbyBoxes[i]);
     }
 }
@@ -677,7 +674,7 @@ template <class T> void NeighboursSearch3D<T>:: addForFront(const size_t boxInde
     nearbyBoxes.push_back(boxIndex);
 
     for (size_t i = 0u; i < nearbyBoxes.size(); i++) {
-        nearbyBoxes[i] -= normalizedCuboidWidth;
+        nearbyBoxes[i] -= m_normalizedCuboidWidth;
         m_nearbyBoxes[boxIndex].push_back(nearbyBoxes[i]);
     }
 }
@@ -691,7 +688,7 @@ template <class T> void NeighboursSearch3D<T>:: addForMiddle(const size_t boxInd
     addForBack(boxIndex);
 
     for (size_t i = 0u; i < nearbyBoxes.size(); i++) {
-        nearbyBoxes[i] -= normalizedCuboidWidth;
+        nearbyBoxes[i] -= m_normalizedCuboidWidth;
         m_nearbyBoxes[boxIndex].push_back(nearbyBoxes[i]);
     }
 }
