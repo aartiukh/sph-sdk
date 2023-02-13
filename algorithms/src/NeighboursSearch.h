@@ -147,6 +147,10 @@ private:
     size_t m_pointsSize; // the amount of points
 
     Cuboid m_cuboid;
+
+    size_t m_normalizedCuboidWidth;
+    size_t m_normalizedCuboidLength;
+    size_t m_normalizedCuboidHeight;
 };
 } //SPHAlgorithms
 
