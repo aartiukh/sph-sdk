@@ -10,40 +10,40 @@ namespace SPHSDK
 {
 
 Particle::Particle() :
+    position(SPHAlgorithms::Point3F()),
     radius(0.0),
     density(0.0),
     pressure(0.0),
     mass(0.0),
     supportRadius(0.0),
-    position(SPHAlgorithms::Point3D()),
-    velocity(SPHAlgorithms::Point3D()),
-    acceleration(SPHAlgorithms::Point3D()),
-    fGravity(SPHAlgorithms::Point3D()),
-    fSurfaceTension(SPHAlgorithms::Point3D()),
-    fViscosity(SPHAlgorithms::Point3D()),
-    fPressure(SPHAlgorithms::Point3D()),
-    fExternal(SPHAlgorithms::Point3D()),
-    fInternal(SPHAlgorithms::Point3D()),
-    fTotal(SPHAlgorithms::Point3D())
+    velocity(SPHAlgorithms::Point3F()),
+    acceleration(SPHAlgorithms::Point3F()),
+    fGravity(SPHAlgorithms::Point3F()),
+    fSurfaceTension(SPHAlgorithms::Point3F()),
+    fViscosity(SPHAlgorithms::Point3F()),
+    fPressure(SPHAlgorithms::Point3F()),
+    fExternal(SPHAlgorithms::Point3F()),
+    fInternal(SPHAlgorithms::Point3F()),
+    fTotal(SPHAlgorithms::Point3F())
 {
 }
 
-Particle::Particle(const SPHAlgorithms::Point3D & position, double radius) :
+Particle::Particle(const SPHAlgorithms::Point3F& position, double radius) :
+    position(position),
     radius(radius),
     density(0.0),
     pressure(0.0),
     mass(0.0),
     supportRadius(0.0),
-    position(position),
-    velocity(SPHAlgorithms::Point3D()),
-    acceleration(SPHAlgorithms::Point3D()),
-    fGravity(SPHAlgorithms::Point3D()),
-    fSurfaceTension(SPHAlgorithms::Point3D()),
-    fViscosity(SPHAlgorithms::Point3D()),
-    fPressure(SPHAlgorithms::Point3D()),
-    fExternal(SPHAlgorithms::Point3D()),
-    fInternal(SPHAlgorithms::Point3D()),
-    fTotal(SPHAlgorithms::Point3D())
+    velocity(SPHAlgorithms::Point3F()),
+    acceleration(SPHAlgorithms::Point3F()),
+    fGravity(SPHAlgorithms::Point3F()),
+    fSurfaceTension(SPHAlgorithms::Point3F()),
+    fViscosity(SPHAlgorithms::Point3F()),
+    fPressure(SPHAlgorithms::Point3F()),
+    fExternal(SPHAlgorithms::Point3F()),
+    fInternal(SPHAlgorithms::Point3F()),
+    fTotal(SPHAlgorithms::Point3F())
 {
 }
 

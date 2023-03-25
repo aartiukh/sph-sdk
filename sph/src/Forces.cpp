@@ -18,13 +18,13 @@ static const double KernelViscosityLaplacianMultiplier = 45.0 / PiPowH6;
 static const double OwnDensity = 315.0 / (64.0 * M_PI * pow(Config::WaterSupportRadius, 3));
 
 
-static double defaultKernel(const SPHAlgorithms::Point3D& differenceParticleNeighbour) {
+static double defaultKernel(const SPHAlgorithms::Point3F& differenceParticleNeighbour) {
     // (Formula 4.3)
     const double particleDistanceSqr = differenceParticleNeighbour.calcNormSqr();
     return KernelDefaultMultiplier * pow(SupportRadiusSqr - particleDistanceSqr, 3);
 }
 
-static SPHAlgorithms::Point3D defaultKernelGradient(const SPHAlgorithms::Point3D& differenceParticleNeighbour) {
+static SPHAlgorithms::Point3F defaultKernelGradient(const SPHAlgorithms::Point3F& differenceParticleNeighbour) {
     // (Formula 4.4)
     const double particleDistanceSqr = differenceParticleNeighbour.calcNormSqr();
     return differenceParticleNeighbour * KernelDefaultGradientMultiplier
@@ -32,14 +32,14 @@ static SPHAlgorithms::Point3D defaultKernelGradient(const SPHAlgorithms::Point3D
                                        * (SupportRadiusSqr - particleDistanceSqr);
 }
 
-static double defaultKernelLaplacian(const SPHAlgorithms::Point3D& differenceParticleNeighbour) {
+static double defaultKernelLaplacian(const SPHAlgorithms::Point3F& differenceParticleNeighbour) {
     // (Formula 4.5)
     const double particleDistanceSqr = differenceParticleNeighbour.calcNormSqr();
     return KernelDefaultGradientMultiplier * (SupportRadiusSqr - particleDistanceSqr)
                                            * (3.0 * SupportRadiusSqr - 7.0 * particleDistanceSqr);
 }
 
-static SPHAlgorithms::Point3D pressureKernelGradient(const SPHAlgorithms::Point3D& differenceParticleNeighbour) {
+static SPHAlgorithms::Point3F pressureKernelGradient(const SPHAlgorithms::Point3F& differenceParticleNeighbour) {
     // (Formula 4.14)
     const double particleDistance = differenceParticleNeighbour.calcNorm();
     return differenceParticleNeighbour * KernelPressureGradientMultiplier / particleDistance
@@ -47,7 +47,7 @@ static SPHAlgorithms::Point3D pressureKernelGradient(const SPHAlgorithms::Point3
                                        * (Config::WaterSupportRadius - particleDistance);
 }
 
-static double viscosityKernelLaplacian(const SPHAlgorithms::Point3D& differenceParticleNeighbour) {
+static double viscosityKernelLaplacian(const SPHAlgorithms::Point3F& differenceParticleNeighbour) {
     // (Formula 4.22)
     const double particleDistance = differenceParticleNeighbour.calcNorm();
     return KernelViscosityLaplacianMultiplier * (Config::WaterSupportRadius - particleDistance);
@@ -62,7 +62,7 @@ void Forces::ComputeDensity(ParticleVect& particleVect)
 
         for (size_t j = 0; j < particleVect[i].neighbours.size(); j++)
         {
-            const SPHAlgorithms::Point3D differenceParticleNeighbour =
+            const SPHAlgorithms::Point3F differenceParticleNeighbour =
                 particleVect[i].position - particleVect[particleVect[i].neighbours[j]].position;
 
             if (Config::WaterSupportRadius - differenceParticleNeighbour.calcNorm() > DBL_EPSILON)
@@ -84,15 +84,15 @@ void Forces::ComputeInternalForces(ParticleVect& particleVect)
 {
     for (size_t i = 0; i < particleVect.size(); i++)
     {
-        particleVect[i].fPressure = SPHAlgorithms::Point3D();
-        particleVect[i].fViscosity = SPHAlgorithms::Point3D();
+        particleVect[i].fPressure = SPHAlgorithms::Point3F();
+        particleVect[i].fViscosity = SPHAlgorithms::Point3F();
 
         for (size_t j = 0; j < particleVect[i].neighbours.size(); j++)
         {
             assert(std::abs(particleVect[i].density) > 0.);
             assert(std::abs(particleVect[particleVect[i].neighbours[j]].density) > 0.);
 
-            const SPHAlgorithms::Point3D differenceParticleNeighbour =
+            const SPHAlgorithms::Point3F differenceParticleNeighbour =
                 particleVect[i].position - particleVect[particleVect[i].neighbours[j]].position;
 
             const double particleDistance = differenceParticleNeighbour.calcNorm();
@@ -134,9 +134,9 @@ void Forces::ComputeSurfaceTension(ParticleVect& particleVect)
 {
     for (size_t i = 0; i < particleVect.size(); i++)
     {
-        particleVect[i].fSurfaceTension = SPHAlgorithms::Point3D();
+        particleVect[i].fSurfaceTension = SPHAlgorithms::Point3F();
 
-        SPHAlgorithms::Point3D surfaceTensionGradient = SPHAlgorithms::Point3D();
+        SPHAlgorithms::Point3F surfaceTensionGradient = SPHAlgorithms::Point3F();
         double surfaceTensionLaplacian = 0.0;
 
         for (size_t j = 0; j < particleVect[i].neighbours.size(); j++)
@@ -144,7 +144,7 @@ void Forces::ComputeSurfaceTension(ParticleVect& particleVect)
             assert(std::abs(particleVect[i].density) > 0.);
             assert(std::abs(particleVect[particleVect[i].neighbours[j]].density) > 0.);
 
-            const SPHAlgorithms::Point3D differenceParticleNeighbour =
+            const SPHAlgorithms::Point3F differenceParticleNeighbour =
                 particleVect[i].position - particleVect[particleVect[i].neighbours[j]].position;
 
             if (differenceParticleNeighbour.calcNormSqr() <= SupportRadiusSqr)

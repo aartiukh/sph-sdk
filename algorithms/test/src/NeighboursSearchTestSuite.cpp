@@ -285,11 +285,11 @@ void NeighboursSearchTestSuite::searchInCornerOfBoxesCorners()
 
 void NeighboursSearchTestSuite::searchInOneBox3D()
 {
-    TestPoints3D points = { Point3D(0.5, 0.5, 0.5),
-                            Point3D(0.6, 0.6, 0.6),
-                            Point3D(0.7, 0.7, 0.7) };
+    TestPoints3D points = { Point3F(0.5, 0.5, 0.5),
+                            Point3F(0.6, 0.6, 0.6),
+                            Point3F(0.7, 0.7, 0.7) };
 
-    testSearch3D(Cuboid(Point3D(0., 0., 0.), 1.0, 1.0, 1.0),  // areaRect
+    testSearch3D(Cuboid(Point3F(0., 0., 0.), 1.0, 1.0, 1.0),  // areaRect
                  0.5,                                         // radius
                  0.001,                                       // accuracy
                  points,                                      // points
@@ -313,14 +313,14 @@ void NeighboursSearchTestSuite::searchInOneBox3D()
 
 void NeighboursSearchTestSuite::searchInDifferentBoxesCenterBack3D()
 {
-    TestPoints3D points = { Point3D(0.75, 0.25, 0.75),   // 10
-                            Point3D(0.45, 0.25, 0.75),   // 9
-                            Point3D(0.75, 0.25, 0.45),   // 1
-                            Point3D(1.05, 0.25, 0.75),   // 11
-                            Point3D(0.75, 0.25, 1.05),   // 19
-                            Point3D(0.75, 0.75, 0.75) }; // 13
+    TestPoints3D points = { Point3F(0.75, 0.25, 0.75),   // 10
+                            Point3F(0.45, 0.25, 0.75),   // 9
+                            Point3F(0.75, 0.25, 0.45),   // 1
+                            Point3F(1.05, 0.25, 0.75),   // 11
+                            Point3F(0.75, 0.25, 1.05),   // 19
+                            Point3F(0.75, 0.75, 0.75) }; // 13
 
-    testSearch3D(Cuboid(Point3D(0., 0., 0.), 1.5, 1.5, 1.5),  // areaRect
+    testSearch3D(Cuboid(Point3F(0., 0., 0.), 1.5, 1.5, 1.5),  // areaRect
                  0.5,                                         // radius
                  0.001,                                       // accuracy
                  points,                                      // points
@@ -367,16 +367,16 @@ void NeighboursSearchTestSuite::searchInDifferentBoxesCenterBack3D()
 
 void NeighboursSearchTestSuite::searchInDifferentBoxesCenterMiddle3D()
 {
-    TestPoints3D points = { Point3D(0.15, 0.35, 0.15),   // 33
-                            Point3D(0.2, 0.35, 0.15),    // 34
-                            Point3D(0.09, 0.35, 0.15),   // 32
-                            Point3D(0.15, 0.35, 0.2),    // 53
-                            Point3D(0.15, 0.35, 0.09),   // 13
-                            Point3D(0.2, 0.29, 0.2),     // 50
-                            Point3D(0.09, 0.29, 0.09),   // 8
-                            Point3D(0.09, 0.41, 0.2),    // 56
-                            Point3D(0.2, 0.41, 0.09) };  // 18
-    testSearch3D(Cuboid(Point3D(0., 0., 0.), 0.4, 0.5, 0.3001),  // areaRect
+    TestPoints3D points = { Point3F(0.15, 0.35, 0.15),   // 33
+                            Point3F(0.2, 0.35, 0.15),    // 34
+                            Point3F(0.09, 0.35, 0.15),   // 32
+                            Point3F(0.15, 0.35, 0.2),    // 53
+                            Point3F(0.15, 0.35, 0.09),   // 13
+                            Point3F(0.2, 0.29, 0.2),     // 50
+                            Point3F(0.09, 0.29, 0.09),   // 8
+                            Point3F(0.09, 0.41, 0.2),    // 56
+                            Point3F(0.2, 0.41, 0.09) };  // 18
+    testSearch3D(Cuboid(Point3F(0., 0., 0.), 0.4, 0.5, 0.3001),  // areaRect
                  0.1,                                         // radius
                  0.001,                                       // accuracy
                  points,                                      // points

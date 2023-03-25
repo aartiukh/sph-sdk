@@ -17,7 +17,7 @@ namespace TestEnvironment
 
 void ParticleTestSuite::particleIsValid()
 {
-    Particle particle(SPHAlgorithms::Point3D(5.0, -6.0, 1.0), 0.1);
+    Particle particle(SPHAlgorithms::Point3F(5.0, -6.0, 1.0), 0.1);
 
     EXPECT_DOUBLE_EQ(5.0, particle.position.x);
     EXPECT_DOUBLE_EQ(-6.0, particle.position.y);

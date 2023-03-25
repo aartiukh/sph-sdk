@@ -33,16 +33,16 @@ struct Rect
 */
 struct Cuboid
 {
-    Point3D startingPoint;
+    Point3F startingPoint;
     double width, length, height; // x, y, z axis
 
     Cuboid() :
-        startingPoint(Point3D()),
+        startingPoint(Point3F()),
         width(0.),
         length(0.),
         height(0.) {}
 
-    Cuboid(const Point3D& _startingPoint, const double _width, const double _length, const double _height) :
+    Cuboid(const Point3F& _startingPoint, const double _width, const double _length, const double _height) :
         startingPoint(_startingPoint),
         width(_width),
         length(_length),

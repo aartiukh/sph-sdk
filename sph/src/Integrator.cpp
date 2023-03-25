@@ -18,12 +18,12 @@ void Integrator::integrate(double timeStep, ParticleVect& particles)
     {
         particle.previous_position = particle.position;
 
-        const SPHAlgorithms::Point3D prevAcceleration = particle.acceleration;
+        const SPHAlgorithms::Point3F prevAcceleration = particle.acceleration;
 
         if (std::abs(particle.density) > 0.)
             particle.acceleration = particle.fTotal / particle.density;
 
-        const SPHAlgorithms::Point3D prevVelocity = particle.velocity;
+        const SPHAlgorithms::Point3F prevVelocity = particle.velocity;
 
         particle.velocity += (prevAcceleration + particle.acceleration) / 2.0 * timeStep;
 

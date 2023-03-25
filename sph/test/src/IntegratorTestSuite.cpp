@@ -17,10 +17,10 @@ namespace TestEnvironment
 
 void IntegratorTestSuite::oneParticleWithZeroVelocity()
 {
-    ParticleVect particles = {Particle(SPHAlgorithms::Point3D(0., 1., 1.), 0.1)};
+    ParticleVect particles = {Particle(SPHAlgorithms::Point3F(0., 1., 1.), 0.1)};
     particles[0].density = 0.5;
-    particles[0].fTotal = SPHAlgorithms::Point3D(0.25, 0.25, 0.25);
-    particles[0].acceleration = SPHAlgorithms::Point3D(0.1, 0.1, 0.1);
+    particles[0].fTotal = SPHAlgorithms::Point3F(0.25, 0.25, 0.25);
+    particles[0].acceleration = SPHAlgorithms::Point3F(0.1, 0.1, 0.1);
 
     Integrator::integrate(0.01, particles);
 
@@ -34,9 +34,9 @@ void IntegratorTestSuite::oneParticleWithZeroVelocity()
 
 void IntegratorTestSuite::oneParticleWithZeroDensity()
 {
-    ParticleVect particles = {Particle(SPHAlgorithms::Point3D(0., 1., 1.0), 0.1)};
-    particles[0].fTotal = SPHAlgorithms::Point3D(0.25, 0.25, 0.25);
-    particles[0].acceleration = SPHAlgorithms::Point3D(0.1, 0.1, 0.1);
+    ParticleVect particles = {Particle(SPHAlgorithms::Point3F(0., 1., 1.0), 0.1)};
+    particles[0].fTotal = SPHAlgorithms::Point3F(0.25, 0.25, 0.25);
+    particles[0].acceleration = SPHAlgorithms::Point3F(0.1, 0.1, 0.1);
 
     Integrator::integrate(0.01, particles);
 

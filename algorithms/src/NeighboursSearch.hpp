@@ -253,7 +253,7 @@ template <class T> void NeighboursSearch3D<T>::search(T& points)
             for (size_t nearbyPointIndex = 0; nearbyPointIndex < m_boxes[boxIndex].size(); nearbyPointIndex++)
                 if (pointIndex != nearbyPointIndex)
                 {
-                    Point3D difference = points[m_boxes[boxIndex][pointIndex]].position -
+                    Point3F difference = points[m_boxes[boxIndex][pointIndex]].position -
                                          points[m_boxes[boxIndex][nearbyPointIndex]].position;
                     if (difference.calcNormSqr() <= pow(m_radius, 2))
                         points[m_boxes[boxIndex][pointIndex]].neighbours.push_back(m_boxes[boxIndex][nearbyPointIndex]);
@@ -264,7 +264,7 @@ template <class T> void NeighboursSearch3D<T>::search(T& points)
             for (size_t nearbyBoxIndex = 0; nearbyBoxIndex < m_nearbyBoxes[boxIndex].size(); nearbyBoxIndex++)
                 for (size_t nearbyPointIndex = 0; nearbyPointIndex < m_boxes[m_nearbyBoxes[boxIndex][nearbyBoxIndex]].size(); nearbyPointIndex++)
                 {
-                    Point3D difference = points[m_boxes[boxIndex][pointIndex]].position -
+                    Point3F difference = points[m_boxes[boxIndex][pointIndex]].position -
                                          points[m_boxes[m_nearbyBoxes[boxIndex][nearbyBoxIndex]][nearbyPointIndex]].position;
                     if (difference.calcNormSqr() - pow(m_radius, 2) <= DBL_EPSILON)
                         points[m_boxes[boxIndex][pointIndex]]

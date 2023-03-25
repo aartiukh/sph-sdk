@@ -125,17 +125,17 @@ private:
         SPHAlgorithms::SizetVector neighbours;
     };
 
-    struct TestPoint3D
+    struct TestPoint3F
     {
-        TestPoint3D(SPHAlgorithms::Point3D _position) : position(_position) {}
+        TestPoint3F(SPHAlgorithms::Point3F _position) : position(_position) {}
 
-        SPHAlgorithms::Point3D position;
+        SPHAlgorithms::Point3F position;
 
         SPHAlgorithms::SizetVector neighbours;
     };
 
     using TestPoints = std::vector<TestPoint>;
-    using TestPoints3D = std::vector<TestPoint3D>;
+    using TestPoints3D = std::vector<TestPoint3F>;
 
     static void testSearch(/*in*/ const Rect& areaRect,
                            /*in*/ double radius,

@@ -178,7 +178,7 @@ void updateGravity()
     //   |0   cos θ    −sin θ| |y| = |y cos θ − z sin θ| = |y'|
     //   |0   sin θ     cos θ| |z|   |y sin θ + z cos θ|   |z'|
     SPHSDK::Config::GravitationalAcceleration =
-        SPHAlgorithms::Point3D(SPHSDK::Config::InitialGravitationalAcceleration.x,
+        SPHAlgorithms::Point3F(SPHSDK::Config::InitialGravitationalAcceleration.x,
                                SPHSDK::Config::InitialGravitationalAcceleration.y * cos(angle / 180 * M_PI) -
                                    SPHSDK::Config::InitialGravitationalAcceleration.z * sin(angle / 180 * M_PI),
                                SPHSDK::Config::InitialGravitationalAcceleration.y * sin(angle / 180 * M_PI) +
@@ -206,7 +206,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
             break;
         case GLFW_KEY_HOME:
             angle = 360.0;
-            SPHSDK::Config::GravitationalAcceleration = SPHAlgorithms::Point3D(0.0, 0.0, -9.82);
+            SPHSDK::Config::GravitationalAcceleration = SPHAlgorithms::Point3F(0.0, 0.0, -9.82);
             break;
         case GLFW_KEY_ESCAPE:
             glfwSetWindowShouldClose(window, GLFW_TRUE);

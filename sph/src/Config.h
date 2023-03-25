@@ -20,9 +20,9 @@ struct Config
     static const double WaterSupportRadius;
     static const double WaterSurfaceTension;
 
-    static const SPHAlgorithms::Point3D InitialGravitationalAcceleration;
-    static SPHAlgorithms::Point3D GravitationalAcceleration;
-    static const SPHAlgorithms::Point3D InitialVelocity;
+    static const SPHAlgorithms::Point3F InitialGravitationalAcceleration;
+    static SPHAlgorithms::Point3F GravitationalAcceleration;
+    static const SPHAlgorithms::Point3F InitialVelocity;
     static const double CollisionVelocityMultiplier;
 
     static const double SpeedTreshold;
