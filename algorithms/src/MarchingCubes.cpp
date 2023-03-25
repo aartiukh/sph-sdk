@@ -7,18 +7,18 @@
 #include "MarchingCubes.h"
 #include "MarchingCubesConfig.h"
 
-namespace SPHAlgorithms
+namespace SPHSDK
 {
 
-Point3FVector MarchingCubes::generateMesh(std::function<float(float, float, float)> f)
+Point3FVector MarchingCubes::generateMesh(std::function<FLOAT(FLOAT, FLOAT, FLOAT)> f)
 {
     Point3FVector mesh;
 
-    for (float x = X_MIN; x < X_MAX; x += GRID_CUBE_SIZE)
+    for (auto x = X_MIN; x < X_MAX; x += GRID_CUBE_SIZE)
     {
-        for (float y = Y_MIN; y < Y_MAX; y += GRID_CUBE_SIZE)
+        for (auto y = Y_MIN; y < Y_MAX; y += GRID_CUBE_SIZE)
         {
-            for (float z = Z_MIN; z < Z_MAX; z += GRID_CUBE_SIZE)
+            for (auto z = Z_MIN; z < Z_MAX; z += GRID_CUBE_SIZE)
             {
                 // iX, iY, iZ are coordinates of the current vertex in grid_cube
                 const auto vertices = MarchingCube(f, x, y, z);
@@ -29,24 +29,24 @@ Point3FVector MarchingCubes::generateMesh(std::function<float(float, float, floa
     return mesh;
 }
 
-static float adapt(float a, float b)
+static FLOAT adapt(FLOAT a, FLOAT b)
 {
-    const float delta = b - a;
+    const auto delta = b - a;
 
-    if (std::abs(delta) < PRECISION)
+    if (std::abs(delta) < MC_PRECISION)
     {
-        return 0.5f;
+        return static_cast<FLOAT>(0.5);
     }
 
     return -a / delta;
 }
 
-Point3FVector MarchingCubes::MarchingCube(std::function<float(float, float, float)> f, float fX, float fY, float fZ)
+Point3FVector MarchingCubes::MarchingCube(std::function<FLOAT(FLOAT, FLOAT, FLOAT)> f, FLOAT fX, FLOAT fY, FLOAT fZ)
 {
     // vector with all triangles found
     Point3FVector trianglesMesh;
 
-    float CubeValue[CUBE_VERTICES_NUMBER];
+    FLOAT CubeValue[CUBE_VERTICES_NUMBER];
 
     // Evaluate value of the cube vertex at each point
     for (int iVertex = 0; iVertex < CUBE_VERTICES_NUMBER; iVertex++)
@@ -75,7 +75,7 @@ Point3FVector MarchingCubes::MarchingCube(std::function<float(float, float, floa
 
 void MarchingCubes::fillFoundTriangles(Point3FVector&       resultEdgeVertex,
                                        const Point3FVector& EdgeVertex,
-                                       const int            iFlagIndex)
+                                       const int           iFlagIndex)
 {
     for (int iTriangle = 0; iTriangle < TRIANGLES_MAX_NUMBER_FOR_ONE_CUBE; iTriangle++)
     {
@@ -87,14 +87,14 @@ void MarchingCubes::fillFoundTriangles(Point3FVector&       resultEdgeVertex,
         for (int iCorner = 0; iCorner < TRIANGLES_CORNERS_NUMBER; iCorner++)
         {
             const int iVertex = TriangleConnectionTable[iFlagIndex][TRIANGLES_CORNERS_NUMBER * iTriangle + iCorner];
-            resultEdgeVertex.push_back(Point3F(EdgeVertex[iVertex].x, EdgeVertex[iVertex].y, EdgeVertex[iVertex].z));
+            resultEdgeVertex.push_back(Point3(EdgeVertex[iVertex].x, EdgeVertex[iVertex].y, EdgeVertex[iVertex].z));
         }
     }
 }
 
 // Find points of intersection on each edge
 Point3FVector MarchingCubes::findPointIntersection(
-    const int iEdgeFlags, const float CubeValue[], const float fX, const float fY, const float fZ)
+    const int iEdgeFlags, const FLOAT CubeValue[], const FLOAT fX, const FLOAT fY, const FLOAT fZ)
 {
     Point3FVector EdgeVertex(12);
 
@@ -104,14 +104,14 @@ Point3FVector MarchingCubes::findPointIntersection(
         if (iEdgeFlags & (1 << iEdge))
         {
             // Find the two vertices specified by this edge, and interpolate them according to adapt
-            const int v0 = EdgeConnection[iEdge][0];
-            const int v1 = EdgeConnection[iEdge][1];
+            const auto v0 = EdgeConnection[iEdge][0];
+            const auto v1 = EdgeConnection[iEdge][1];
 
-            const float f0 = CubeValue[v0];
-            const float f1 = CubeValue[v1];
+            const auto f0 = CubeValue[v0];
+            const auto f1 = CubeValue[v1];
 
-            const float t0 = 1.f - adapt(f0, f1);
-            const float t1 = 1.f - t0;
+            const auto t0 = 1 - adapt(f0, f1);
+            const auto t1 = 1 - t0;
 
             EdgeVertex[iEdge].x = fX + VertexOffset[v0][0] * t0 + VertexOffset[v1][0] * t1;
             EdgeVertex[iEdge].y = fY + VertexOffset[v0][1] * t0 + VertexOffset[v1][1] * t1;
@@ -120,7 +120,7 @@ Point3FVector MarchingCubes::findPointIntersection(
     }
     return EdgeVertex;
 }
-int MarchingCubes::determineFlag(const float CubeValue[])
+int MarchingCubes::determineFlag(const FLOAT CubeValue[])
 {
     int flagIndex = 0;
 
@@ -133,4 +133,4 @@ int MarchingCubes::determineFlag(const float CubeValue[])
     }
     return flagIndex;
 }
-} // namespace SPHAlgorithms
+} // namespace SPHSDK

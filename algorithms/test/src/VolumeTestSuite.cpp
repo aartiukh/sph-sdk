@@ -8,7 +8,7 @@
 
 #include <gtest/gtest.h>
 
-namespace SPHAlgorithms::TestEnvironment
+namespace SPHSDK::TestEnvironment
 {
 
 void VolumeTestSuite::testDefaultCtor()
@@ -16,9 +16,9 @@ void VolumeTestSuite::testDefaultCtor()
   ASSERT_NO_THROW({ Volume v; });
 }
 
-} // namespace SPHAlgorithms::TestEnvironment
+} // namespace SPHSDK::TestEnvironment
 
-using namespace SPHAlgorithms::TestEnvironment;
+using namespace SPHSDK::TestEnvironment;
 
 TEST(VolumeTestSuite, testDefaultCtor)
 {

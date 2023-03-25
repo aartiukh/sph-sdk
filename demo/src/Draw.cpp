@@ -27,16 +27,16 @@
 #include "sph/src/SPH.h"
 
 // Window dimensions
-float aspect_ratio = 1.;
+SPHSDK::FLOAT aspect_ratio = 1.;
 static int width = 900;
 static int height = 900;
 
-static float angle = 360;
+static SPHSDK::FLOAT angle = 360;
 static const GLfloat pointSize = 5.f;
 
 static SPHSDK::SPH sph;
 
-static SPHAlgorithms::Point3FVector mesh;
+static SPHSDK::Point3FVector mesh;
 
 struct SVertex
 {
@@ -77,7 +77,7 @@ void MyDisplay(void)
 
     sph.run();
 
-    const float cubeSize = static_cast<float>(SPHSDK::Config::CubeSize);
+    const SPHSDK::FLOAT cubeSize = static_cast<SPHSDK::FLOAT>(SPHSDK::Config::CubeSize);
 
     // Draw the obstacle
     glBegin(GL_TRIANGLES);
@@ -98,7 +98,7 @@ void MyDisplay(void)
         points[i].y = static_cast<GLfloat>(sph.particles[i].position.y);
         points[i].z = static_cast<GLfloat>(sph.particles[i].position.z);
 
-        const double velocity = sph.particles[i].velocity.calcNormSqr();
+        const SPHSDK::FLOAT velocity = sph.particles[i].velocity.calcNormSqr();
         // color depends on velocity
         if (velocity > SPHSDK::Config::SpeedTreshold / 2.)
         {
@@ -178,7 +178,7 @@ void updateGravity()
     //   |0   cos θ    −sin θ| |y| = |y cos θ − z sin θ| = |y'|
     //   |0   sin θ     cos θ| |z|   |y sin θ + z cos θ|   |z'|
     SPHSDK::Config::GravitationalAcceleration =
-        SPHAlgorithms::Point3F(SPHSDK::Config::InitialGravitationalAcceleration.x,
+        SPHSDK::Point3F(SPHSDK::Config::InitialGravitationalAcceleration.x,
                                SPHSDK::Config::InitialGravitationalAcceleration.y * cos(angle / 180 * M_PI) -
                                    SPHSDK::Config::InitialGravitationalAcceleration.z * sin(angle / 180 * M_PI),
                                SPHSDK::Config::InitialGravitationalAcceleration.y * sin(angle / 180 * M_PI) +
@@ -188,7 +188,7 @@ void updateGravity()
 void resize_callback(GLFWwindow* window, int width, int height)
 {
     glViewport(0, 0, width, height);
-    aspect_ratio = height ? width / (float) height : 1.f;
+    aspect_ratio = height ? width / (SPHSDK::FLOAT) height : 1.f;
 }
 
 
@@ -206,7 +206,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
             break;
         case GLFW_KEY_HOME:
             angle = 360.0;
-            SPHSDK::Config::GravitationalAcceleration = SPHAlgorithms::Point3F(0.0, 0.0, -9.82);
+            SPHSDK::Config::GravitationalAcceleration = SPHSDK::Point3F(0.0, 0.0, -9.82);
             break;
         case GLFW_KEY_ESCAPE:
             glfwSetWindowShouldClose(window, GLFW_TRUE);
@@ -216,10 +216,12 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 void Draw::MainDraw(int argc, char** argv)
 {
-    static const std::function<float(float, float, float)> obstacle = SPHAlgorithms::Shapes::Pawn;
-    sph = SPHSDK::SPH(&obstacle);
+    using namespace SPHSDK;
 
-    mesh = SPHAlgorithms::MarchingCubes::generateMesh(obstacle);
+    static const std::function<FLOAT(FLOAT, FLOAT, FLOAT)> obstacle = Shapes::Pawn;
+    sph = SPH(&obstacle);
+
+    mesh = MarchingCubes::generateMesh(obstacle);
 
     // GLFW initialization
     if (!glfwInit()) {

@@ -12,7 +12,7 @@
 #include <gtest/gtest.h>
 #include <cmath>
 
-namespace SPHAlgorithms
+namespace SPHSDK
 {
 namespace TestEnvironment
 {
@@ -30,9 +30,9 @@ void ROperationsTestSuite::testDisjunction()
 }
 
 } // namespace TestEnvironment
-} // namespace SPHAlgorithms
+} // namespace SPHSDK
 
-using namespace SPHAlgorithms::TestEnvironment;
+using namespace SPHSDK::TestEnvironment;
 
 TEST(ROperationsTestSuite, testConjunction)
 {

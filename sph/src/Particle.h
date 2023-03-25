@@ -29,31 +29,31 @@ class Particle
 public:
     Particle();
 
-    Particle(const SPHAlgorithms::Point3F& position, double radius = Config::ParticleRadius);
+    Particle(const Point3F& position, FLOAT radius = Config::ParticleRadius);
 
-    SPHAlgorithms::Point3F position;
+    Point3F position;
 
-    double radius;
-    double density;
-    double pressure;
-    double mass;
-    double supportRadius;
+    FLOAT radius;
+    FLOAT density;
+    FLOAT pressure;
+    FLOAT mass;
+    FLOAT supportRadius;
 
-    SPHAlgorithms::Point3F previous_position;
-    SPHAlgorithms::Point3F velocity;
-    SPHAlgorithms::Point3F acceleration;
+    Point3F previous_position;
+    Point3F velocity;
+    Point3F acceleration;
 
-    SPHAlgorithms::Point3F fGravity;
-    SPHAlgorithms::Point3F fSurfaceTension;
-    SPHAlgorithms::Point3F fViscosity;
-    SPHAlgorithms::Point3F fPressure;
+    Point3F fGravity;
+    Point3F fSurfaceTension;
+    Point3F fViscosity;
+    Point3F fPressure;
 
-    SPHAlgorithms::Point3F fExternal;
-    SPHAlgorithms::Point3F fInternal;
+    Point3F fExternal;
+    Point3F fInternal;
 
-    SPHAlgorithms::Point3F fTotal;
+    Point3F fTotal;
 
-    SPHAlgorithms::SizetVector neighbours;
+    SizetVector neighbours;
 };
 
 using ParticleVect = std::vector<Particle>;

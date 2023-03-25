@@ -9,21 +9,20 @@
 
 #include "Point.h"
 
-namespace SPHAlgorithms
+namespace SPHSDK
 {
 
-// TODO move to common and to separate class
 struct Rect
 {
-    Point2D leftTop;
+    Point2F leftTop;
 
-    Point2D rightBottom;
+    Point2F rightBottom;
 
     Rect() :
-        leftTop(Point2D()),
-        rightBottom(Point2D()) {}
+        leftTop(Point2F()),
+        rightBottom(Point2F()) {}
 
-    Rect(const Point2D& leftTop_, const Point2D& rightBotom_) :
+    Rect(const Point2F& leftTop_, const Point2F& rightBotom_) :
         leftTop(leftTop_),
         rightBottom(rightBotom_) {}
 };
@@ -34,7 +33,7 @@ struct Rect
 struct Cuboid
 {
     Point3F startingPoint;
-    double width, length, height; // x, y, z axis
+    FLOAT width, length, height; // x, y, z axis
 
     Cuboid() :
         startingPoint(Point3F()),
@@ -42,7 +41,7 @@ struct Cuboid
         length(0.),
         height(0.) {}
 
-    Cuboid(const Point3F& _startingPoint, const double _width, const double _length, const double _height) :
+    Cuboid(const Point3F& _startingPoint, const FLOAT _width, const FLOAT _length, const FLOAT _height) :
         startingPoint(_startingPoint),
         width(_width),
         length(_length),
@@ -62,11 +61,11 @@ public:
 
     ~Area() = default;
 
-    double areaFunction(double x, double y);
+    FLOAT areaFunction(FLOAT x, FLOAT y);
 
     Rect getBoundingRect() const;
 
-    bool isInsideArea(const Point2D& point);
+    bool isInsideArea(const Point2F& point);
 
 private:
 
@@ -97,6 +96,6 @@ private:
 
 };
 
-} //SPHAlgorithms
+} // SPHSDK
 
 #endif // AREA_H_43C34465A6ED4DB9B9F2F4C3937BF5DC

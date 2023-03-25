@@ -12,18 +12,18 @@
 namespace SPHSDK
 {
 
-void Integrator::integrate(double timeStep, ParticleVect& particles)
+void Integrator::integrate(FLOAT timeStep, ParticleVect& particles)
 {
     for (auto& particle : particles)
     {
         particle.previous_position = particle.position;
 
-        const SPHAlgorithms::Point3F prevAcceleration = particle.acceleration;
+        const Point3F prevAcceleration = particle.acceleration;
 
         if (std::abs(particle.density) > 0.)
             particle.acceleration = particle.fTotal / particle.density;
 
-        const SPHAlgorithms::Point3F prevVelocity = particle.velocity;
+        const Point3F prevVelocity = particle.velocity;
 
         particle.velocity += (prevAcceleration + particle.acceleration) / 2.0 * timeStep;
 

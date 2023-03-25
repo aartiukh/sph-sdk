@@ -9,15 +9,17 @@
 
 #include <vector>
 #include <cstddef>
+#include <cfloat>
 
-//TODO: move to common
-
-namespace SPHAlgorithms
+namespace SPHSDK
 {
+    // Float precision to be used in all algorithims
+    using FLOAT = float;
+
     using SizetVector = std::vector<size_t>;
 
     using VectorOfSizetVectors = std::vector<SizetVector>;
 
-} //SPHAlgorithms
+} // SPHSDK
 
 #endif // DEFINES_H_B25DE75875BB40248241AD0DFE5A69FC

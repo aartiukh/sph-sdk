@@ -13,11 +13,11 @@
 #include <cmath>
 
 
-namespace SPHAlgorithms
+namespace SPHSDK
 {
 
 template <class T>
-NeighboursSearch<T>::NeighboursSearch(const Area& area, double radius, double eps)
+NeighboursSearch<T>::NeighboursSearch(const Area& area, FLOAT radius, FLOAT eps)
     : m_Area(area)
     , m_radius(radius)
     , m_eps(eps)
@@ -70,8 +70,8 @@ template <class T> void NeighboursSearch<T>::search(T& points)
             {
                 if (j != k)
                 {
-                    double distanceSqr = pow(points[m_boxes[i][j]].position.x - points[m_boxes[i][k]].position.x, 2) +
-                                         pow(points[m_boxes[i][j]].position.y - points[m_boxes[i][k]].position.y, 2);
+                    const FLOAT distanceSqr = pow(points[m_boxes[i][j]].position.x - points[m_boxes[i][k]].position.x, 2) +
+                                              pow(points[m_boxes[i][j]].position.y - points[m_boxes[i][k]].position.y, 2);
                     if (distanceSqr <= pow(m_radius, 2))
                         points[m_boxes[i][j]].neighbours.push_back(m_boxes[i][k]);
                 }
@@ -88,7 +88,7 @@ template <class T> void NeighboursSearch<T>::search(T& points)
             {
                 for (size_t q = 0; q < m_boxes[m_nearbyBoxes[i][k]].size(); q++)
                 {
-                    double distanceSqr =
+                    const FLOAT distanceSqr =
                         pow(points[m_boxes[i][j]].position.x - points[m_boxes[m_nearbyBoxes[i][k]][q]].position.x, 2) +
                         pow(points[m_boxes[i][j]].position.y - points[m_boxes[m_nearbyBoxes[i][k]][q]].position.y, 2);
                     if (distanceSqr - pow(m_radius, 2) <= DBL_EPSILON)
@@ -208,7 +208,7 @@ template <class T> void NeighboursSearch<T>::findNearbyBoxes()
 // ---------------------------
 
 template <class T>
-NeighboursSearch3D<T>::NeighboursSearch3D(const Volume& volume, double radius, double eps)
+NeighboursSearch3D<T>::NeighboursSearch3D(const Volume& volume, FLOAT radius, FLOAT eps)
     : m_volume(volume)
     , m_radius(radius)
     , m_eps(eps)
@@ -693,4 +693,4 @@ template <class T> void NeighboursSearch3D<T>:: addForMiddle(const size_t boxInd
     }
 }
 
-} // namespace SPHAlgorithms
+} // namespace SPHSDK

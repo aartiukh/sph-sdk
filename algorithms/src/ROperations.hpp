@@ -7,7 +7,7 @@
 #include <cassert>
 #include <cmath>
 
-namespace SPHAlgorithms
+namespace SPHSDK
 {
 
 template <class T> T ROperations::conjunction(T x, T y)
@@ -20,4 +20,4 @@ template <class T> T ROperations::disjunction(T x, T y)
     return x + y + std::sqrt(x * x + y * y);
 }
 
-} // namespace SPHAlgorithms
+} // namespace SPHSDK
