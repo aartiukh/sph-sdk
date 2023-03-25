@@ -31,8 +31,12 @@
 *.out
 *.app
 
+# Python venv
+venv/*
+
 build/*
 *.user
 .idea/*
 cmake-*/
 .vscode/
+/algorithms/benchmark/venv/
