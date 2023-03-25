@@ -39,4 +39,3 @@ build/*
 .idea/*
 cmake-*/
 .vscode/
-/algorithms/benchmark/venv/

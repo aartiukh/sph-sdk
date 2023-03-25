@@ -1,32 +1,58 @@
 import numpy as np
 
-np.random.seed(42)
+EPSILON = 10e-8
 
-x_len = 1.0
-y_len = 1.0
-n_points = 5
-random_seed = 42
-search_radius = x_len / 2
 
-x = np.random.uniform(high=x_len, size=n_points)
-y = np.random.uniform(high=y_len, size=n_points)
+def bruteforce_neighbors_search(points: np.ndarray, search_radius: float) -> dict:
+    """
 
-xy = np.array([x, y]).transpose()
+    :param points: 2D np.ndarray of kind [[p0x, p0y], [p1x, p1y]]
+    :param search_radius: float, minimal radius to become neighbors
+    :return: dict of kind {point0_index: [neighbor1_index, neighbor2_index]}
+    """
+    neighbors = {i: [] for i in range(xy.shape[0])}
 
-print("points:\n", xy)
+    for i in range(points.shape[0]):
+        for j in range(i + 1, points.shape[0]):
+            dist = np.linalg.norm(points[i] - points[j])
 
-neighbors = {}
+            if dist - search_radius < EPSILON:
+                neighbors[i].append(j)
+                neighbors[j].append(i)
 
-for i in range(xy.shape[0]):
-    loc_neighbors = []
+    return neighbors
 
-    for j in range(i+1, xy.shape[0]):
-        dist = np.linalg.norm(xy[i] - xy[j])
-        print(f"For points {i} and {j} dist {xy[i]} - {xy[j]} = {dist}")
 
-        if dist <= search_radius:
-            loc_neighbors.append(j)
+if __name__ == '__main__':
+    # three points:
+    # p0 = (0.1, 0.2),
+    # p1 = (0.2, 0.2),
+    # p2 = (0.3, 0.2)
+    # search_radius = 0.15
+    # Euclidian distance:
+    # p0-p1 = 0.1 < search_radius -> neighbors
+    # p0-p2 = 0.2 > search_radius
+    # p1-p2 = 0.1 < search_radius -> neighbors
+    # neighbors:
+    # p0: p1,
+    # p1: p0, p2
+    # p2: p1
 
-    neighbors[i] = loc_neighbors
+    search_radius = 0.15
+    xy = np.array([[0.1, 0.2],
+                   [0.2, 0.2],
+                   [0.3, 0.2]])
 
-print("Neighbors:\n", neighbors)
+    correct_neighbors = {0: [1],
+                         1: [0, 2],
+                         2: [1]
+                         }
+
+    print("Search radius: ", search_radius)
+    print("Points:\n", xy)
+
+    found_nb = bruteforce_neighbors_search(points=xy, search_radius=search_radius)
+
+    print("Neighbors:\n", found_nb)
+
+    print("Found neighbors are correct: ", correct_neighbors == found_nb)
