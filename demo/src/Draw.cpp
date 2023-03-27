@@ -8,6 +8,7 @@
 #include "linmath.h"
 
 #include <iostream>
+#include <cstddef>
 #include <stdlib.h>
 #include <time.h>
 
@@ -92,36 +93,8 @@ void MyDisplay(void)
     glEnableClientState(GL_COLOR_ARRAY);
     glPointSize(pointSize);
 
-    for (size_t i = 0; i < sph.particles.size(); ++i)
-    {
-        points[i].x = static_cast<GLfloat>(sph.particles[i].position.x);
-        points[i].y = static_cast<GLfloat>(sph.particles[i].position.y);
-        points[i].z = static_cast<GLfloat>(sph.particles[i].position.z);
-
-        const SPHSDK::FLOAT velocity = sph.particles[i].velocity.calcNormSqr();
-        // color depends on velocity
-        if (velocity > SPHSDK::Config::SpeedTreshold / 2.)
-        {
-            points[i].r = 1.0f;
-            points[i].g = 0.0f;
-            points[i].b = 0.0f;
-        }
-        else if (velocity > SPHSDK::Config::SpeedTreshold / 4.)
-        {
-            points[i].r = 0.99f;
-            points[i].g = 0.7f;
-            points[i].b = 0.0f;
-        }
-        else
-        {
-            points[i].r = 0.0f;
-            points[i].g = 0.0f;
-            points[i].b = 1.0f;
-        }
-    }
-
-    glVertexPointer(3, GL_FLOAT, sizeof(SVertex), points.data());
-    glColorPointer(3, GL_FLOAT, sizeof(SVertex), &points[0].r);
+    glVertexPointer(3, GL_FLOAT, sizeof(SPHSDK::Particle), &sph.particles[0].position);
+    glColorPointer(3, GL_FLOAT, sizeof(SVertex), &sph.particles[0].colour);
     glDrawArrays(GL_POINTS, 0, SPHSDK::Config::ParticlesNumber);
 
     glDisableClientState(GL_COLOR_ARRAY);

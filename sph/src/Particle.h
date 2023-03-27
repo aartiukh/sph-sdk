@@ -32,6 +32,7 @@ public:
     Particle(const Point3F& position, FLOAT radius = Config::ParticleRadius);
 
     Point3F position;
+    Point3F colour;
 
     FLOAT radius;
     FLOAT density;

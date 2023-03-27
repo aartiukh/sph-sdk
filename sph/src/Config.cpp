@@ -8,7 +8,7 @@
 
 namespace SPHSDK
 {
-    const size_t Config::ParticlesNumber = 6000;
+    const size_t Config::ParticlesNumber = 10000;
     const FLOAT Config::ParticleRadius = 0.015;
 
     const FLOAT Config::WaterDensity = 998.29;

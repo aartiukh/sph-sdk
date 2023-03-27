@@ -41,8 +41,8 @@ SPH::SPH(const std::function<FLOAT(FLOAT, FLOAT, FLOAT)>* obstacle)
     FLOAT fi = 0.;
     FLOAT teta = 0.;
 
-    size_t M = 5;
-    size_t N = 5;
+    size_t M = 10;
+    size_t N = 10;
 
     size_t m = 0;
     size_t n = 0;
