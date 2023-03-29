@@ -2,7 +2,7 @@ import unittest
 
 import numpy as np
 
-from neighbors_search_algorithms import bruteforce, opti_bruteforce
+from bruteforce import bruteforce, opti_bruteforce
 
 
 class TestBenchmark2D(unittest.TestCase):
@@ -108,12 +108,16 @@ class TestBenchmark2D(unittest.TestCase):
     def test_bruteforce(self):
         for points, answer in zip(self.all_points, self.answers):
             with self.subTest(points=points):
-                self.assertEqual(bruteforce(points, self.search_radius), answer)
+                found_nb = bruteforce(points, self.search_radius)
+                found_nb = {k: sorted(v) for k, v in found_nb.items()}
+                self.assertEqual(found_nb, answer)
 
     def test_opti_bruteforce(self):
         for points, answer in zip(self.all_points, self.answers):
             with self.subTest(points=points):
-                self.assertEqual(opti_bruteforce(points, self.search_radius), answer)
+                found_nb = opti_bruteforce(points, self.search_radius)
+                found_nb = {k: sorted(v) for k, v in found_nb.items()}
+                self.assertEqual(found_nb, answer)
 
 
 if __name__ == '__main__':

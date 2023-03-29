@@ -23,8 +23,6 @@ def bruteforce(points: np.ndarray, search_radius: float) -> dict:
             if dist - search_radius < EPSILON:
                 neighbors[i].append(j)
 
-    neighbors = {k: sorted(v) for k, v in neighbors.items()}
-
     return neighbors
 
 
@@ -44,8 +42,6 @@ def opti_bruteforce(points: np.ndarray, search_radius: float) -> dict:
             if dist - search_radius < EPSILON:
                 neighbors[i].append(j)
                 neighbors[j].append(i)
-
-    neighbors = {k: sorted(v) for k, v in neighbors.items()}
 
     return neighbors
 
