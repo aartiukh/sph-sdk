@@ -28,7 +28,7 @@ static void initGeneralParticles()
 
     for (size_t i = 0; i < numberOfParticles; ++i)
     {
-        generalParticleVect[i] = Particle(Point3F(0.5f + 0.01f * i, 0.5f + 0.01f * i, 0.5f + 0.01f * i), 0.01f);
+        generalParticleVect[i] = Particle(Point3F(0.5 + 0.01 * i, 0.5 + 0.01 * i, 0.5 + 0.01 * i), 0.01);
         generalParticleVect[i].mass = Config::WaterParticleMass;
         generalParticleVect[i].supportRadius = Config::WaterSupportRadius;
     }
