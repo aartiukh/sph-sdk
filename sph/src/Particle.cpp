@@ -11,6 +11,7 @@ namespace SPHSDK
 
 Particle::Particle() :
     position(Point3F()),
+    colour(Point3F()),
     radius(0.0),
     density(0.0),
     pressure(0.0),
@@ -30,6 +31,7 @@ Particle::Particle() :
 
 Particle::Particle(const Point3F& position, FLOAT radius) :
     position(position),
+    colour(Point3F()),
     radius(radius),
     density(0.0),
     pressure(0.0),
