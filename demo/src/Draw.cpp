@@ -39,15 +39,6 @@ static SPHSDK::SPH sph;
 
 static SPHSDK::Point3FVector mesh;
 
-struct SVertex
-{
-    GLfloat x,y,z;
-    GLfloat r,g,b;
-};
-
-// TODO: optimize this, do not copy arrays to draw
-std::vector<SVertex> points(SPHSDK::Config::ParticlesNumber);
-
 void MyDisplay(void)
 {
     mat4x4 view;
@@ -78,7 +69,7 @@ void MyDisplay(void)
 
     sph.run();
 
-    const SPHSDK::FLOAT cubeSize = static_cast<SPHSDK::FLOAT>(SPHSDK::Config::CubeSize);
+    const auto cubeSize = SPHSDK::Config::CubeSize;
 
     // Draw the obstacle
     glBegin(GL_TRIANGLES);
@@ -93,8 +84,8 @@ void MyDisplay(void)
     glEnableClientState(GL_COLOR_ARRAY);
     glPointSize(pointSize);
 
-    glVertexPointer(3, GL_FLOAT, sizeof(SPHSDK::Particle), &sph.particles[0].position);
-    glColorPointer(3, GL_FLOAT, sizeof(SVertex), &sph.particles[0].colour);
+    glVertexPointer(3, GL_DOUBLE, sizeof(SPHSDK::Particle), &sph.particles[0].position);
+    glColorPointer(3, GL_DOUBLE, sizeof(SPHSDK::Particle), &sph.particles[0].colour);
     glDrawArrays(GL_POINTS, 0, SPHSDK::Config::ParticlesNumber);
 
     glDisableClientState(GL_COLOR_ARRAY);

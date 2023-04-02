@@ -14,7 +14,7 @@
 namespace SPHSDK
 {
     // Float precision to be used in all algorithims
-    using FLOAT = float;
+    using FLOAT = double;
 
     using SizetVector = std::vector<size_t>;
 
