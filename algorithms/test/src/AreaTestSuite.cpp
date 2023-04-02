@@ -8,7 +8,7 @@
 
 #include <gtest/gtest.h>
 
-namespace SPHAlgorithms::TestEnvironment {
+namespace SPHSDK::TestEnvironment {
 
 void AreaTestSuite::testDefaultCtor()
 {
@@ -24,14 +24,14 @@ void AreaTestSuite::testAreaFunction()
 void AreaTestSuite::testIsInsideArea()
 {
   Area a;
-  Point2D p;
+  Point2F p;
 
   ASSERT_FALSE(a.isInsideArea(p));
 }
 
-} // SPHAlgorithms::TestEnvironment
+} // SPHSDK::TestEnvironment
 
-using namespace SPHAlgorithms::TestEnvironment;
+using namespace SPHSDK::TestEnvironment;
 
 TEST(AreaTestSuite, testDefaultCtor)
 {

@@ -8,6 +8,7 @@
 #include "linmath.h"
 
 #include <iostream>
+#include <cstddef>
 #include <stdlib.h>
 #include <time.h>
 
@@ -27,25 +28,16 @@
 #include "sph/src/SPH.h"
 
 // Window dimensions
-float aspect_ratio = 1.;
+SPHSDK::FLOAT aspect_ratio = 1.;
 static int width = 900;
 static int height = 900;
 
-static float angle = 360;
+static SPHSDK::FLOAT angle = 360;
 static const GLfloat pointSize = 5.f;
 
 static SPHSDK::SPH sph;
 
-static SPHAlgorithms::Point3FVector mesh;
-
-struct SVertex
-{
-    GLfloat x,y,z;
-    GLfloat r,g,b;
-};
-
-// TODO: optimize this, do not copy arrays to draw
-std::vector<SVertex> points(SPHSDK::Config::ParticlesNumber);
+static SPHSDK::Point3FVector mesh;
 
 void MyDisplay(void)
 {
@@ -77,7 +69,7 @@ void MyDisplay(void)
 
     sph.run();
 
-    const float cubeSize = static_cast<float>(SPHSDK::Config::CubeSize);
+    const auto cubeSize = SPHSDK::Config::CubeSize;
 
     // Draw the obstacle
     glBegin(GL_TRIANGLES);
@@ -92,36 +84,8 @@ void MyDisplay(void)
     glEnableClientState(GL_COLOR_ARRAY);
     glPointSize(pointSize);
 
-    for (size_t i = 0; i < sph.particles.size(); ++i)
-    {
-        points[i].x = static_cast<GLfloat>(sph.particles[i].position.x);
-        points[i].y = static_cast<GLfloat>(sph.particles[i].position.y);
-        points[i].z = static_cast<GLfloat>(sph.particles[i].position.z);
-
-        const double velocity = sph.particles[i].velocity.calcNormSqr();
-        // color depends on velocity
-        if (velocity > SPHSDK::Config::SpeedTreshold / 2.)
-        {
-            points[i].r = 1.0f;
-            points[i].g = 0.0f;
-            points[i].b = 0.0f;
-        }
-        else if (velocity > SPHSDK::Config::SpeedTreshold / 4.)
-        {
-            points[i].r = 0.99f;
-            points[i].g = 0.7f;
-            points[i].b = 0.0f;
-        }
-        else
-        {
-            points[i].r = 0.0f;
-            points[i].g = 0.0f;
-            points[i].b = 1.0f;
-        }
-    }
-
-    glVertexPointer(3, GL_FLOAT, sizeof(SVertex), points.data());
-    glColorPointer(3, GL_FLOAT, sizeof(SVertex), &points[0].r);
+    glVertexPointer(3, GL_DOUBLE, sizeof(SPHSDK::Particle), &sph.particles[0].position);
+    glColorPointer(3, GL_DOUBLE, sizeof(SPHSDK::Particle), &sph.particles[0].colour);
     glDrawArrays(GL_POINTS, 0, SPHSDK::Config::ParticlesNumber);
 
     glDisableClientState(GL_COLOR_ARRAY);
@@ -178,7 +142,7 @@ void updateGravity()
     //   |0   cos θ    −sin θ| |y| = |y cos θ − z sin θ| = |y'|
     //   |0   sin θ     cos θ| |z|   |y sin θ + z cos θ|   |z'|
     SPHSDK::Config::GravitationalAcceleration =
-        SPHAlgorithms::Point3D(SPHSDK::Config::InitialGravitationalAcceleration.x,
+        SPHSDK::Point3F(SPHSDK::Config::InitialGravitationalAcceleration.x,
                                SPHSDK::Config::InitialGravitationalAcceleration.y * cos(angle / 180 * M_PI) -
                                    SPHSDK::Config::InitialGravitationalAcceleration.z * sin(angle / 180 * M_PI),
                                SPHSDK::Config::InitialGravitationalAcceleration.y * sin(angle / 180 * M_PI) +
@@ -188,7 +152,7 @@ void updateGravity()
 void resize_callback(GLFWwindow* window, int width, int height)
 {
     glViewport(0, 0, width, height);
-    aspect_ratio = height ? width / (float) height : 1.f;
+    aspect_ratio = height ? width / (SPHSDK::FLOAT) height : 1.f;
 }
 
 
@@ -206,7 +170,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
             break;
         case GLFW_KEY_HOME:
             angle = 360.0;
-            SPHSDK::Config::GravitationalAcceleration = SPHAlgorithms::Point3D(0.0, 0.0, -9.82);
+            SPHSDK::Config::GravitationalAcceleration = SPHSDK::Point3F(0.0, 0.0, -9.82);
             break;
         case GLFW_KEY_ESCAPE:
             glfwSetWindowShouldClose(window, GLFW_TRUE);
@@ -216,10 +180,12 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 void Draw::MainDraw(int argc, char** argv)
 {
-    static const std::function<float(float, float, float)> obstacle = SPHAlgorithms::Shapes::Pawn;
-    sph = SPHSDK::SPH(&obstacle);
+    using namespace SPHSDK;
 
-    mesh = SPHAlgorithms::MarchingCubes::generateMesh(obstacle);
+    static const std::function<FLOAT(FLOAT, FLOAT, FLOAT)> obstacle = Shapes::Pawn;
+    sph = SPH(&obstacle);
+
+    mesh = MarchingCubes::generateMesh(obstacle);
 
     // GLFW initialization
     if (!glfwInit()) {

@@ -6,16 +6,14 @@
 
 #include "Area.h"
 
-namespace SPHAlgorithms
+namespace SPHSDK
 {
-
-// TODO: implement
 
 Area::Area() : m_boundingRect(Rect())
 {
 }
 
-double Area::areaFunction(double /*x*/, double /*y*/)
+FLOAT Area::areaFunction(FLOAT /*x*/, FLOAT /*y*/)
 {
   return 0.;
 }
@@ -29,7 +27,7 @@ Rect Area::getBoundingRect() const
     return m_boundingRect;
 }
 
-bool Area::isInsideArea(const Point2D& /*point*/)
+bool Area::isInsideArea(const Point2F& /*point*/)
 {
     return false;
 }
@@ -45,4 +43,4 @@ Cuboid Volume::getBoundingCuboid() const
     return m_boundingCuboid;
 }
 
-} //SPHAlgorithms
+} // SPHSDK

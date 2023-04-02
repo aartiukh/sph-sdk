@@ -21,7 +21,7 @@ namespace SPHSDK
 class SPH
 {
 public:
-    SPH(const std::function<float(float, float, float)>* obstacle = nullptr);
+    SPH(const std::function<FLOAT(FLOAT, FLOAT, FLOAT)>* obstacle = nullptr);
 
     void run();
 
@@ -29,11 +29,11 @@ public:
     ParticleVect particles;
 
 private:
-    SPHAlgorithms::Volume m_volume;
+    Volume m_volume;
 
-    SPHAlgorithms::NeighboursSearch3D<ParticleVect> m_searcher;
+    NeighboursSearch3D<ParticleVect> m_searcher;
 
-    const std::function<float(float, float, float)>* m_obstacle;
+    const std::function<FLOAT(FLOAT, FLOAT, FLOAT)>* m_obstacle;
 };
 
 } // namespace SPHSDK

@@ -8,7 +8,7 @@
 #ifndef R_OPERATIONS_TEST_SUITE_H_76192C2023784EE0B4976A48A1A8779B
 #define R_OPERATIONS_TEST_SUITE_H_76192C2023784EE0B4976A48A1A8779B
 
-namespace SPHAlgorithms
+namespace SPHSDK
 {
 
 namespace TestEnvironment
@@ -23,7 +23,7 @@ public:
     static void testDisjunction();
 };
 
-} //TestEnvironment
-} //SPHAlgorithms
+} // namespace TestEnvironment
+} // namespace SPHSDK
 
 #endif // R_OPERATIONS_TEST_SUITE_H_76192C2023784EE0B4976A48A1A8779B
