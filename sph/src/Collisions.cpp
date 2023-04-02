@@ -30,16 +30,16 @@ static Point3F calculateSurfaceNormal(const Point3F& differenceParticleNeighbour
 
 // (Formula 4.56)
 static Point3F calculateVelocity(const Point3F& particleVelocity,
-                                             const Point3F& differenceParticleNeighbour)
+                                 const Point3F& differenceParticleNeighbour)
 {
     const FLOAT scalarProduct = particleVelocity.x * differenceParticleNeighbour.x +
-                                            particleVelocity.y * differenceParticleNeighbour.y +
-                                            particleVelocity.z * differenceParticleNeighbour.z;
+                                particleVelocity.y * differenceParticleNeighbour.y +
+                                particleVelocity.z * differenceParticleNeighbour.z;
     return particleVelocity - differenceParticleNeighbour * 2 * scalarProduct;
 }
 
 void Collision::detectCollisions(ParticleVect&                                    particleVect,
-                                 const Volume&                     volume,
+                                 const Volume&                                    volume,
                                  const std::function<FLOAT(FLOAT, FLOAT, FLOAT)>* obstacle)
 {
     for (size_t i = 0; i < particleVect.size(); i++)
