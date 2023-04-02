@@ -22,6 +22,9 @@ void ParticleTestSuite::particleIsValid()
     EXPECT_DOUBLE_EQ(5.0, particle.position.x);
     EXPECT_DOUBLE_EQ(-6.0, particle.position.y);
     EXPECT_DOUBLE_EQ(1.0, particle.position.z);
+    EXPECT_DOUBLE_EQ(0.0, particle.colour.x);
+    EXPECT_DOUBLE_EQ(0.0, particle.colour.y);
+    EXPECT_DOUBLE_EQ(0.0, particle.colour.z);
     EXPECT_DOUBLE_EQ(0.1, particle.radius);
     EXPECT_DOUBLE_EQ(0.0, particle.velocity.x);
     EXPECT_DOUBLE_EQ(0.0, particle.velocity.y);
