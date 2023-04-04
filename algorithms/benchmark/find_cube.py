@@ -1,17 +1,17 @@
-import numpy as np
-
 EPSILON = 10e-8
 SEARCH_RADIUS = 0.2
 FIELD_SIZE = 1.0
 CUBES_IN_ROW = int(FIELD_SIZE / SEARCH_RADIUS)
 
 
+def squared_norm(point_1, point_2):
+    squares_sum = 0
+    for axis in range(len(point_1)):
+        squares_sum += (point_1[axis] - point_2[axis])**2
+    return squares_sum
+
+
 def find_points_cubes(points: list, search_radius: float, field_size: float) -> list[list]:
-    # cols = points[:, 0] // search_radius
-    # rows = points[:, 1] // search_radius
-    # cube_size = field_size / search_radius
-    # cube_ids = rows * cube_size + cols
-    # cube_ids = cube_ids.astype(int)
     number_cubes_in_row = int(field_size / search_radius)
     cube_indexes = [[] for cube in range(number_cubes_in_row ** 2)]
 
@@ -25,34 +25,21 @@ def find_points_cubes(points: list, search_radius: float, field_size: float) -> 
 
 
 def _find_one_cube_neighbors(cube_id: int, cubes_in_row: int) -> list[int]:
-    if cube_id % cubes_in_row == 0:
-        possible_neighbors = [
-            cube_id + 1,
-            cube_id - cubes_in_row,
-            cube_id + cubes_in_row,
-            cube_id + cubes_in_row + 1,
-            cube_id - cubes_in_row + 1
-        ]
-    elif cube_id % cubes_in_row == (cubes_in_row - 1):
-        possible_neighbors = [
-            cube_id - 1,
-            cube_id - cubes_in_row,
-            cube_id + cubes_in_row,
-            cube_id + cubes_in_row - 1,
-            cube_id - cubes_in_row - 1
-        ]
-    else:
-        possible_neighbors = [
-            cube_id - 1,
-            cube_id + 1,
-            cube_id - cubes_in_row,
-            cube_id + cubes_in_row,
-            cube_id + cubes_in_row - 1,
-            cube_id + cubes_in_row + 1,
-            cube_id - cubes_in_row - 1,
-            cube_id - cubes_in_row + 1
-        ]
-    cube_neighbors_ids = [neighbor_id for neighbor_id in possible_neighbors if (0 <= neighbor_id < cubes_in_row ** 2)]
+    col = cube_id % cubes_in_row
+    row = cube_id // cubes_in_row
+    possible_neighbors = [
+        (row, col + 1),
+        (row, col - 1),
+        (row + 1, col),
+        (row - 1, col),
+        (row + 1, col + 1),
+        (row - 1, col + 1),
+        (row + 1, col - 1),
+        (row - 1, col - 1),
+    ]
+    cube_neighbors_ids = [row * cubes_in_row + col for row, col in possible_neighbors if (0 <= col < cubes_in_row)
+                                                                                      and (0 <= row < cubes_in_row)]
+
     return cube_neighbors_ids
 
 
@@ -69,32 +56,16 @@ def search_neighbor_cubes(points, search_radius, cube_ids, cube_neighbors) -> li
         current_neighbors = cube_neighbors[cube_id]
         for neighbor_cube_id in current_neighbors:
             if neighbor_cube_id >= cube_id:
-                print(cube_points_ids)
                 neighbor_cube_points = cube_ids[neighbor_cube_id]
 
                 for cube_point_id in cube_points_ids:
                     for neighbor_point_id in neighbor_cube_points:
-                        dist = np.linalg.norm(points[cube_point_id] - points[neighbor_point_id])
-
-                        if dist - search_radius < EPSILON:
+                        dist = squared_norm(points[cube_point_id], points[neighbor_point_id])
+                        if dist - search_radius ** 2 < EPSILON:
                             neighbors[cube_point_id].append(neighbor_point_id)
                             neighbors[neighbor_point_id].append(cube_point_id)
 
     return neighbors
-
-
-def main(points: np.ndarray, search_radius: float, field_size: float):
-
-    cubes, cube2points = find_points_cubes(points=points, search_radius=search_radius, field_size=field_size)
-    print("CUBES:\n", cubes, "CUBE2POINTS:\n", cube2points)
-
-    cube_nb = _find_neighbor_cubes(cube_ids=cubes, search_radius=search_radius, field_size=field_size)
-    print("CUBE NEIGHBORS:\n", cube_nb)
-
-    nb = search_neighbor_cubes(points, search_radius, cubes, cube_nb, cube2points)
-    print("POINT NEIGHBORS:\n", nb)
-
-    return nb
 
 
 if __name__ == '__main__':
@@ -110,8 +81,6 @@ if __name__ == '__main__':
                          }
 
     print(f"POINTS:\n{xy}")
-
-    # res = main(points=xy, search_radius=SEARCH_RADIUS, field_size=FIELD_SIZE)
 
     cubes = find_points_cubes(points=xy, search_radius=SEARCH_RADIUS, field_size=FIELD_SIZE)
     print("CUBES:\n", cubes)
