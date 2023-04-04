@@ -44,9 +44,19 @@ def _find_one_cube_neighbors(cube_id: int, cubes_in_row: int) -> list[int]:
 
 
 def _find_neighbor_cubes(search_radius: float, field_size: float) -> list[list]:
-    number_cubes_in_row = int(field_size / search_radius)
-    cubes_neighbors_ids = [_find_one_cube_neighbors(cube_id, number_cubes_in_row)
-                           for cube_id in range(number_cubes_in_row ** 2)]
+    cubes_in_row = int(field_size / search_radius)
+    # cubes_neighbors_ids = [_find_one_cube_neighbors(cube_id, number_cubes_in_row)
+    #                        for cube_id in range(number_cubes_in_row ** 2)]
+    cubes_neighbors_ids = [[] for i in range(cubes_in_row**2)]
+    for row in range(cubes_in_row):
+        for col in range(cubes_in_row):
+            current_cube_id = row * cubes_in_row + col
+
+            for x in range(max(0, row - 1), min(row + 1, cubes_in_row - 1) + 1):
+                for y in range(max(0, col - 1), min(col + 1, cubes_in_row - 1) + 1):
+                    if x != row or y != col:
+                       neighbor_cube_id = x * cubes_in_row + y
+                       cubes_neighbors_ids[current_cube_id].append(neighbor_cube_id)
     return cubes_neighbors_ids
 
 
