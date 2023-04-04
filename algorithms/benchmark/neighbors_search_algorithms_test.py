@@ -8,6 +8,7 @@ class TestBenchmark2D(unittest.TestCase):
 
     def setUp(self):
         self.search_radius = 0.2
+        self.epsilon = 10e-8
         self.square_len = 1.0
         self.all_points = [
             # 1 single point
@@ -99,15 +100,15 @@ class TestBenchmark2D(unittest.TestCase):
     def test_bruteforce(self):
         for points, answer in zip(self.all_points, self.answers):
             with self.subTest(points=points):
-                found_nb = bruteforce(points, self.search_radius)
-                found_nb = {k: sorted(v) for k, v in found_nb.items()}
+                found_nb = bruteforce(points, self.search_radius, self.epsilon)
+                found_nb = [sorted(neighbors) for neighbors in found_nb]
                 self.assertEqual(found_nb, answer)
 
     def test_optimized_bruteforce(self):
         for points, answer in zip(self.all_points, self.answers):
             with self.subTest(points=points):
-                found_nb = optimized_bruteforce(points, self.search_radius)
-                found_nb = {k: sorted(v) for k, v in found_nb.items()}
+                found_nb = optimized_bruteforce(points, self.search_radius, self.epsilon)
+                found_nb = [sorted(neighbors) for neighbors in found_nb]
                 self.assertEqual(found_nb, answer)
 
 
