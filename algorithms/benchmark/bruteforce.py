@@ -4,7 +4,7 @@ EPSILON = 10e-8
 SEARCH_RADIUS = 0.2
 
 
-def bruteforce(points: list, search_radius: float) -> dict:
+def bruteforce(points: list[list], search_radius: float) -> list:
     """
 
     :param points: 2D np.ndarray of kind [[p0x, p0y], [p1x, p1y]]
@@ -12,7 +12,7 @@ def bruteforce(points: list, search_radius: float) -> dict:
     :return: dict of kind {point0_index: [neighbor1_index, neighbor2_index]}
     """
     shape = (len(points), len(points[0]))
-    neighbors = {i: [] for i in range(shape[0])}
+    neighbors = [[] for i in range(shape[0])]
 
     for i in range(shape[0]):
         for j in range(shape[0]):
@@ -27,7 +27,7 @@ def bruteforce(points: list, search_radius: float) -> dict:
     return neighbors
 
 
-def optimized_bruteforce(points: list, search_radius: float) -> dict:
+def optimized_bruteforce(points: list[list], search_radius: float) -> list:
     """
 
     :param points: 2D np.ndarray of kind [[p0x, p0y], [p1x, p1y]]
@@ -35,7 +35,7 @@ def optimized_bruteforce(points: list, search_radius: float) -> dict:
     :return: dict of kind {point0_index: [neighbor1_index, neighbor2_index]}
     """
     shape = (len(points), len(points[0]))
-    neighbors = {i: [] for i in range(shape[0])}
+    neighbors = [[] for i in range(shape[0])]
 
     for i in range(shape[0]):
         for j in range(i + 1, shape[0]):
@@ -55,12 +55,12 @@ if __name__ == '__main__':
         [0.4, 0.1]
     ]
 
-    correct_neighbors = {0: [1],
-                         1: [2, 0],
-                         2: [1]
-                         }
+    correct_neighbors = [[1],
+                         [2, 0],
+                         [1]
+                         ]
 
-    correct_neighbors = {k: sorted(v) for k, v in correct_neighbors.items()}
+    correct_neighbors = [sorted(neighbors) for neighbors in correct_neighbors]
 
     print("Search radius: ", SEARCH_RADIUS)
     print("Points:\n", xy)

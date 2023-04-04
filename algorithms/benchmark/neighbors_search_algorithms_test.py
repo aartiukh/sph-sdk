@@ -103,7 +103,7 @@ class TestBenchmark2D(unittest.TestCase):
                 found_nb = {k: sorted(v) for k, v in found_nb.items()}
                 self.assertEqual(found_nb, answer)
 
-    def test_opti_bruteforce(self):
+    def test_optimized_bruteforce(self):
         for points, answer in zip(self.all_points, self.answers):
             with self.subTest(points=points):
                 found_nb = optimized_bruteforce(points, self.search_radius)
