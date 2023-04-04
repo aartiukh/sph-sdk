@@ -1,45 +1,47 @@
-import numpy as np
+from dist_sqr import dist_sqr
 
 EPSILON = 10e-8
 SEARCH_RADIUS = 0.2
 
 
-def bruteforce(points: np.ndarray, search_radius: float) -> dict:
+def bruteforce(points: list, search_radius: float) -> dict:
     """
 
     :param points: 2D np.ndarray of kind [[p0x, p0y], [p1x, p1y]]
     :param search_radius: float, minimal radius to become neighbors
     :return: dict of kind {point0_index: [neighbor1_index, neighbor2_index]}
     """
-    neighbors = {i: [] for i in range(points.shape[0])}
+    shape = (len(points), len(points[0]))
+    neighbors = {i: [] for i in range(shape[0])}
 
-    for i in range(points.shape[0]):
-        for j in range(points.shape[0]):
+    for i in range(shape[0]):
+        for j in range(shape[0]):
             if i == j:
                 continue
 
-            dist = np.linalg.norm(points[i] - points[j])
+            dist = dist_sqr(points[i], points[j])
 
-            if dist - search_radius < EPSILON:
+            if dist - search_radius ** 2 < EPSILON:
                 neighbors[i].append(j)
 
     return neighbors
 
 
-def opti_bruteforce(points: np.ndarray, search_radius: float) -> dict:
+def optimized_bruteforce(points: list, search_radius: float) -> dict:
     """
 
     :param points: 2D np.ndarray of kind [[p0x, p0y], [p1x, p1y]]
     :param search_radius: float, minimal radius to become neighbors
     :return: dict of kind {point0_index: [neighbor1_index, neighbor2_index]}
     """
-    neighbors = {i: [] for i in range(points.shape[0])}
+    shape = (len(points), len(points[0]))
+    neighbors = {i: [] for i in range(shape[0])}
 
-    for i in range(points.shape[0]):
-        for j in range(i + 1, points.shape[0]):
-            dist = np.linalg.norm(points[i] - points[j])
+    for i in range(shape[0]):
+        for j in range(i + 1, shape[0]):
+            dist = dist_sqr(points[i], points[j])
 
-            if dist - search_radius < EPSILON:
+            if dist - search_radius ** 2 < EPSILON:
                 neighbors[i].append(j)
                 neighbors[j].append(i)
 
@@ -47,11 +49,11 @@ def opti_bruteforce(points: np.ndarray, search_radius: float) -> dict:
 
 
 if __name__ == '__main__':
-    xy = np.array([
+    xy = [
         [0.18, 0.2],
         [0.35, 0.15],
         [0.4, 0.1]
-    ])
+    ]
 
     correct_neighbors = {0: [1],
                          1: [2, 0],
