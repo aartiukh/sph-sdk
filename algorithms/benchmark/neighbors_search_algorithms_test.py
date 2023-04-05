@@ -55,46 +55,46 @@ class TestBenchmark2D(unittest.TestCase):
         ]
         self.answers = [
             # 1 single point
-            {
-                0: []
-            },
+            [
+                []
+            ],
             # 2 points neighbors
-            {
-                0: [1],
-                1: [0]
-            },
+            [
+                [1],
+                [0]
+            ],
             # 2 points non-neighbors
-            {
-                0: [],
-                1: []
-            },
+            [
+                [],
+                []
+            ],
             # 3 points with 1 common neighbor
-            {
-                0: [1],
-                1: [0, 2],
-                2: [1]
-            },
+            [
+                [1],
+                [0, 2],
+                [1]
+            ],
             # 5 points: 3 points with 1 common neighbor and 2 different points neighbors
-            {
-                0: [1],
-                1: [0, 2],
-                2: [1],
-                3: [4],
-                4: [3]
-            },
+            [
+                [1],
+                [0, 2],
+                [1],
+                [4],
+                [3]
+            ],
             # all 10 points
-            {
-                0: [1],
-                1: [0, 2],
-                2: [1],
-                3: [4],
-                4: [3],
-                5: [6],
-                6: [5],
-                7: [8],
-                8: [7],
-                9: []
-            }
+            [
+                [1],
+                [0, 2],
+                [1],
+                [4],
+                [3],
+                [6],
+                [5],
+                [8],
+                [7],
+                []
+            ]
         ]
 
     def test_bruteforce(self):
