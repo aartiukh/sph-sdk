@@ -11,7 +11,7 @@
 #include "Defines.h"
 #include "Area.h"
 
-namespace SPHAlgorithms
+namespace SPHSDK
 {
 
 namespace TestEnvironment
@@ -34,7 +34,7 @@ class NeighboursSearch
 
 public:
 
-    explicit NeighboursSearch(const Area& area, double radius, double eps);
+    explicit NeighboursSearch(const Area& area, FLOAT radius, FLOAT eps);
 
     ~NeighboursSearch();
 
@@ -50,9 +50,9 @@ private:
 
     Area m_Area;
 
-    double m_radius;
+    FLOAT m_radius;
 
-    double m_eps;
+    FLOAT m_eps;
 
     VectorOfSizetVectors m_boxes;
 
@@ -62,9 +62,9 @@ private:
 
     size_t m_pointsSize; // the amount of points
 
-    double m_rectWidth;
+    FLOAT m_rectWidth;
 
-    double m_rectHeight;
+    FLOAT m_rectHeight;
 };
 
 // ---------------------------
@@ -75,7 +75,7 @@ template <class T> class NeighboursSearch3D
     
 public:
 
-    explicit NeighboursSearch3D(const Volume& volume, double radius, double eps);
+    explicit NeighboursSearch3D(const Volume& volume, FLOAT radius, FLOAT eps);
 
     ~NeighboursSearch3D();
 
@@ -134,9 +134,9 @@ private:
 
     Volume m_volume;
 
-    double m_radius;
+    FLOAT m_radius;
 
-    double m_eps;
+    FLOAT m_eps;
 
     VectorOfSizetVectors m_boxes;
 
@@ -152,7 +152,7 @@ private:
     size_t m_normalizedCuboidLength;
     size_t m_normalizedCuboidHeight;
 };
-} //SPHAlgorithms
+} // namespace SPHSDK
 
 #include "NeighboursSearch.hpp"
 

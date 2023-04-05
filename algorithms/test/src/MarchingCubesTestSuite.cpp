@@ -16,7 +16,7 @@
 
 
 // Generates Obj file in Wavefront format with mesh
-static void generateObjFile(const std::vector<SPHAlgorithms::Point3F>& vertices, const std::string& fileName)
+static void generateObjFile(const std::vector<SPHSDK::Point3F>& vertices, const std::string& fileName)
 {
     std::ofstream file(fileName);
     if (!file)
@@ -40,14 +40,14 @@ static void generateObjFile(const std::vector<SPHAlgorithms::Point3F>& vertices,
     file.close();
 }
 
-namespace SPHAlgorithms
+namespace SPHSDK
 {
 namespace TestEnvironment
 {
 
 void MarchingCubesTestSuite::generatePawnMesh()
 {
-    const Point3FVector mesh = SPHAlgorithms::MarchingCubes::generateMesh(Shapes::Pawn);
+    const Point3FVector mesh = MarchingCubes::generateMesh(Shapes::Pawn);
 
     ASSERT_EQ(37128u, mesh.size());
 
@@ -56,7 +56,7 @@ void MarchingCubesTestSuite::generatePawnMesh()
 
 void MarchingCubesTestSuite::generateBishopMesh()
 {
-    const Point3FVector mesh = SPHAlgorithms::MarchingCubes::generateMesh(Shapes::Bishop);
+    const Point3FVector mesh = MarchingCubes::generateMesh(Shapes::Bishop);
 
     ASSERT_EQ(45552u, mesh.size());
 
@@ -64,9 +64,9 @@ void MarchingCubesTestSuite::generateBishopMesh()
 }
 
 } // namespace TestEnvironment
-} // namespace SPHAlgorithms
+} // namespace SPHSDK
 
-using namespace SPHAlgorithms::TestEnvironment;
+using namespace SPHSDK::TestEnvironment;
 
 TEST(MarchingCubesTestSuite, generatePawnMesh)
 {

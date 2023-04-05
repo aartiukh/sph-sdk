@@ -10,40 +10,42 @@ namespace SPHSDK
 {
 
 Particle::Particle() :
+    position(Point3F()),
+    colour(Point3F()),
     radius(0.0),
     density(0.0),
     pressure(0.0),
     mass(0.0),
     supportRadius(0.0),
-    position(SPHAlgorithms::Point3D()),
-    velocity(SPHAlgorithms::Point3D()),
-    acceleration(SPHAlgorithms::Point3D()),
-    fGravity(SPHAlgorithms::Point3D()),
-    fSurfaceTension(SPHAlgorithms::Point3D()),
-    fViscosity(SPHAlgorithms::Point3D()),
-    fPressure(SPHAlgorithms::Point3D()),
-    fExternal(SPHAlgorithms::Point3D()),
-    fInternal(SPHAlgorithms::Point3D()),
-    fTotal(SPHAlgorithms::Point3D())
+    velocity(Point3F()),
+    acceleration(Point3F()),
+    fGravity(Point3F()),
+    fSurfaceTension(Point3F()),
+    fViscosity(Point3F()),
+    fPressure(Point3F()),
+    fExternal(Point3F()),
+    fInternal(Point3F()),
+    fTotal(Point3F())
 {
 }
 
-Particle::Particle(const SPHAlgorithms::Point3D & position, double radius) :
+Particle::Particle(const Point3F& position, FLOAT radius) :
+    position(position),
+    colour(Point3F()),
     radius(radius),
     density(0.0),
     pressure(0.0),
     mass(0.0),
     supportRadius(0.0),
-    position(position),
-    velocity(SPHAlgorithms::Point3D()),
-    acceleration(SPHAlgorithms::Point3D()),
-    fGravity(SPHAlgorithms::Point3D()),
-    fSurfaceTension(SPHAlgorithms::Point3D()),
-    fViscosity(SPHAlgorithms::Point3D()),
-    fPressure(SPHAlgorithms::Point3D()),
-    fExternal(SPHAlgorithms::Point3D()),
-    fInternal(SPHAlgorithms::Point3D()),
-    fTotal(SPHAlgorithms::Point3D())
+    velocity(Point3F()),
+    acceleration(Point3F()),
+    fGravity(Point3F()),
+    fSurfaceTension(Point3F()),
+    fViscosity(Point3F()),
+    fPressure(Point3F()),
+    fExternal(Point3F()),
+    fInternal(Point3F()),
+    fTotal(Point3F())
 {
 }
 

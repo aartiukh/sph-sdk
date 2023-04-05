@@ -8,7 +8,7 @@
 #ifndef MARCHING_CUBES_TEST_SUITE_H_96192C2023784EE0B4976A48A1A8779R
 #define MARCHING_CUBES_TEST_SUITE_H_96192C2023784EE0B4976A48A1A8779R
 
-namespace SPHAlgorithms
+namespace SPHSDK
 {
 
 namespace TestEnvironment
@@ -23,6 +23,6 @@ public:
 };
 
 } // namespace TestEnvironment
-} // namespace SPHAlgorithms
+} // namespace SPHSDK
 
 #endif // MARCHING_CUBES_TEST_SUITE_H_96192C2023784EE0B4976A48A1A8779R

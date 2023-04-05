@@ -12,22 +12,19 @@
 
 #include <functional>
 
-namespace SPHAlgorithms
+namespace SPHSDK
 {
 class Area;
 class Volume;
-} // namespace SPHAlgorithms
 
-namespace SPHSDK
-{
 
 class Collision
 {
 
 public:
-    static void detectCollisions(ParticleVect&                                    particleVect,
-                                 const SPHAlgorithms::Volume&                     volume,
-                                 const std::function<float(float, float, float)>* obstacle = nullptr);
+    static void detectCollisions(ParticleVect& particleVect,
+                                 const Volume& volume,
+                                 const std::function<FLOAT(FLOAT, FLOAT, FLOAT)>* obstacle = nullptr);
 };
 
 } // namespace SPHSDK

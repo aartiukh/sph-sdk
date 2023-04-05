@@ -2,7 +2,7 @@
 #ifndef AREA_TEST_SUITE_H_96192C2023784EE0B4976A48A1A87794
 #define AREA_TEST_SUITE_H_96192C2023784EE0B4976A48A1A87794
 
-namespace SPHAlgorithms::TestEnvironment
+namespace SPHSDK::TestEnvironment
 {
 
 class AreaTestSuite {
@@ -14,7 +14,7 @@ public:
   static void testIsInsideArea();
 };
 
-} // SPHAlgorithms::TestEnvironment
+} // namespace SPHSDK::TestEnvironment
 
 
 #endif // AREA_TEST_SUITE_H_96192C2023784EE0B4976A48A1A87794
