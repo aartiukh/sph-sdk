@@ -98,18 +98,18 @@ class TestBenchmark2D(unittest.TestCase):
         ]
 
     def test_bruteforce(self):
-        for points, answer in zip(self.all_points, self.answers):
+        for points, correct_nb in zip(self.all_points, self.answers):
             with self.subTest(points=points):
                 found_nb = bruteforce(points, self.search_radius, self.epsilon)
                 found_nb = [sorted(neighbors) for neighbors in found_nb]
-                self.assertEqual(found_nb, answer)
+                self.assertEqual(found_nb, correct_nb)
 
     def test_optimized_bruteforce(self):
-        for points, answer in zip(self.all_points, self.answers):
+        for points, correct_nb in zip(self.all_points, self.answers):
             with self.subTest(points=points):
                 found_nb = optimized_bruteforce(points, self.search_radius, self.epsilon)
                 found_nb = [sorted(neighbors) for neighbors in found_nb]
-                self.assertEqual(found_nb, answer)
+                self.assertEqual(found_nb, correct_nb)
 
 
 if __name__ == '__main__':
