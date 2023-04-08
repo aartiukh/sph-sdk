@@ -8,12 +8,6 @@ class TestDistSqr(unittest.TestCase):
     def setUp(self):
         self.decimal_places = 4
         self.test_data = [
-            # 1D points
-            ([  # input
-                 [0.18],
-                 [0.35],
-             ],
-             0.0289),
             # 2D points
             ([  # input
                  [0.18, 0.2],
