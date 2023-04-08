@@ -10,7 +10,7 @@ class BruteForce:
         """
 
         :param points: 2D list of kind [[p0x, p0y], [p1x, p1y]]
-        :return: list of kind [[neighbor1_index, neighbor2_index]]
+        :return: list of neighbor points indexes for each point
         """
         points_number = len(points)
         neighbors = [[] for i in range(points_number)]
@@ -37,7 +37,7 @@ class BruteForceOptimized:
         """
 
         :param points: 2D list of kind [[p0x, p0y], [p1x, p1y]]
-        :return: list of kind [[neighbor1_index, neighbor2_index]]
+        :return: list of neighbor points indexes for each point
         """
         points_number = len(points)
         neighbors = [[] for i in range(points_number)]
