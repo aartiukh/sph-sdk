@@ -9,11 +9,11 @@ def bruteforce(points: list[list], search_radius: float, epsilon: float) -> list
     :param epsilon: precision for neighbors computation
     :return: list of kind [[neighbor1_index, neighbor2_index]]
     """
-    shape = (len(points), len(points[0]))
-    neighbors = [[] for i in range(shape[0])]
+    points_number = len(points)
+    neighbors = [[] for i in range(points_number)]
 
-    for i in range(shape[0]):
-        for j in range(shape[0]):
+    for i in range(points_number):
+        for j in range(points_number):
             if i == j:
                 continue
 
@@ -33,11 +33,11 @@ def optimized_bruteforce(points: list[list], search_radius: float, epsilon: floa
     :param epsilon: precision for neighbors computation
     :return: list of kind [[neighbor1_index, neighbor2_index]]
     """
-    shape = (len(points), len(points[0]))
-    neighbors = [[] for i in range(shape[0])]
+    points_number = len(points)
+    neighbors = [[] for i in range(points_number)]
 
-    for i in range(shape[0]):
-        for j in range(i + 1, shape[0]):
+    for i in range(points_number):
+        for j in range(i + 1, points_number):
             dist = dist_sqr(points[i], points[j])
 
             if dist - search_radius ** 2 < epsilon:
