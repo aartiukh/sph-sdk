@@ -7,25 +7,25 @@
 #ifndef MARCHING_CUBES_CONFIG_H_43C34465A6ED4DB9B9F2F4C3937BF5DC
 #define MARCHING_CUBES_CONFIG_H_43C34465A6ED4DB9B9F2F4C3937BF5DC
 
-namespace SPHAlgorithms
+namespace SPHSDK
 {
 
 // The size of the domain
-constexpr float CUBE_SIZE = 3.0f;
+constexpr FLOAT CUBE_SIZE = 3.0f;
 
 // Number of the grid cubes by which the domain is splitted
 constexpr int GRID_CUBES_NUMBER = 100;
 
 // Size of the grid cube
-const constexpr float GRID_CUBE_SIZE = CUBE_SIZE / GRID_CUBES_NUMBER;
+const constexpr FLOAT GRID_CUBE_SIZE = CUBE_SIZE / GRID_CUBES_NUMBER;
 
 // The dimensions of the grid [X_MIN, X_MAX] x [Y_MIN, Y_MAX] x [Z_MIN, Z_MAX]
-constexpr float X_MIN = 0.f;
-constexpr float X_MAX = CUBE_SIZE;
-constexpr float Y_MIN = 0.f;
-constexpr float Y_MAX = CUBE_SIZE;
-constexpr float Z_MIN = 0.f;
-constexpr float Z_MAX = CUBE_SIZE;
+constexpr FLOAT X_MIN = 0.f;
+constexpr FLOAT X_MAX = CUBE_SIZE;
+constexpr FLOAT Y_MIN = 0.f;
+constexpr FLOAT Y_MAX = CUBE_SIZE;
+constexpr FLOAT Z_MIN = 0.f;
+constexpr FLOAT Z_MAX = CUBE_SIZE;
 
 constexpr int CUBE_VERTICES_NUMBER = 8;
 constexpr int CUBE_DIMENSION = 3;
@@ -34,10 +34,10 @@ constexpr int TRIANGLES_MAX_NUMBER_FOR_ONE_CUBE = 5;
 constexpr int TRIANGLES_CORNERS_NUMBER = 3;
 
 // given precision
-constexpr float PRECISION = 0.0001f;
+constexpr FLOAT MC_PRECISION = 0.0001f;
 
 // VertexOffset lists the positions, for each grid cube in the grid
-constexpr float VertexOffset[CUBE_VERTICES_NUMBER][CUBE_DIMENSION] = {{0.0, 0.0, 0.0},
+constexpr FLOAT VertexOffset[CUBE_VERTICES_NUMBER][CUBE_DIMENSION] = {{0.0, 0.0, 0.0},
                                                                       {GRID_CUBE_SIZE, 0.0, 0.0},
                                                                       {GRID_CUBE_SIZE, GRID_CUBE_SIZE, 0.0},
                                                                       {0.0, GRID_CUBE_SIZE, 0.0},
@@ -329,6 +329,6 @@ constexpr int TriangleConnectionTable[NUMBER_OF_CASES][16] = {
     {0, 9, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
     {0, 3, 8, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
     {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}};
-} // namespace SPHAlgorithms
+} // namespace SPHSDK
 
 #endif // MARCHING_CUBES_CONFIG_H_43C34465A6ED4DB9B9F2F4C3937BF5DC

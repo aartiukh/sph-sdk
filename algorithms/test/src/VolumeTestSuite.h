@@ -5,7 +5,7 @@
 #ifndef SPH_SDK_ALGORITHMS_TEST_SRC_VOLUMETESTSUITE_H
 #define SPH_SDK_ALGORITHMS_TEST_SRC_VOLUMETESTSUITE_H
 
-namespace SPHAlgorithms::TestEnvironment
+namespace SPHSDK::TestEnvironment
 {
 
 class VolumeTestSuite
@@ -14,6 +14,6 @@ public:
     static void testDefaultCtor();
 };
 
-} // SPHAlgorithms::TestEnvironment
+} // namespace SPHSDK::TestEnvironment
 
 #endif // SPH_SDK_ALGORITHMS_TEST_SRC_VOLUMETESTSUITE_H

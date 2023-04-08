@@ -7,9 +7,11 @@
 #ifndef POINT_H_DE836BDF10964E14A5C9BA80FEDE6734
 #define POINT_H_DE836BDF10964E14A5C9BA80FEDE6734
 
+#include "Defines.h"
+
 #include <vector>
 
-namespace SPHAlgorithms
+namespace SPHSDK
 {
 
 /**
@@ -32,13 +34,9 @@ public:
     _Tp x, y; //< the point coordinates
 };
 
-using Point2D = Point2<double>;
-using Point2F = Point2<float>;
-using Point2I = Point2<int>;
+using Point2F = Point2<FLOAT>;
 
-using Point2DVector = std::vector<Point2D>;
 using Point2FVector = std::vector<Point2F>;
-using Point2IVector = std::vector<Point2I>;
 
 /**
  * @brief Point3 class defines point in 3D.
@@ -61,13 +59,11 @@ public:
     _Tp x, y, z; //< the point coordinates
 };
 
-using Point3D = Point3<double>;
-using Point3F = Point3<float>;
+using Point3F = Point3<FLOAT>;
 
-using Point3DVector = std::vector<Point3D>;
 using Point3FVector = std::vector<Point3F>;
 
-} // namespace SPHAlgorithms
+} // namespace SPHSDK
 
 #include "Point.hpp"
 
