@@ -1,6 +1,6 @@
 import unittest
 
-from bruteforce import bruteforce, optimized_bruteforce
+from bruteforce import BruteForce, BruteForceOptimized
 
 
 class TestBenchmark2D(unittest.TestCase):
@@ -91,14 +91,16 @@ class TestBenchmark2D(unittest.TestCase):
     def test_bruteforce(self):
         for points, expected_nb in self.test_data:
             with self.subTest(points=points):
-                actual_nb = bruteforce(points, self.search_radius, self.epsilon)
+                bf = BruteForce(search_radius=self.search_radius, epsilon=self.epsilon)
+                actual_nb = bf.search(points)
                 actual_nb = [sorted(neighbors) for neighbors in actual_nb]
                 self.assertEqual(actual_nb, expected_nb)
 
     def test_optimized_bruteforce(self):
         for points, expected_nb in self.test_data:
             with self.subTest(points=points):
-                actual_nb = optimized_bruteforce(points, self.search_radius, self.epsilon)
+                bfo = BruteForceOptimized(search_radius=self.search_radius, epsilon=self.epsilon)
+                actual_nb = bfo.search(points)
                 actual_nb = [sorted(neighbors) for neighbors in actual_nb]
                 self.assertEqual(actual_nb, expected_nb)
 

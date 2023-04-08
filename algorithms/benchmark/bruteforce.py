@@ -1,47 +1,53 @@
 from dist_sqr import dist_sqr
 
 
-def bruteforce(points: list[list], search_radius: float, epsilon: float) -> list[list]:
-    """
+class BruteForce:
+    def __init__(self, search_radius: float, epsilon: float):
+        self.search_radius = search_radius
+        self.epsilon = epsilon
 
-    :param points: 2D list of kind [[p0x, p0y], [p1x, p1y]]
-    :param search_radius: float, minimal radius to become neighbors
-    :param epsilon: precision for neighbors computation
-    :return: list of kind [[neighbor1_index, neighbor2_index]]
-    """
-    points_number = len(points)
-    neighbors = [[] for i in range(points_number)]
+    def search(self, points: list[list]) -> list[list]:
+        """
 
-    for i in range(points_number):
-        for j in range(points_number):
-            if i == j:
-                continue
+        :param points: 2D list of kind [[p0x, p0y], [p1x, p1y]]
+        :return: list of kind [[neighbor1_index, neighbor2_index]]
+        """
+        points_number = len(points)
+        neighbors = [[] for i in range(points_number)]
 
-            dist = dist_sqr(points[i], points[j])
+        for i in range(points_number):
+            for j in range(points_number):
+                if i == j:
+                    continue
 
-            if dist - search_radius ** 2 < epsilon:
-                neighbors[i].append(j)
+                dist = dist_sqr(points[i], points[j])
 
-    return neighbors
+                if dist - self.search_radius ** 2 < self.epsilon:
+                    neighbors[i].append(j)
+
+        return neighbors
 
 
-def optimized_bruteforce(points: list[list], search_radius: float, epsilon: float) -> list[list]:
-    """
+class BruteForceOptimized:
+    def __init__(self, search_radius: float, epsilon: float):
+        self.search_radius = search_radius
+        self.epsilon = epsilon
 
-    :param points: 2D list of kind [[p0x, p0y], [p1x, p1y]]
-    :param search_radius: float, minimal radius to become neighbors
-    :param epsilon: precision for neighbors computation
-    :return: list of kind [[neighbor1_index, neighbor2_index]]
-    """
-    points_number = len(points)
-    neighbors = [[] for i in range(points_number)]
+    def search(self, points: list[list]) -> list[list]:
+        """
 
-    for i in range(points_number):
-        for j in range(i + 1, points_number):
-            dist = dist_sqr(points[i], points[j])
+        :param points: 2D list of kind [[p0x, p0y], [p1x, p1y]]
+        :return: list of kind [[neighbor1_index, neighbor2_index]]
+        """
+        points_number = len(points)
+        neighbors = [[] for i in range(points_number)]
 
-            if dist - search_radius ** 2 < epsilon:
-                neighbors[i].append(j)
-                neighbors[j].append(i)
+        for i in range(points_number):
+            for j in range(i + 1, points_number):
+                dist = dist_sqr(points[i], points[j])
 
-    return neighbors
+                if dist - self.search_radius ** 2 < self.epsilon:
+                    neighbors[i].append(j)
+                    neighbors[j].append(i)
+
+        return neighbors
