@@ -1,6 +1,7 @@
 import unittest
 
 from bruteforce import BruteForce, BruteForceOptimized
+from box_search import BoxSearch
 
 
 class TestBenchmark2D(unittest.TestCase):
@@ -8,7 +9,7 @@ class TestBenchmark2D(unittest.TestCase):
     def setUp(self):
         self.search_radius = 0.2
         self.epsilon = 10e-8
-        self.square_size = 1.0
+        self.field_size = 1.0
         self.test_data = [
             # 1 single point case
             ([  # input
@@ -101,6 +102,15 @@ class TestBenchmark2D(unittest.TestCase):
             with self.subTest(points=points):
                 bfo = BruteForceOptimized(search_radius=self.search_radius, epsilon=self.epsilon)
                 actual_nb = bfo.search(points)
+                actual_nb = [sorted(neighbors) for neighbors in actual_nb]
+                self.assertEqual(actual_nb, expected_nb)
+
+    def test_box_search(self):
+        for points, expected_nb in self.test_data:
+            with self.subTest(points=points):
+                box_search = BoxSearch(search_radius=self.search_radius, epsilon=self.epsilon,
+                                       field_size=self.field_size)
+                actual_nb = box_search.search(points)
                 actual_nb = [sorted(neighbors) for neighbors in actual_nb]
                 self.assertEqual(actual_nb, expected_nb)
 
