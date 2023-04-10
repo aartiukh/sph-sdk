@@ -17,7 +17,7 @@ class BoxSearch:
         self.domain_size = domain_size
         self.LOG = logging.getLogger(__name__)
         self._verbose = verbose
-        self._boxes_in_row = int(self.domain_size / self.search_radius)
+        self._boxes_in_row = round(self.domain_size / self.search_radius)
         self._total_boxes = self._boxes_in_row ** 2
         self._box_neighbors = self._find_neighbor_boxes()
         # if self._verbose:
