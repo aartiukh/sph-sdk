@@ -48,6 +48,7 @@ class BoxSearch:
                         if x != row or y != col:
                             neighbor_box_id = x * self._boxes_in_row + y
                             neighbor_boxes_ids[current_box_id].append(neighbor_box_id)
+
         if self._verbose:
             for box_id, neighbor_boxes in enumerate(neighbor_boxes_ids):
                 message = "BOX {box} NEIGHBORS: {nb_bx}".format(box=box_id,

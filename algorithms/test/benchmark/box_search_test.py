@@ -7,12 +7,17 @@ from box_search import BoxSearch
 @dataclass
 class BoxSearchConfig:
     """Class to store test case parameters."""
+    # input
     search_radius: float
     domain_size: float
-    epsilon: float = 10e-8
+    epsilon: float
+
+    # expected output
+    boxes_in_row: int
+    total_boxes: int
 
 
-class TestFindNeighborBoxes(unittest.TestCase):
+class TestBoxSearch(unittest.TestCase):
 
     def setUp(self):
         self.search_radius = 0.2
@@ -20,12 +25,15 @@ class TestFindNeighborBoxes(unittest.TestCase):
         self.domain_size = 1.0
         self._boxes_in_row = int(self.domain_size / self.search_radius)
         self._total_boxes = self._boxes_in_row ** 2
-        self.test_data = [
+        self.init_test_data = [
             # domain_size 1, search radius 0.2, 5 boxes in row, total 25 boxes
             (  # input
                 BoxSearchConfig(
                     search_radius=0.2,
-                    domain_size=1.0
+                    domain_size=1.0,
+                    epsilon=10e-8,
+                    boxes_in_row=5,
+                    total_boxes=25
                 ),
                 [  # box neighbors
                     [1, 5, 6],                          # 0
@@ -58,7 +66,10 @@ class TestFindNeighborBoxes(unittest.TestCase):
             (  # input
                 BoxSearchConfig(
                     search_radius=0.4,
-                    domain_size=1.2
+                    domain_size=1.2,
+                    epsilon=10e-8,
+                    boxes_in_row=3,
+                    total_boxes=9
                 ),
                 [  # box neighbors
                     [1, 3, 4],                  # 0
@@ -75,7 +86,10 @@ class TestFindNeighborBoxes(unittest.TestCase):
             (  # input
                 BoxSearchConfig(
                     search_radius=0.2,
-                    domain_size=0.4
+                    domain_size=0.4,
+                    epsilon=10e-8,
+                    boxes_in_row=2,
+                    total_boxes=4
                 ),
                 [  # box neighbors
                     [1, 2, 3],  # 0
@@ -87,7 +101,10 @@ class TestFindNeighborBoxes(unittest.TestCase):
             (  # input
                 BoxSearchConfig(
                     search_radius=0.3,
-                    domain_size=1.2
+                    domain_size=1.2,
+                    epsilon=10e-8,
+                    boxes_in_row=4,
+                    total_boxes=16
                 ),
                 [  # box neighbors
                     [1, 4, 5],                     # 0
@@ -108,15 +125,29 @@ class TestFindNeighborBoxes(unittest.TestCase):
                     [10, 11, 14],                  # 15
                 ]),
         ]
+        self.test_points_data = [
+        ]
+
+    def test_init(self):
+        for config, _ in self.init_test_data:
+            with self.subTest(config=config):
+                actual_box_search = BoxSearch(search_radius=config.search_radius,
+                                              domain_size=config.domain_size)
+
+                self.assertEqual(actual_box_search._boxes_in_row, config.boxes_in_row)
+                self.assertEqual(actual_box_search._total_boxes, config.total_boxes)
 
     def test_find_neighbor_boxes(self):
-        for config, expected_box_neighbors in self.test_data:
+        for config, expected_box_neighbors in self.init_test_data:
             with self.subTest(config=config):
                 actual_box_nb = BoxSearch(search_radius=config.search_radius,
-                                          domain_size=config.domain_size,
-                                          verbose=True)._box_neighbors
+                                          domain_size=config.domain_size)._box_neighbors
                 actual_box_nb = [sorted(neighbors) for neighbors in actual_box_nb]
+
                 self.assertEqual(actual_box_nb, expected_box_neighbors)
+
+    def test_put_points_into_boxes(self):
+        pass
 
 
 if __name__ == '__main__':
