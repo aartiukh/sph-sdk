@@ -9,7 +9,7 @@ class TestBenchmark2D(unittest.TestCase):
     def setUp(self):
         self.search_radius = 0.2
         self.epsilon = 10e-8
-        self.field_size = 1.0
+        self.domain_size = 1.0
         self.test_data = [
             # 1 single point case
             ([  # input
@@ -109,7 +109,7 @@ class TestBenchmark2D(unittest.TestCase):
         for points, expected_nb in self.test_data:
             with self.subTest(points=points):
                 box_search = BoxSearch(search_radius=self.search_radius, epsilon=self.epsilon,
-                                       field_size=self.field_size)
+                                       domain_size=self.domain_size)
                 actual_nb = box_search.search(points)
                 actual_nb = [sorted(neighbors) for neighbors in actual_nb]
                 self.assertEqual(actual_nb, expected_nb)

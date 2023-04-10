@@ -2,77 +2,72 @@ from dist_sqr import dist_sqr
 
 
 class BoxSearch:
-    def __init__(self, search_radius: float, epsilon: float, field_size: float):
+    def __init__(self, search_radius: float, epsilon: float, domain_size: float):
         """
-
+        Initialize the box-based neighbors search algorithm.
         :param search_radius: minimal distance for particles to become neighbors
-        :param epsilon: distance calculation precision
-        :param field_size: working field upper bounder
+        :param epsilon: precision for distance calculation
+        :param domain_size: upper bound for the working domain
         """
         self.search_radius = search_radius
         self.epsilon = epsilon
-        self.field_size = field_size
-        self._boxes_in_row = int(self.field_size / self.search_radius)
+        self.domain_size = domain_size
+        self._boxes_in_row = int(self.domain_size / self.search_radius)
         self._total_boxes = self._boxes_in_row ** 2
         self._box_neighbors = self._find_neighbor_boxes()
 
-    def _find_points_boxes(self, points: list[list]) -> list[list]:
-        box_indexes = [[] for box in range(self._total_boxes)]
+    def _find_neighbor_boxes(self) -> list[list]:
+        """
+        Finds neighbor boxes indexes for all boxes of the provided domain size.
+        :return: 2D list of neighbor boxes indexes for each box.
+        """
+        neighbor_boxes_ids = [[] for box in range(self._total_boxes)]
+        for row in range(self._boxes_in_row):
+            for col in range(self._boxes_in_row):
+                current_box_id = row * self._boxes_in_row + col
+
+                for x in range(max(0, row - 1), min(row + 1, self._boxes_in_row - 1) + 1):
+                    for y in range(max(0, col - 1), min(col + 1, self._boxes_in_row - 1) + 1):
+                        if x != row or y != col:
+                            neighbor_box_id = x * self._boxes_in_row + y
+                            neighbor_boxes_ids[current_box_id].append(neighbor_box_id)
+
+        return neighbor_boxes_ids
+
+    def _put_points_into_boxes(self, points: list[list]) -> list[list]:
+        """
+        Assigns a box index for each point based on its coordinates and returns list of associated points for each box
+        of the domain.
+        :param points: 2D list of kind [[p0x, p0y], [p1x, p1y], ...]
+        :return: 2D list of kind [[point_index, point_index, ...], [point_index, point_index, ...], ...],
+                where the list index is the index of the according associated box.
+        """
+        points_in_boxes = [[] for box in range(self._total_boxes)]
 
         for point_index, point in enumerate(points):
             col = round(point[0] / self.search_radius)
             row = round(point[1] / self.search_radius)
             box_id = int(row * self._boxes_in_row + col)
-            box_indexes[box_id].append(point_index)
+            points_in_boxes[box_id].append(point_index)
 
-        return box_indexes
-
-    def _find_one_box_neighbors(self, box_id: int) -> list[int]:
-        col = box_id % self._boxes_in_row
-        row = round(box_id / self._boxes_in_row)
-        possible_neighbors = [
-            (row, col + 1),
-            (row, col - 1),
-            (row + 1, col),
-            (row - 1, col),
-            (row + 1, col + 1),
-            (row - 1, col + 1),
-            (row + 1, col - 1),
-            (row - 1, col - 1),
-        ]
-        box_neighbors_ids = [row * self._boxes_in_row + col for row, col in possible_neighbors
-                             if (0 <= col < self._boxes_in_row) and (0 <= row < self._boxes_in_row)]
-
-        return box_neighbors_ids
-
-    def _find_neighbor_boxes(self) -> list[list]:
-        """
-        Finds neighbor boxes indexes for all boxes of the field size.
-        :return: list of neighbor boxes indexes for each box.
-        """
-        boxes_neighbors_ids = [[] for box in range(self._total_boxes)]
-        for row in range(self._boxes_in_row):
-            for col in range(self._boxes_in_row):
-                current_cube_id = row * self._boxes_in_row + col
-
-                for x in range(max(0, row - 1), min(row + 1, self._boxes_in_row - 1) + 1):
-                    for y in range(max(0, col - 1), min(col + 1, self._boxes_in_row - 1) + 1):
-                        if x != row or y != col:
-                            neighbor_cube_id = x * self._boxes_in_row + y
-                            boxes_neighbors_ids[current_cube_id].append(neighbor_cube_id)
-
-        return boxes_neighbors_ids
+        return points_in_boxes
 
     def search(self, points: list[list]) -> list[list]:
+        """
+        Performs the box-based neighbors search on the passed points.
+        :param points: 2D list of kind [[p0x, p0y], [p1x, p1y], ...]
+        :return: 2D list of kind [[neighbor_point_index, neighbor_point_index, ...],  ...],
+                where the list index is the index of the according point.
+        """
         neighbors = [[] for point in range(len(points))]
-        points_boxes = self._find_points_boxes(points)
+        points_in_boxes = self._put_points_into_boxes(points)
 
-        for box_id, box_points_ids in enumerate(points_boxes):
+        for box_id, box_points_ids in enumerate(points_in_boxes):
             curr_box_neighbors = self._box_neighbors[box_id]
 
             for neighbor_box_id in curr_box_neighbors:
                 if neighbor_box_id >= box_id:
-                    neighbor_box_points = points_boxes[neighbor_box_id]
+                    neighbor_box_points = points_in_boxes[neighbor_box_id]
 
                     for box_point_id in box_points_ids:
                         for neighbor_point_id in neighbor_box_points:
