@@ -20,10 +20,10 @@ class BoxSearch:
         self._boxes_in_row = int(self.domain_size / self.search_radius)
         self._total_boxes = self._boxes_in_row ** 2
         self._box_neighbors = self._find_neighbor_boxes()
-        if self._verbose:
-            self.LOG.setLevel(level=logging.DEBUG)
-            message = eval(f"search_radius={self.search_radius}, domain_size{self.domain_size}, epsilon={self.epsilon}, boxes_in_row={self._boxes_in_row}, _total_boxes={self._total_boxes}")
-            self.LOG.debug(message)
+        # if self._verbose:
+        #     self.LOG.setLevel(level=logging.DEBUG)
+        #     message = eval(f"search_radius={self.search_radius}, domain_size{self.domain_size}, epsilon={self.epsilon}, boxes_in_row={self._boxes_in_row}, _total_boxes={self._total_boxes}")
+        #     self.LOG.debug(message)
 
     def _find_neighbor_boxes(self) -> list[list]:
         """
@@ -40,10 +40,10 @@ class BoxSearch:
                         if x != row or y != col:
                             neighbor_box_id = x * self._boxes_in_row + y
                             neighbor_boxes_ids[current_box_id].append(neighbor_box_id)
-        if self._verbose:
-            for box_id, neighbor_boxes in enumerate(neighbor_boxes_ids):
-                message = eval(f"BOX {box_id} NEIGHBORS: {neighbor_boxes}")
-                self.LOG.debug(message)
+        # if self._verbose:
+        #     for box_id, neighbor_boxes in enumerate(neighbor_boxes_ids):
+        #         message = eval(f"BOX {box_id} NEIGHBORS: {neighbor_boxes}")
+        #         self.LOG.debug(message)
 
         return neighbor_boxes_ids
 
