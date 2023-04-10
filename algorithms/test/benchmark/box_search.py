@@ -1,20 +1,30 @@
+import logging
+
 from dist_sqr import dist_sqr
 
 
 class BoxSearch:
-    def __init__(self, search_radius: float, epsilon: float, domain_size: float):
+    def __init__(self, search_radius: float, domain_size: float, epsilon: float = 10e-8, verbose: bool = False):
         """
         Initialize the box-based neighbors search algorithm.
         :param search_radius: minimal distance for particles to become neighbors
-        :param epsilon: precision for distance calculation
+        :param epsilon: precision for distance calculation, set to 10e-8 by default
         :param domain_size: upper bound for the working domain
         """
+        print("START BOX SEARCH")
         self.search_radius = search_radius
         self.epsilon = epsilon
         self.domain_size = domain_size
+        self.LOG = logging.getLogger(__name__)
+        self._verbose = verbose
         self._boxes_in_row = int(self.domain_size / self.search_radius)
         self._total_boxes = self._boxes_in_row ** 2
         self._box_neighbors = self._find_neighbor_boxes()
+        if self._verbose:
+            print("VERBOSE=TRUE")
+            self.LOG.setLevel(level=logging.DEBUG)
+            message = eval(f"search_radius={self.search_radius}, domain_size{self.domain_size}, epsilon={self.epsilon}, _boxes_in_row={self._boxes_in_row}, _total_boxes={self._total_boxes}")
+            self.LOG.debug(message)
 
     def _find_neighbor_boxes(self) -> list[list]:
         """
@@ -31,6 +41,9 @@ class BoxSearch:
                         if x != row or y != col:
                             neighbor_box_id = x * self._boxes_in_row + y
                             neighbor_boxes_ids[current_box_id].append(neighbor_box_id)
+        if self._verbose:
+            for box_id, neighbor_boxes in enumerate(neighbor_boxes_ids):
+                self.LOG.debug(f"BOX {box_id} NEIGHBORS: {neighbor_boxes}")
 
         return neighbor_boxes_ids
 
