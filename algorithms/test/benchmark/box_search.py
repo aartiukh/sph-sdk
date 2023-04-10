@@ -2,6 +2,9 @@ import logging
 
 from dist_sqr import dist_sqr
 
+LOG = logging.getLogger(__name__)
+logging.basicConfig(format='%(asctime)s[%(name)s:%(lineno)d] %(levelname)s %(message)s')
+
 
 class BoxSearch:
     def __init__(self, search_radius: float, domain_size: float, epsilon: float = 10e-8, verbose: bool = False):
@@ -11,19 +14,24 @@ class BoxSearch:
         :param epsilon: precision for distance calculation, set to 10e-8 by default
         :param domain_size: upper bound for the working domain
         """
-        print("START BOX SEARCH")
+
         self.search_radius = search_radius
         self.epsilon = epsilon
         self.domain_size = domain_size
-        self.LOG = logging.getLogger(__name__)
         self._verbose = verbose
         self._boxes_in_row = round(self.domain_size / self.search_radius)
         self._total_boxes = self._boxes_in_row ** 2
         self._box_neighbors = self._find_neighbor_boxes()
-        # if self._verbose:
-        #     self.LOG.setLevel(level=logging.DEBUG)
-        #     message = eval(f"search_radius={self.search_radius}, domain_size{self.domain_size}, epsilon={self.epsilon}, boxes_in_row={self._boxes_in_row}, _total_boxes={self._total_boxes}")
-        #     self.LOG.debug(message)
+
+        if verbose:
+            LOG.setLevel(level=logging.DEBUG)
+            message = "Initialized BoxSearch: search_radius={sr}, domain_size={ds}, epsilon={eps}, " \
+                      "boxes_in_row={bxs}, total_boxes={tbxs}".format(sr=self.search_radius,
+                                                                      ds=self.domain_size,
+                                                                      eps=self.epsilon,
+                                                                      bxs=self._boxes_in_row,
+                                                                      tbxs=self._total_boxes)
+            LOG.debug(message)
 
     def _find_neighbor_boxes(self) -> list[list]:
         """
@@ -40,10 +48,11 @@ class BoxSearch:
                         if x != row or y != col:
                             neighbor_box_id = x * self._boxes_in_row + y
                             neighbor_boxes_ids[current_box_id].append(neighbor_box_id)
-        # if self._verbose:
-        #     for box_id, neighbor_boxes in enumerate(neighbor_boxes_ids):
-        #         message = eval(f"BOX {box_id} NEIGHBORS: {neighbor_boxes}")
-        #         self.LOG.debug(message)
+        if self._verbose:
+            for box_id, neighbor_boxes in enumerate(neighbor_boxes_ids):
+                message = "BOX {box} NEIGHBORS: {nb_bx}".format(box=box_id,
+                                                                nb_bx=neighbor_boxes)
+                LOG.debug(message)
 
         return neighbor_boxes_ids
 
