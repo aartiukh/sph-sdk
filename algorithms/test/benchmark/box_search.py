@@ -72,6 +72,19 @@ class BoxSearch:
             row = round(point[1] / self.search_radius)
             box_id = int(row * self._boxes_in_row + col)
             points_in_boxes[box_id].append(point_index)
+            if self._verbose:
+                message = "POINT_{p_idx}({point}): COL = {cl} ROW = {rw} BOX_ID = {bx_idx}".format(p_idx=point_index,
+                                                                                                   point=point,
+                                                                                                   cl=col,
+                                                                                                   rw=row,
+                                                                                                   bx_idx=box_id)
+                LOG.debug(message)
+
+        if self._verbose:
+            for box_id, points_ids in enumerate(points_in_boxes):
+                message = "BOX {box} POINTS: {pts_idx}".format(box=box_id,
+                                                               pts_idx=points_ids)
+                LOG.debug(message)
 
         return points_in_boxes
 

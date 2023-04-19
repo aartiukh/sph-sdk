@@ -176,6 +176,33 @@ class TestBoxSearch(unittest.TestCase):
                 ]
 
             },
+            {  # 3x3 boxes
+                'input': {
+                    'search_radius': 0.4,
+                    'domain_size': 1.2,
+                    'epsilon': 10e-8,
+                    'points': [
+                        [0.4, 0.5],   # 0
+                        [0.9, 0.3],   # 1
+                        [0.5, 0.4],   # 2
+                        [0.2, 1.0],   # 3
+                    ]
+                },
+                'expected_output': [
+                    # box points
+                    [],      # 0
+                    [],      # 1
+                    [1],     # 2
+                    [],      # 3
+                    [0, 2],  # 4
+                    [],      # 5
+                    [3],     # 6
+                    [],      # 7
+                    [],      # 8
+                    [],      # 9
+                ]
+
+            },
         ]
 
     def test_init(self):
@@ -206,7 +233,7 @@ class TestBoxSearch(unittest.TestCase):
             expected_bp = case['expected_output']
             with self.subTest(config=config):
                 actual_bp = BoxSearch(search_radius=config['search_radius'],
-                                      domain_size=config['domain_size'])._put_points_into_boxes(config['points'])
+                                      domain_size=config['domain_size'], verbose=True)._put_points_into_boxes(config['points'])
                 actual_bp = [sorted(box_points) for box_points in actual_bp]
 
                 self.assertEqual(actual_bp, expected_bp)
