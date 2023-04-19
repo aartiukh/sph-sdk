@@ -68,8 +68,8 @@ class BoxSearch:
         points_in_boxes = [[] for box in range(self._total_boxes)]
 
         for point_index, point in enumerate(points):
-            col = round(point[0] / self.search_radius)
-            row = round(point[1] / self.search_radius)
+            col = round(point[0] // self.search_radius)
+            row = round(point[1] // self.search_radius)
             box_id = int(row * self._boxes_in_row + col)
             points_in_boxes[box_id].append(point_index)
             if self._verbose:
@@ -81,6 +81,8 @@ class BoxSearch:
                 LOG.debug(message)
 
         if self._verbose:
+            message = "TOTAL BOXES: {n_boxes}".format(n_boxes=len(points_in_boxes))
+            LOG.debug(message)
             for box_id, points_ids in enumerate(points_in_boxes):
                 message = "BOX {box} POINTS: {pts_idx}".format(box=box_id,
                                                                pts_idx=points_ids)
