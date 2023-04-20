@@ -176,6 +176,26 @@ class TestBoxSearch(unittest.TestCase):
                 ]
 
             },
+            {  # 2x2 boxes
+                'input': {
+                    'search_radius': 0.25,
+                    'domain_size': 0.5,
+                    'epsilon': 10e-8,
+                    'points': [
+                        [0.1, 0.2],  # 0
+                        [0.3, 0.1],  # 1
+                        [0.3, 0.25]  # 2
+                    ]
+                },
+                'expected_output': [
+                    # box points
+                    [0],  # 0
+                    [1],  # 1
+                    [],  # 2
+                    [2],  # 3
+                ]
+
+            },
             {  # 3x3 boxes
                 'input': {
                     'search_radius': 0.4,

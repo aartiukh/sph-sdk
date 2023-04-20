@@ -1,4 +1,5 @@
 import logging
+import sys
 
 from dist_sqr import dist_sqr
 
@@ -68,13 +69,8 @@ class BoxSearch:
         points_in_boxes = [[] for box in range(self._total_boxes)]
 
         for point_index, point in enumerate(points):
-            # col = int(point[0] / self.search_radius)
-            # row = int(point[1] / self.search_radius)
-            decimals_in_r = str(self.search_radius)[::-1].find('.')
-            x = point[0] * 10 ** decimals_in_r
-            y = point[1] * 10 ** decimals_in_r
-            col = int(divmod(x, self.search_radius * 10 ** decimals_in_r)[0])
-            row = int(divmod(y, self.search_radius * 10 ** decimals_in_r)[0])
+            col = int((point[0] + sys.float_info.epsilon) // self.search_radius)
+            row = int((point[1] + sys.float_info.epsilon) // self.search_radius)
             box_id = int(row * self._boxes_in_row + col)
             points_in_boxes[box_id].append(point_index)
             if self._verbose:
