@@ -120,16 +120,3 @@ class BoxSearch:
                                 neighbors[neighbor_point_id].append(box_point_id)
 
         return neighbors
-
-
-if __name__ == '__main__':
-    point = [0.666, 0.35]
-    r = 0.2
-    nd_r = str(r)[::-1].find('.')
-    x = point[0] * 10 ** nd_r
-    y = point[1] * 10 ** nd_r
-
-    col = int(divmod(x, r * 10 ** nd_r)[0])
-    row = int(divmod(y, r * 10 ** nd_r)[0])
-
-    print(f"for point ({point}) and radius {r}:  col = {col}, row = {row}")
