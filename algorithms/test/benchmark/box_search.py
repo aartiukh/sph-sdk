@@ -68,8 +68,8 @@ class BoxSearch:
         points_in_boxes = [[] for box in range(self._total_boxes)]
 
         for point_index, point in enumerate(points):
-            col = round(point[0] // self.search_radius)
-            row = round(point[1] // self.search_radius)
+            col = int(point[0] / self.search_radius)
+            row = int(point[1] / self.search_radius)
             box_id = int(row * self._boxes_in_row + col)
             points_in_boxes[box_id].append(point_index)
             if self._verbose:
@@ -115,3 +115,11 @@ class BoxSearch:
                                 neighbors[neighbor_point_id].append(box_point_id)
 
         return neighbors
+
+
+if __name__ == '__main__':
+    md = divmod(6, 2)
+    print(md)
+
+    md = 0.6 // 0.2
+    print(md)

@@ -202,6 +202,85 @@ class TestBoxSearch(unittest.TestCase):
                 ]
 
             },
+            {  # 4x4 boxes
+                'input': {
+                    'search_radius': 0.3,
+                    'domain_size': 1.2,
+                    'epsilon': 10e-8,
+                    'points': [
+                        [0.5, 0.5],  # 0
+                        [0.6, 0.3],  # 1
+                        [1.0, 0.7],  # 2
+                        [0.4, 0.6],  # 3
+                        [0.8, 0.8],  # 4
+                    ]
+                },
+                'expected_output': [
+                    # box points
+                    [],   # 0
+                    [],   # 1
+                    [],   # 2
+                    [],   # 3
+                    [],   # 4
+                    [0],  # 5
+                    [1],  # 6
+                    [],   # 7
+                    [],   # 8
+                    [3],  # 9
+                    [4],  # 10
+                    [2],   # 11
+                    [],   # 12
+                    [],   # 13
+                    [],   # 14
+                    [],   # 15
+                ]
+
+            },
+            {  # 5x5 boxes
+                'input': {
+                    'search_radius': 0.2,
+                    'domain_size': 1.0,
+                    'epsilon': 10e-8,
+                    'points': [
+                        [0.2, 0.2],   # 0
+                        [0.5, 0.4],   # 1
+                        [0.5, 0.6],   # 2
+                        [0.2, 0.7],   # 3
+                        [0.9, 0.75],  # 4
+                        [0.6, 0.35],  # 5
+                        [0.45, 0.5],  # 6
+                    ]
+                },
+                'expected_output': [
+                    # box points
+                    [],  # 0
+                    [],  # 1
+                    [],  # 2
+                    [],  # 3
+                    [],  # 4
+                    [],  # 5
+                    [0],  # 6
+                    [],  # 7
+                    [5],  # 8
+                    [],  # 9
+                    [],  # 10
+                    [],      # 11
+                    [1, 6],  # 12
+                    [],  # 13
+                    [],  # 14
+                    [],  # 15
+                    [3],  # 16
+                    [2],  # 17
+                    [],  # 18
+                    [4],  # 19
+                    [],  # 20
+                    [],  # 21
+                    [],  # 22
+                    [],  # 23
+                    []  # 24
+                ]
+
+            },
         ]
 
     def test_init(self):
@@ -232,7 +311,7 @@ class TestBoxSearch(unittest.TestCase):
             expected_bp = case['expected_output']
             with self.subTest(config=config):
                 actual_bp = BoxSearch(search_radius=config['search_radius'],
-                                      domain_size=config['domain_size'])._put_points_into_boxes(config['points'])
+                                      domain_size=config['domain_size'], verbose=True)._put_points_into_boxes(config['points'])
                 actual_bp = [sorted(box_points) for box_points in actual_bp]
 
                 self.assertEqual(actual_bp, expected_bp)
