@@ -68,8 +68,13 @@ class BoxSearch:
         points_in_boxes = [[] for box in range(self._total_boxes)]
 
         for point_index, point in enumerate(points):
-            col = int(point[0] / self.search_radius)
-            row = int(point[1] / self.search_radius)
+            # col = int(point[0] / self.search_radius)
+            # row = int(point[1] / self.search_radius)
+            decimals_in_r = str(self.search_radius)[::-1].find('.')
+            x = point[0] * 10 ** decimals_in_r
+            y = point[1] * 10 ** decimals_in_r
+            col = int(divmod(x, self.search_radius * 10 ** decimals_in_r)[0])
+            row = int(divmod(y, self.search_radius * 10 ** decimals_in_r)[0])
             box_id = int(row * self._boxes_in_row + col)
             points_in_boxes[box_id].append(point_index)
             if self._verbose:
@@ -115,3 +120,16 @@ class BoxSearch:
                                 neighbors[neighbor_point_id].append(box_point_id)
 
         return neighbors
+
+
+if __name__ == '__main__':
+    point = [0.666, 0.35]
+    r = 0.2
+    nd_r = str(r)[::-1].find('.')
+    x = point[0] * 10 ** nd_r
+    y = point[1] * 10 ** nd_r
+
+    col = int(divmod(x, r * 10 ** nd_r)[0])
+    row = int(divmod(y, r * 10 ** nd_r)[0])
+
+    print(f"for point ({point}) and radius {r}:  col = {col}, row = {row}")

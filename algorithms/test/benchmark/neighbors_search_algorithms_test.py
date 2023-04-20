@@ -109,7 +109,7 @@ class TestBenchmark2D(unittest.TestCase):
         for points, expected_nb in self.test_data:
             with self.subTest(points=points):
                 box_search = BoxSearch(search_radius=self.search_radius, epsilon=self.epsilon,
-                                       domain_size=self.domain_size)
+                                       domain_size=self.domain_size, verbose=True)
                 actual_nb = box_search.search(points)
                 actual_nb = [sorted(neighbors) for neighbors in actual_nb]
                 self.assertEqual(actual_nb, expected_nb)
