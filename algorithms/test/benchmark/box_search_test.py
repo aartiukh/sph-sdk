@@ -253,31 +253,31 @@ class TestBoxSearch(unittest.TestCase):
                 },
                 'expected_output': [
                     # box points
-                    [],  # 0
-                    [],  # 1
-                    [],  # 2
-                    [],  # 3
-                    [],  # 4
-                    [],  # 5
-                    [0],  # 6
-                    [],  # 7
-                    [5],  # 8
-                    [],  # 9
-                    [],  # 10
-                    [],      # 11
-                    [1, 6],  # 12
-                    [],  # 13
-                    [],  # 14
-                    [],  # 15
-                    [3],  # 16
-                    [2],  # 17
-                    [],  # 18
-                    [4],  # 19
-                    [],  # 20
-                    [],  # 21
-                    [],  # 22
-                    [],  # 23
-                    []  # 24
+                    [],         # 0
+                    [],         # 1
+                    [],         # 2
+                    [],         # 3
+                    [],         # 4
+                    [],         # 5
+                    [0],        # 6
+                    [5],        # 7
+                    [],         # 8
+                    [],         # 9
+                    [],         # 10
+                    [],         # 11
+                    [1, 2, 6],  # 12
+                    [],         # 13
+                    [],         # 14
+                    [],         # 15
+                    [3],        # 16
+                    [],         # 17
+                    [],         # 18
+                    [4],        # 19
+                    [],         # 20
+                    [],         # 21
+                    [],         # 22
+                    [],         # 23
+                    []          # 24
                 ]
 
             },
@@ -311,7 +311,7 @@ class TestBoxSearch(unittest.TestCase):
             expected_bp = case['expected_output']
             with self.subTest(config=config):
                 actual_bp = BoxSearch(search_radius=config['search_radius'],
-                                      domain_size=config['domain_size'], verbose=True)._put_points_into_boxes(config['points'])
+                                      domain_size=config['domain_size'])._put_points_into_boxes(config['points'])
                 actual_bp = [sorted(box_points) for box_points in actual_bp]
 
                 self.assertEqual(actual_bp, expected_bp)

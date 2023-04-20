@@ -115,11 +115,3 @@ class BoxSearch:
                                 neighbors[neighbor_point_id].append(box_point_id)
 
         return neighbors
-
-
-if __name__ == '__main__':
-    md = divmod(6, 2)
-    print(md)
-
-    md = 0.6 // 0.2
-    print(md)
