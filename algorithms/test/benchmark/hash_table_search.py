@@ -23,14 +23,15 @@ class HashBasedBoxSearch:
         self.domain_size = domain_size
         self._verbose = verbose
         self.box_size = cell_size if cell_size is not None else self.search_radius
+
         self._boxes_in_row = round(self.domain_size / self.search_radius)
         self._total_boxes = self._boxes_in_row ** 2
         self.box_id2hash = {}
-        self._box_neighbors = self._find_neighbor_boxes()
+        self._box_neighbors_dict = self._find_neighbor_boxes()
 
-        if verbose:
+        if self._verbose:
             LOG.setLevel(level=logging.DEBUG)
-            message = "Initialized BoxSearch: search_radius={sr}, domain_size={ds}, epsilon={eps}, " \
+            message = "Initialized HashedBoxSearch: search_radius={sr}, domain_size={ds}, epsilon={eps}, " \
                       "boxes_in_row={bxs}, total_boxes={tbxs}".format(sr=self.search_radius,
                                                                       ds=self.domain_size,
                                                                       eps=self.epsilon,
@@ -39,11 +40,13 @@ class HashBasedBoxSearch:
             LOG.debug(message)
 
     @staticmethod
-    def _get_hash(discretized_coords: list[int]) -> int:
+    def _get_hash(self, discretized_coords: list[int], discretize: bool = False, raw_box_id: int = None) -> int:
         p1 = 73856093
         p2 = 19349663
         p3 = 83492791
+        int_box_id = self._calculate_box_id(discretized_coords[0])
         hashed_box_id = ((discretized_coords[0] * p1) ^ (discretized_coords[1] * p2))
+        LOG.debug(f"")
 
         return hashed_box_id
 
@@ -79,11 +82,24 @@ class HashBasedBoxSearch:
         return hashed_neighbor_boxes_ids
 
     def _discretize_coords(self, point: list[float]) -> list[int]:
+        """
+        col = point_x + EPS // search_radius
+        row = col = point_y + EPS // search_radius
+        discretized_coords = [col, row]
+        """
         discretized_coords = []
         for coord in point:
             discretized_coords.append(int((coord + sys.float_info.epsilon) // self.search_radius))
 
         return discretized_coords
+
+    def _calculate_box_id(self, discretized_coords: list[int]) -> int:
+        """
+        discretized_coords = [col, row]
+        box_id = int(row * self._boxes_in_row + col)
+        """
+        box_id = int(discretized_coords[1] * self._boxes_in_row + discretized_coords[0])
+        return box_id
 
     def _put_points_into_boxes(self, points: list[list]) -> dict[int, list]:
         """
@@ -98,7 +114,7 @@ class HashBasedBoxSearch:
 
         for point_index, point in enumerate(points):
             discretized_coords = self._discretize_coords(point)
-            box_id = int(discretized_coords[0] * self._boxes_in_row + discretized_coords[1])
+            box_id = self._calculate_box_id(discretized_coords)
             hashed_box_id = self.box_id2hash[box_id]
             points_in_boxes[box_id].append(point_index)  # regular box search
 
@@ -138,7 +154,7 @@ class HashBasedBoxSearch:
         points_in_boxes = self._put_points_into_boxes(points)
 
         for box_id, box_points_ids in points_in_boxes.items():
-            curr_box_neighbors = self._box_neighbors[box_id]
+            curr_box_neighbors = self._box_neighbors_dict[box_id]
 
             for neighbor_box_id in curr_box_neighbors:
                 # if neighbor_box_id >= box_id:
@@ -155,14 +171,4 @@ class HashBasedBoxSearch:
 
 
 if __name__ == '__main__':
-    def get_hash(discretized_coords: list[int]) -> int:
-        p1 = 73856093
-        p2 = 19349663
-        p3 = 83492791
-        hashed_box_id = ((discretized_coords[0] * p1) ^ (discretized_coords[1] * p2))
-
-        return hashed_box_id
-
-
-    print(get_hash([3, 4]))
-    print(get_hash([4, 3]))
+    pass
