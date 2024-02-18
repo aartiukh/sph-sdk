@@ -92,7 +92,7 @@ class TestBenchmark2D(unittest.TestCase):
 
     def test_bruteforce(self):
         for points, expected_nb in self.test_data:
-            with self.subTest(points=points):
+            with self.subTest(points=points, msg="bruteforce"):
                 bf = BruteForce(search_radius=self.search_radius, epsilon=self.epsilon)
                 actual_nb = bf.search(points)
                 actual_nb = [sorted(neighbors) for neighbors in actual_nb]
@@ -100,7 +100,7 @@ class TestBenchmark2D(unittest.TestCase):
 
     def test_optimized_bruteforce(self):
         for points, expected_nb in self.test_data:
-            with self.subTest(points=points):
+            with self.subTest(points=points, msg="optimized_bruteforce"):
                 bfo = BruteForceOptimized(search_radius=self.search_radius, epsilon=self.epsilon)
                 actual_nb = bfo.search(points)
                 actual_nb = [sorted(neighbors) for neighbors in actual_nb]
@@ -108,7 +108,7 @@ class TestBenchmark2D(unittest.TestCase):
 
     def test_box_search(self):
         for points, expected_nb in self.test_data:
-            with self.subTest(points=points):
+            with self.subTest(points=points, msg="box_search"):
                 box_search = BoxSearch(search_radius=self.search_radius, epsilon=self.epsilon,
                                        domain_size=self.domain_size)
                 actual_nb = box_search.search(points)
@@ -117,10 +117,10 @@ class TestBenchmark2D(unittest.TestCase):
 
     def test_hashed_box_search(self):
         for points, expected_nb in self.test_data:
-            with self.subTest(points=points):
-                box_search = HashBasedBoxSearch(search_radius=self.search_radius, epsilon=self.epsilon,
-                                                domain_size=self.domain_size)
-                actual_nb = box_search.search(points)
+            with self.subTest(points=points, msg="hashed_box_search"):
+                hashed_box_search = HashBasedBoxSearch(search_radius=self.search_radius, epsilon=self.epsilon,
+                                                       domain_size=self.domain_size)
+                actual_nb = hashed_box_search.search(points)
                 actual_nb = [sorted(neighbors) for neighbors in actual_nb]
                 self.assertEqual(actual_nb, expected_nb)
 

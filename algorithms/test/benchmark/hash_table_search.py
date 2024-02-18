@@ -137,7 +137,7 @@ class HashBasedBoxSearch:
 
         return int_neighbor_boxes
 
-    def _put_points_into_boxes(self, points: list[list]) -> dict[list]:
+    def _put_points_into_boxes(self, points: list[list]) -> dict[int, list]:
         """
         Assigns a box index for each point based on its coordinates and returns list of associated points for each box
         of the domain.
@@ -170,6 +170,28 @@ class HashBasedBoxSearch:
 
         return points_in_boxes
 
+    def search(self, points: list[list]) -> list[list]:
+        """
+        Performs the box-based neighbors search on the passed points.
+        :param points: 2D list of kind [[p0x, p0y], [p1x, p1y], ...]
+        :return: 2D list of kind [[neighbor_point_index, neighbor_point_index, ...],  ...],
+                where the list index is the index of the according point.
+        """
+        neighbors = [[] for point in range(len(points))]
+        points_in_boxes_dict = self._put_points_into_boxes(points)
 
-if __name__ == '__main__':
-    pass
+        for box_id, box_points_ids in points_in_boxes_dict.items():
+            curr_box_neighbors_list = self._box_neighbors[box_id]
+
+            for neighbor_box_id in curr_box_neighbors_list:
+                if self.hash2box_id[neighbor_box_id] >= self.hash2box_id[box_id]:
+                    neighbor_box_points = points_in_boxes_dict[neighbor_box_id]
+
+                    for box_point_id in box_points_ids:
+                        for neighbor_point_id in neighbor_box_points:
+                            dist = dist_sqr(points[box_point_id], points[neighbor_point_id])
+                            if dist - self.search_radius ** 2 < self.epsilon:
+                                neighbors[box_point_id].append(neighbor_point_id)
+                                neighbors[neighbor_point_id].append(box_point_id)
+
+        return neighbors
