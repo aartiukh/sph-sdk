@@ -155,6 +155,154 @@ class TestHashBasedBoxSearch(unittest.TestCase):
                 ]
             }
         ]
+        self.points_cases = [
+            {  # 2x2 boxes
+                'input': {
+                    'search_radius': 0.2,
+                    'domain_size': 0.4,
+                    'epsilon': 10e-8,
+                    'points': [
+                        [0.1, 0.2],     # 0
+                        [0.3, 0.1],     # 1
+                        [0.2, 0.2]      # 2
+                    ]
+                },
+                'expected_output': [
+                    # box points
+                    [],     # 0
+                    [1],    # 1
+                    [0],    # 2
+                    [2],    # 3
+                ]
+
+            },
+            {  # 2x2 boxes
+                'input': {
+                    'search_radius': 0.25,
+                    'domain_size': 0.5,
+                    'epsilon': 10e-8,
+                    'points': [
+                        [0.1, 0.2],  # 0
+                        [0.3, 0.1],  # 1
+                        [0.3, 0.25]  # 2
+                    ]
+                },
+                'expected_output': [
+                    # box points
+                    [0],  # 0
+                    [1],  # 1
+                    [],  # 2
+                    [2],  # 3
+                ]
+
+            },
+            {  # 3x3 boxes
+                'input': {
+                    'search_radius': 0.4,
+                    'domain_size': 1.2,
+                    'epsilon': 10e-8,
+                    'points': [
+                        [0.4, 0.5],   # 0
+                        [0.9, 0.3],   # 1
+                        [0.5, 0.4],   # 2
+                        [0.2, 1.0],   # 3
+                    ]
+                },
+                'expected_output': [
+                    # box points
+                    [],      # 0
+                    [],      # 1
+                    [1],     # 2
+                    [],      # 3
+                    [0, 2],  # 4
+                    [],      # 5
+                    [3],     # 6
+                    [],      # 7
+                    [],      # 8
+                ]
+
+            },
+            {  # 4x4 boxes
+                'input': {
+                    'search_radius': 0.3,
+                    'domain_size': 1.2,
+                    'epsilon': 10e-8,
+                    'points': [
+                        [0.5, 0.5],  # 0
+                        [0.6, 0.3],  # 1
+                        [1.0, 0.7],  # 2
+                        [0.4, 0.6],  # 3
+                        [0.8, 0.8],  # 4
+                    ]
+                },
+                'expected_output': [
+                    # box points
+                    [],   # 0
+                    [],   # 1
+                    [],   # 2
+                    [],   # 3
+                    [],   # 4
+                    [0],  # 5
+                    [1],  # 6
+                    [],   # 7
+                    [],   # 8
+                    [3],  # 9
+                    [4],  # 10
+                    [2],   # 11
+                    [],   # 12
+                    [],   # 13
+                    [],   # 14
+                    [],   # 15
+                ]
+
+            },
+            {  # 5x5 boxes
+                'input': {
+                    'search_radius': 0.2,
+                    'domain_size': 1.0,
+                    'epsilon': 10e-8,
+                    'points': [
+                        [0.2, 0.2],   # 0
+                        [0.5, 0.4],   # 1
+                        [0.5, 0.6],   # 2
+                        [0.2, 0.7],   # 3
+                        [0.9, 0.75],  # 4
+                        [0.6, 0.35],  # 5
+                        [0.45, 0.5],  # 6
+                    ]
+                },
+                'expected_output': [
+                    # box points
+                    [],      # 0
+                    [],      # 1
+                    [],      # 2
+                    [],      # 3
+                    [],      # 4
+                    [],      # 5
+                    [0],     # 6
+                    [],      # 7
+                    [5],     # 8
+                    [],      # 9
+                    [],      # 10
+                    [],      # 11
+                    [1, 6],  # 12
+                    [],      # 13
+                    [],      # 14
+                    [],      # 15
+                    [3],     # 16
+                    [2],     # 17
+                    [],      # 18
+                    [4],     # 19
+                    [],      # 20
+                    [],      # 21
+                    [],      # 22
+                    [],      # 23
+                    []       # 24
+                ]
+
+            },
+        ]
+
 
     def test_init(self):
         for case in self.init_cases:
@@ -172,11 +320,32 @@ class TestHashBasedBoxSearch(unittest.TestCase):
             config = case['input']
             expected_nb = case['expected_output']
             with self.subTest(config=config):
-                actual_box_nb = HashBasedBoxSearch(search_radius=config['search_radius'],
-                                                   domain_size=config['domain_size'])._int_neighbor_boxes_ids
+                hashed_box_search = HashBasedBoxSearch(search_radius=config['search_radius'],
+                                                       domain_size=config['domain_size'])
+                actual_box_nb = hashed_box_search._dehash_neighbor_boxes()
                 actual_box_nb = [sorted(neighbors) for neighbors in actual_box_nb]
 
                 self.assertEqual(actual_box_nb, expected_nb)
+
+    def test_put_points_into_boxes(self):
+        for case in self.points_cases:
+            config = case['input']
+            expected_bp = case['expected_output']
+            with (self.subTest(config=config)):
+                hashed_box_search = HashBasedBoxSearch(search_radius=config['search_radius'],
+                                                       domain_size=config['domain_size'])
+                hashed_bp = hashed_box_search._put_points_into_boxes(config['points'])
+                dehashed_bp = {hashed_box_search.hash2box_id[box_id]: hashed_bp[box_id] for box_id in hashed_bp.keys()}
+                result_list = [[] for k in dehashed_bp.keys()]
+                for box in dehashed_bp.keys():
+                    result_list[box] += dehashed_bp[box]
+
+                actual_bp = [sorted(box_points) for box_points in result_list]
+                print("Actual box points:\n", actual_bp)
+                print("Expected box points:\n", expected_bp)
+                print("Hashed box points:\n", hashed_bp)
+
+                self.assertEqual(actual_bp, expected_bp)
 
 
 if __name__ == '__main__':

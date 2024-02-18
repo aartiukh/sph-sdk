@@ -28,6 +28,7 @@ class HashBasedBoxSearch:
         self._total_boxes = self._boxes_in_row ** 2
         self.hashed_box_id2points = {}
         self.box_id2hash = {}
+        self.hash2box_id = {}
         self._int_neighbor_boxes_ids = None
         self._box_neighbors = self._find_neighbor_boxes()
 
@@ -67,14 +68,15 @@ class HashBasedBoxSearch:
 
         return col, row
 
-    def _calculate_box_id_by_discr_coords(self, discretized_coords: list[int]) -> int:
+    def _calculate_box_id_by_discr_coords(self, col: int, row: int) -> int:
         """
         col = int((point[0] + sys.float_info.epsilon) // self.search_radius)
         row = int((point[1] + sys.float_info.epsilon) // self.search_radius)
         discretized_point_coords = [col, row]
         box_id = int(discretized_point_coords[1] * self._boxes_in_row + discretized_point_coords[0])
         """
-        box_id = int(discretized_coords[1] * self._boxes_in_row + discretized_coords[0])
+        box_id = int(row * self._boxes_in_row + col)
+
         return box_id
 
     def _calculate_row_col_by_box_id(self, box_id: int) -> tuple[int, int]:
@@ -101,6 +103,7 @@ class HashBasedBoxSearch:
                 current_box_id = row * self._boxes_in_row + col
                 current_hashed_box_id = self._get_hash(row=row, col=col)
                 hashed_neighbor_boxes_ids[current_hashed_box_id] = []
+                self.hash2box_id[current_hashed_box_id] = current_box_id
                 self.box_id2hash[current_box_id] = current_hashed_box_id
 
                 for x in range(max(0, row - 1), min(row + 1, self._boxes_in_row - 1) + 1):
@@ -122,6 +125,50 @@ class HashBasedBoxSearch:
                 LOG.debug(message)
 
         return hashed_neighbor_boxes_ids
+
+    def _dehash_neighbor_boxes(self) -> list[list[int]]:
+        int_neighbor_boxes = [[] for box in range(self._total_boxes)]
+        for hashed_box_id in self._box_neighbors.keys():
+            int_box_id = self.hash2box_id[hashed_box_id]
+
+            for neighbor in self._box_neighbors[hashed_box_id]:
+                int_neighbor_id = self.hash2box_id[neighbor]
+                int_neighbor_boxes[int_box_id].append(int_neighbor_id)
+
+        return int_neighbor_boxes
+
+    def _put_points_into_boxes(self, points: list[list]) -> dict[list]:
+        """
+        Assigns a box index for each point based on its coordinates and returns list of associated points for each box
+        of the domain.
+        :param points: 2D list of kind [[p0x, p0y], [p1x, p1y], ...]
+        :return: 2D list of kind [[point_index, point_index, ...], [point_index, point_index, ...], ...],
+                where the list index is the index of the according associated box.
+        """
+        points_in_boxes = {box_id: [] for box_id in self.hash2box_id.keys()}
+
+        for point_index, point in enumerate(points):
+            col, row = self._discretize_point_coords(point)
+            box_id = self._calculate_box_id_by_discr_coords(col=col, row=row)
+            hashed_box_id = self.box_id2hash[box_id]
+            points_in_boxes[hashed_box_id].append(point_index)
+            if self._verbose:
+                message = "POINT_{p_idx}({point}): COL = {cl} ROW = {rw} BOX_ID = {bx_idx}".format(p_idx=point_index,
+                                                                                                   point=point,
+                                                                                                   cl=col,
+                                                                                                   rw=row,
+                                                                                                   bx_idx=box_id)
+                LOG.debug(message)
+
+        if self._verbose:
+            message = "TOTAL BOXES: {n_boxes}".format(n_boxes=len(points_in_boxes))
+            LOG.debug(message)
+            for box_id, points_ids in enumerate(points_in_boxes):
+                message = "BOX {box} POINTS: {pts_idx}".format(box=box_id,
+                                                               pts_idx=points_ids)
+                LOG.debug(message)
+
+        return points_in_boxes
 
 
 if __name__ == '__main__':
