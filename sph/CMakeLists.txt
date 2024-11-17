@@ -22,4 +22,5 @@ if(BUILD_UNIT_TESTS)
 endif()
 
 add_library(${SPH_LIB_NAME} ${SPH_SRC_LIST_INCLUDE} ${SPH_SRC_LIST_SOURCE})
-target_link_libraries(${SPH_LIB_NAME} algorithms)
+target_link_libraries(${SPH_LIB_NAME} PUBLIC algorithms)
+target_include_directories(${SPH_LIB_NAME} PUBLIC "src")

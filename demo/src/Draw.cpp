@@ -2,6 +2,12 @@
 
 #define GL_SILENCE_DEPRECATION
 
+#ifdef __APPLE__
+#include <OpenGL/gl.h>
+#else
+#include <GL/gl.h>
+#endif
+
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
@@ -12,20 +18,15 @@
 #include <stdlib.h>
 #include <time.h>
 
-#ifdef __APPLE__
-#include <OpenGL/gl.h>
-#else
-#include <GL/gl.h>
-#endif
-
 // include header with math functions
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-#include "algorithms/src/MarchingCubes.h"
-#include "algorithms/src/Shapes.h"
-#include "sph/src/Config.h"
-#include "sph/src/SPH.h"
+#include "MarchingCubes.h"
+#include "Shapes.h"
+#include "Config.h"
+#include "SPH.h"
+
 
 // Window dimensions
 SPHSDK::FLOAT aspect_ratio = 1.;
@@ -182,7 +183,7 @@ void Draw::MainDraw(int argc, char** argv)
 {
     using namespace SPHSDK;
 
-    static const std::function<FLOAT(FLOAT, FLOAT, FLOAT)> obstacle = Shapes::Pawn;
+    static const std::function<SPHSDK::FLOAT(SPHSDK::FLOAT, SPHSDK::FLOAT, SPHSDK::FLOAT)> obstacle = Shapes::Pawn;
     sph = SPH(&obstacle);
 
     mesh = MarchingCubes::generateMesh(obstacle);

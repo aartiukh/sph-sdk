@@ -17,8 +17,6 @@ if(MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4 /WX /wd4548 /wd4251 /wd4514 /wd4668 /wd4820 /wd4710 /wd4625 /wd4626 /wd4826 /wd4505")
 endif()
 
-include_directories(.)
-
 # Third party folder
 set(THIRDPARTY_DIR ${PROJECT_SOURCE_DIR}/thirdparty)
 
