@@ -9,9 +9,9 @@
 
 #include "Particle.h"
 
-#include "algorithms/src/Area.h"
-#include "algorithms/src/Defines.h"
-#include "algorithms/src/NeighboursSearch.h"
+#include "Area.h"
+#include "Defines.h"
+#include "NeighboursSearch.h"
 
 #include <functional>
 

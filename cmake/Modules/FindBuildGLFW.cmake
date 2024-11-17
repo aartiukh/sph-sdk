@@ -9,3 +9,5 @@ ExternalProject_Add(glfw-external
 set(GLFW_INCLUDE_DIR ${CMAKE_BINARY_DIR}/install/include)
 set(GLFW_DEPS_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/thirdparty/glfw/deps)
 set(GLFW_LIBRARY ${CMAKE_BINARY_DIR}/install/lib/${CMAKE_STATIC_LIBRARY_PREFIX}glfw3${CMAKE_STATIC_LIBRARY_SUFFIX})
+
+file(COPY  ${PROJECT_SOURCE_DIR}/thirdparty/glfw/deps/linmath.h DESTINATION ${CMAKE_BINARY_DIR}/install/include)

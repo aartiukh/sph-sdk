@@ -8,7 +8,7 @@
 #define COLLISIONS_H_73C34465A6ED4DB9B9F2F4C3937BF5DC
 
 #include "Particle.h"
-#include "algorithms/src/Defines.h"
+#include "Defines.h"
 
 #include <functional>
 

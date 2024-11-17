@@ -1,7 +1,7 @@
 #include "Collisions.h"
 
 #include "Config.h"
-#include "algorithms/src/Area.h"
+#include "Area.h"
 
 
 namespace SPHSDK
