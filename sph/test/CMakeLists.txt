@@ -3,12 +3,14 @@ set(SPH_TESTS_BIN_NAME sph_tests)
 file(GLOB SPH_TEST_SRC_LIST_INCLUDE "src/ParticleTestSuite.h"
                                     "src/ForcesTestSuite.h"
                                     "src/CollisionsTestSuite.h"
-                                    "src/IntegratorTestSuite.h")
+                                    "src/IntegratorTestSuite.h"
+                                    "src/SPHTestSuite.h")
 file(GLOB SPH_TEST_SRC_LIST_SOURCE  "src/MainTest.cpp"
                                     "src/ParticleTestSuite.cpp"
                                     "src/ForcesTestSuite.cpp"
                                     "src/CollisionsTestSuite.cpp"
-                                    "src/IntegratorTestSuite.cpp")
+                                    "src/IntegratorTestSuite.cpp"
+                                    "src/SPHTestSuite.cpp")
 
 include_directories(SYSTEM ${GTEST_INCLUDE_DIRECTORY})
 
