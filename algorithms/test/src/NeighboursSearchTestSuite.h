@@ -53,7 +53,7 @@ private:
         TestPoints3D&               points,
         const SizetVector&          expectedBoxSizes,
         const VectorOfSizetVectors& expectedBoxNeighbours,
-        const VectorOfSizetVectors& expectedPointNeighbours);
+        VectorOfSizetVectors        expectedPointNeighbours);
 
     static void testInsert3D(
         const Cuboid&               cuboid,

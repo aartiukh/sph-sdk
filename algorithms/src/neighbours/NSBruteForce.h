@@ -22,14 +22,14 @@ class NeighboursSearchTestSuite;
 
 template <class T> class NSBruteForce : public NeighboursSearchI<T>
 {
-    friend class TestEnvironment::NSBruteForceTestSuite;
+    friend class TestEnvironment::NeighboursSearchTestSuite;
 
 public:
-    explicit NSBruteForce(const Volume &volume, FLOAT radius, FLOAT eps);
+    explicit NSBruteForce(const Volume& volume, FLOAT radius, FLOAT eps);
 
     ~NSBruteForce();
 
-    void search(T &points);
+    void search(T& points);
 
 private:
     Volume m_volume;
