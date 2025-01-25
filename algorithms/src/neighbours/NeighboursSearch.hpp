@@ -1,10 +1,8 @@
 /**
  * @file NeighboursSearch.hpp
  * @NeighboursSearch class defines neighbours search function
- * @author Anton Artyukh (artyukhanton@gmail.com)
- * @version 0.1
+ * @author Anton Artiukh
  * @date Created Feb 13, 2017
- * @par Anton Artiukh
  **/
 
 #include "NeighboursSearch.h"
