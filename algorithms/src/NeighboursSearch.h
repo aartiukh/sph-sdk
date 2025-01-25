@@ -19,55 +19,6 @@ namespace TestEnvironment
     class NeighboursSearchTestSuite;
 } //TestEnvironment
 
-/**
-* @brief NeighboursSearch class defines neighbours search function.
-* Search method based on region decomposition by boxes
-* which have equal size equals to search radius
-* Search function finds vector of the same length as input points array
-* with indexes of neighbours for each input object.
-*/
-
-template <class T>
-class NeighboursSearch
-{
-    friend class TestEnvironment::NeighboursSearchTestSuite;
-
-public:
-
-    explicit NeighboursSearch(const Area& area, FLOAT radius, FLOAT eps);
-
-    ~NeighboursSearch();
-
-    void search(T& points);
-
-private:
-
-    void insertPointsIntoBoxes(const T& points);
-
-    void findNearbyBoxes();
-
-private:
-
-    Area m_Area;
-
-    FLOAT m_radius;
-
-    FLOAT m_eps;
-
-    VectorOfSizetVectors m_boxes;
-
-    VectorOfSizetVectors m_nearbyBoxes;
-
-    size_t m_boxesNumber;
-
-    size_t m_pointsSize; // the amount of points
-
-    FLOAT m_rectWidth;
-
-    FLOAT m_rectHeight;
-};
-
-// ---------------------------
 
 template <class T> class NeighboursSearch3D
 {
