@@ -37,7 +37,7 @@ jobs:
       working-directory: ${{github.workspace}}/build
       run: |
         export CODECOV_TOKEN=${{ secrets.CODECOV_TOKEN }}
-        lcov --capture --ignore-errors mismatch --directory . --output-file coverage.info
+        lcov --capture --exclude *TestSuite.*  --ignore-errors mismatch --directory . --output-file coverage.info
         lcov --remove coverage.info '/usr/*' --output-file coverage.info
         lcov --list coverage.info
         bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage reports"
