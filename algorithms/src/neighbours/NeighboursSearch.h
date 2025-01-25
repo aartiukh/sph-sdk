@@ -7,6 +7,8 @@
 #ifndef NEIGHBOURS_SEARCH_H_37DCCF3737274ADE9B6EEF8BF6947A6E
 #define NEIGHBOURS_SEARCH_H_37DCCF3737274ADE9B6EEF8BF6947A6E
 
+
+#include "NeighboursSearchInterface.h"
 #include "Point.h"
 #include "Defines.h"
 #include "Area.h"
@@ -20,7 +22,7 @@ namespace TestEnvironment
 } //TestEnvironment
 
 
-template <class T> class NeighboursSearch3D
+template <class T> class NeighboursSearch3D : public NeighboursSearchI<T>
 {
     friend class TestEnvironment::NeighboursSearchTestSuite;
     
