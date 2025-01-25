@@ -15,8 +15,7 @@ template <class T>
 NSBruteForce<T>::NSBruteForce(const Volume& volume, FLOAT radius, FLOAT eps)
     : m_volume(volume),
       m_radius(radius),
-      m_eps(eps),
-      m_boxes(VectorOfSizetVectors())
+      m_eps(eps)
 {
 }
 

@@ -37,8 +37,6 @@ private:
     FLOAT m_radius;
 
     FLOAT m_eps;
-
-    VectorOfSizetVectors m_boxes;
 };
 } // namespace SPHSDK
 
