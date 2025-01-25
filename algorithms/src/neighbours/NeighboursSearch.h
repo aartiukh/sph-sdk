@@ -1,6 +1,6 @@
 /**
 * @file NeighboursSearch.h
-* @author Anton Artyukh (artyukhanton@gmail.com)
+* @author Anton Artiukh
 * @date Created Feb 13, 2017
 **/
 

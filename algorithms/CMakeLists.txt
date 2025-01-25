@@ -3,6 +3,8 @@ set(ALGORITHMS_LIB_NAME algorithms)
 file(GLOB ALGORITHMS_SRC_LIST_INCLUDE "src/neighbours/NeighboursSearch.h"
                                       "src/neighbours/NeighboursSearchInterface.h"
                                       "src/neighbours/NeighboursSearch.hpp"
+                                      "src/neighbours/NSBruteForce.h"
+                                      "src/neighbours/NSBruteForce.hpp"
                                       "src/Point.h"
                                       "src/Point.hpp"
                                       "src/Defines.h"
