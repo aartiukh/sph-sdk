@@ -1,10 +1,7 @@
 /**
  * @file NeighboursSearchTestSuite.h
- * @NeighboursSearchTestSuite class defines neighbours search test suite
- * @author Anton Artyukh (artyukhanton@gmail.com)
- * @version 0.1
+ * @author Anton Artyikh
  * @date Created Feb 13, 2017
- * @par Anton Artiukh
  **/
 
 #ifndef NEIGHBOURS_SEARCH_TEST_SUITE_H_96192C2023784EE0B4976A48A1A8779B

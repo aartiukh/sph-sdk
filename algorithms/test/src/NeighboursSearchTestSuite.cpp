@@ -1,10 +1,7 @@
 /**
  * @file NeighboursSearchTestSuite.cpp
- * @NeighboursSearchTestSuite class defines neighbours search test suite
- * @author Anton Artyukh (artyukhanton@gmail.com)
- * @version 0.1
+ * @author Anton Artiukh
  * @date Created Feb 13, 2017
- * @par Anton Artiukh
  **/
 
 #include "NeighboursSearchTestSuite.h"
