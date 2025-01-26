@@ -1,15 +1,9 @@
-/**
- * @file NSBruteForceImproved.h
- * @author Anton Artiukh
- * @date Created Jan 25, 2025
- **/
-
 #ifndef NS_BRUTE_FORCE_IMPROVED_H_48DCCF3737274ADE9B6EEF8BF6947A6E
 #define NS_BRUTE_FORCE_IMPROVED_H_48DCCF3737274ADE9B6EEF8BF6947A6E
 
 #include "Area.h"
 #include "Defines.h"
-#include "NeighboursSearchInterface.h"
+#include "NeighbourSearchInterface.h"
 #include "Point.h"
 
 namespace SPHSDK
@@ -20,7 +14,7 @@ namespace TestEnvironment
 class NeighboursSearchTestSuite;
 } // namespace TestEnvironment
 
-template <class T> class NSBruteForceImproved : public NeighboursSearchI<T>
+template <class T> class NSBruteForceImproved : public NeighbourSearchI<T>
 {
     friend class TestEnvironment::NeighboursSearchTestSuite;
 

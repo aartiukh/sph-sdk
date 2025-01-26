@@ -1,15 +1,9 @@
-/**
- * @file NeighboursSearchTestSuite.cpp
- * @author Anton Artiukh
- * @date Created Feb 13, 2017
- **/
-
 #include "NeighboursSearchTestSuite.h"
 
 #include "Area.h"
 #include "NSBruteForce.h"
 #include "NSBruteForceImproved.h"
-#include "NeighboursSearch.h"
+#include "NSGridBasedOld.h"
 
 #include <stdexcept>
 
@@ -39,7 +33,7 @@ void NeighboursSearchTestSuite::testSearch(
     const Volume volume(cuboid);
 
     {
-        NeighboursSearch3D<TestPoints3D> ns(volume, radius, accuracy);
+        NSGridBasedOld<TestPoints3D> ns(volume, radius, accuracy);
 
         ASSERT_EQ(ns.m_boxes.size(), expectedBoxNeighbours.size());
 
@@ -108,8 +102,8 @@ void NeighboursSearchTestSuite::testInsert(
     const SizetVector&          expectedBoxSizes,
     const VectorOfSizetVectors& expectedPointsInBoxes)
 {
-    const Volume                     volume(cuboid);
-    NeighboursSearch3D<TestPoints3D> ns(volume, radius, accuracy);
+    const Volume                 volume(cuboid);
+    NSGridBasedOld<TestPoints3D> ns(volume, radius, accuracy);
 
     ns.insertPointsIntoBoxes(points);
     const VectorOfSizetVectors& actualPointsInBoxes = ns.m_boxes;
