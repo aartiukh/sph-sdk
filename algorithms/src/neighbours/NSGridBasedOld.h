@@ -11,12 +11,12 @@ namespace SPHSDK
 
 namespace TestEnvironment
 {
-class NeighboursSearchTestSuite;
+class NSGridBasedOldTestSuite;
 } // namespace TestEnvironment
 
 template <class T> class NSGridBasedOld : public NeighbourSearchI<T>
 {
-    friend class TestEnvironment::NeighboursSearchTestSuite;
+    friend class TestEnvironment::NSGridBasedOldTestSuite;
 
 public:
     explicit NSGridBasedOld(const Volume& volume, FLOAT radius, FLOAT eps);

@@ -1,13 +1,13 @@
 set(ALGORITHMS_TESTS_BIN_NAME algorithms_tests)
 
-file(GLOB ALGORITHMS_TEST_SRC_LIST_INCLUDE "src/NeighboursSearchTestSuite.h"
+file(GLOB ALGORITHMS_TEST_SRC_LIST_INCLUDE "src/NSGridBasedOldTestSuite.h"
                                            "src/ROperationsTestSuite.h"
                                            "src/MarchingCubesTestSuite.h"
                                            "src/AreaTestSuite.h"
                                            "src/VolumeTestSuite.h")
 
 file(GLOB ALGORITHMS_TEST_SRC_LIST_SOURCE   "src/MainTest.cpp"
-                                            "src/NeighboursSearchTestSuite.cpp"
+                                            "src/NSGridBasedOldTestSuite.cpp"
                                             "src/ROperationsTestSuite.cpp"
                                             "src/MarchingCubesTestSuite.cpp"
                                             "src/AreaTestSuite.cpp"
