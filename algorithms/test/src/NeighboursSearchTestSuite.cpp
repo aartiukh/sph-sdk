@@ -20,7 +20,7 @@ namespace SPHSDK
 namespace TestEnvironment
 {
 
-void NeighboursSearchTestSuite::testSearch3D(
+void NeighboursSearchTestSuite::testSearch(
     const Cuboid&               cuboid,
     FLOAT                       radius,
     FLOAT                       accuracy,
@@ -100,7 +100,7 @@ void NeighboursSearchTestSuite::testSearch3D(
     }
 }
 
-void NeighboursSearchTestSuite::testInsert3D(
+void NeighboursSearchTestSuite::testInsert(
     const Cuboid&               cuboid,
     FLOAT                       radius,
     FLOAT                       accuracy,
@@ -150,7 +150,7 @@ void NeighboursSearchTestSuite::searchInOneBox3D()
 
     VectorOfSizetVectors expectedNeighbours = {{1, 2}, {0, 2}, {0, 1}};
 
-    testSearch3D(cuboid, radius, accuracy, points, expectedBoxSizes, expectedBoxNeighbours, expectedNeighbours);
+    testSearch(cuboid, radius, accuracy, points, expectedBoxSizes, expectedBoxNeighbours, expectedNeighbours);
 }
 
 void NeighboursSearchTestSuite::searchInDifferentBoxesCenterBack3D()
@@ -201,7 +201,7 @@ void NeighboursSearchTestSuite::searchInDifferentBoxesCenterBack3D()
 
     VectorOfSizetVectors expectedNeighbours = {{3, 1, 4, 2, 5}, {0, 4, 2}, {0, 3, 1}, {0, 4, 2}, {0, 3, 1}, {0}};
 
-    testSearch3D(cuboid, radius, accuracy, points, expectedBoxSizes, expectedBoxNeighbours, expectedNeighbours);
+    testSearch(cuboid, radius, accuracy, points, expectedBoxSizes, expectedBoxNeighbours, expectedNeighbours);
 }
 
 void NeighboursSearchTestSuite::searchInDifferentBoxesCenterMiddle3D()
@@ -298,7 +298,7 @@ void NeighboursSearchTestSuite::searchInDifferentBoxesCenterMiddle3D()
         {3, 2, 0},
         {4, 1, 0}};
 
-    testSearch3D(cuboid, radius, accuracy, points, expectedBoxSizes, expectedBoxNeighbours, expectedNeighbours);
+    testSearch(cuboid, radius, accuracy, points, expectedBoxSizes, expectedBoxNeighbours, expectedNeighbours);
 }
 
 } // namespace TestEnvironment

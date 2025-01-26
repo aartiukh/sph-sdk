@@ -43,7 +43,7 @@ private:
 
     using TestPoints3D = std::vector<TestPoint3F>;
 
-    static void testSearch3D(
+    static void testSearch(
         const Cuboid&               cuboid,
         FLOAT                       radius,
         FLOAT                       accuracy,
@@ -52,7 +52,7 @@ private:
         const VectorOfSizetVectors& expectedBoxNeighbours,
         VectorOfSizetVectors        expectedPointNeighbours);
 
-    static void testInsert3D(
+    static void testInsert(
         const Cuboid&               cuboid,
         FLOAT                       radius,
         FLOAT                       accuracy,
