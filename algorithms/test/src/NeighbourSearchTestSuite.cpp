@@ -5,9 +5,10 @@
 #include "NSBruteForceImproved.h"
 #include "NSGridBasedOld.h"
 
-#include <stdexcept>
-
 #include <gtest/gtest.h>
+
+#include <memory>
+#include <vector>
 
 namespace SPHSDK
 {
@@ -30,13 +31,23 @@ void NeighbourSearchTestSuite::testSearch(
 
     const Volume volume(cuboid);
 
-    {
-        NSGridBasedOld<TestPoints3D> ns(volume, radius, accuracy);
+    std::vector<std::unique_ptr<NeighbourSearchI<TestPoints3D>>> algorithms;
 
+    algorithms.push_back(std::make_unique<NSBruteForce<TestPoints3D>>(volume, radius, accuracy));
+    algorithms.push_back(std::make_unique<NSBruteForceImproved<TestPoints3D>>(volume, radius, accuracy));
+    algorithms.push_back(std::make_unique<NSGridBasedOld<TestPoints3D>>(volume, radius, accuracy));
+
+    for (const auto& ns : algorithms)
+    {
         for (size_t i = 0u; i < points.size(); ++i)
         {
             std::sort(points[i].neighbours.begin(), points[i].neighbours.end());
             EXPECT_EQ(expectedNeighbours[i], points[i].neighbours);
+        }
+
+        for (size_t i = 0u; i < points.size(); ++i)
+        {
+            points[i].neighbours.clear();
         }
     }
 }
