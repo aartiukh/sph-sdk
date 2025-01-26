@@ -1,6 +1,7 @@
 set(ALGORITHMS_TESTS_BIN_NAME algorithms_tests)
 
 file(GLOB ALGORITHMS_TEST_SRC_LIST_INCLUDE "src/NSGridBasedOldTestSuite.h"
+                                           "src/NeighbourSearchTestSuite.h"
                                            "src/ROperationsTestSuite.h"
                                            "src/MarchingCubesTestSuite.h"
                                            "src/AreaTestSuite.h"
