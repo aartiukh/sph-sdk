@@ -9,6 +9,7 @@ file(GLOB ALGORITHMS_TEST_SRC_LIST_INCLUDE "src/NSGridBasedOldTestSuite.h"
 
 file(GLOB ALGORITHMS_TEST_SRC_LIST_SOURCE   "src/MainTest.cpp"
                                             "src/NSGridBasedOldTestSuite.cpp"
+                                            "src/NeighbourSearchTestSuite.cpp"
                                             "src/ROperationsTestSuite.cpp"
                                             "src/MarchingCubesTestSuite.cpp"
                                             "src/AreaTestSuite.cpp"

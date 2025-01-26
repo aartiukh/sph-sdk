@@ -39,6 +39,8 @@ void NeighbourSearchTestSuite::testSearch(
 
     for (const auto& ns : algorithms)
     {
+        ns->search(points);
+
         for (size_t i = 0u; i < points.size(); ++i)
         {
             std::sort(points[i].neighbours.begin(), points[i].neighbours.end());

@@ -12,6 +12,9 @@ public:
     /// @brief Search for neighbours for every point in points.
     /// @param points Points to search neighbours for.
     virtual void search(T& points) = 0;
+
+    /// @brief Virtual destructor.
+    virtual ~NeighbourSearchI() = default;
 };
 
 } // namespace SPHSDK
