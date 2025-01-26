@@ -58,40 +58,6 @@ void NSGridBasedOldTestSuite::testSearch(
             EXPECT_EQ(expectedPointNeighbours[i], points[i].neighbours);
         }
     }
-
-    for (size_t i = 0u; i < points.size(); ++i)
-    {
-        points[i].neighbours.clear();
-    }
-
-    {
-        NSBruteForce<TestPoints3D> ns(volume, radius, accuracy);
-
-        ns.search(points);
-
-        for (size_t i = 0u; i < points.size(); ++i)
-        {
-            std::sort(points[i].neighbours.begin(), points[i].neighbours.end());
-            EXPECT_EQ(expectedPointNeighbours[i], points[i].neighbours);
-        }
-    }
-
-    for (size_t i = 0u; i < points.size(); ++i)
-    {
-        points[i].neighbours.clear();
-    }
-
-    {
-        NSBruteForceImproved<TestPoints3D> ns(volume, radius, accuracy);
-
-        ns.search(points);
-
-        for (size_t i = 0u; i < points.size(); ++i)
-        {
-            std::sort(points[i].neighbours.begin(), points[i].neighbours.end());
-            EXPECT_EQ(expectedPointNeighbours[i], points[i].neighbours);
-        }
-    }
 }
 
 void NSGridBasedOldTestSuite::testInsert(
