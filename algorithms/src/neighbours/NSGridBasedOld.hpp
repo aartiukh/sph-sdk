@@ -1,44 +1,34 @@
-/**
- * @file NeighboursSearch.hpp
- * @NeighboursSearch class defines neighbours search function
- * @author Anton Artiukh
- * @date Created Feb 13, 2017
- **/
-
-#include "NeighboursSearch.h"
+#include "NSGridBasedOld.h"
 
 #include <cfloat>
 #include <cmath>
-
 
 namespace SPHSDK
 {
 
 template <class T>
-NeighboursSearch3D<T>::NeighboursSearch3D(const Volume& volume, FLOAT radius, FLOAT eps)
-    : m_volume(volume)
-    , m_radius(radius)
-    , m_eps(eps)
-    , m_boxes(VectorOfSizetVectors())
-    {
-        const Cuboid cuboid = m_volume.getBoundingCuboid();
+NSGridBasedOld<T>::NSGridBasedOld(const Volume& volume, FLOAT radius, FLOAT eps)
+    : m_volume(volume),
+      m_radius(radius),
+      m_eps(eps),
+      m_boxes(VectorOfSizetVectors())
+{
+    const Cuboid cuboid = m_volume.getBoundingCuboid();
 
-        m_cuboid = cuboid;
+    m_cuboid = cuboid;
 
-        m_normalizedCuboidWidth = static_cast<size_t>(m_cuboid.width / m_radius);
-        m_normalizedCuboidLength = static_cast<size_t>(m_cuboid.length / m_radius);
-        m_normalizedCuboidHeight = static_cast<size_t>(m_cuboid.height / m_radius); 
+    m_normalizedCuboidWidth = static_cast<size_t>(m_cuboid.width / m_radius);
+    m_normalizedCuboidLength = static_cast<size_t>(m_cuboid.length / m_radius);
+    m_normalizedCuboidHeight = static_cast<size_t>(m_cuboid.height / m_radius);
 
-        m_boxesNumber = static_cast<size_t>(m_normalizedCuboidWidth *
-                                            m_normalizedCuboidLength *
-                                            m_normalizedCuboidHeight);
-        m_boxes.resize(m_boxesNumber);
-        m_nearbyBoxes.resize(m_boxesNumber);
+    m_boxesNumber = static_cast<size_t>(m_normalizedCuboidWidth * m_normalizedCuboidLength * m_normalizedCuboidHeight);
+    m_boxes.resize(m_boxesNumber);
+    m_nearbyBoxes.resize(m_boxesNumber);
 
-        findNearbyBoxes();
-    }
+    findNearbyBoxes();
+}
 
-template <class T> NeighboursSearch3D<T>::~NeighboursSearch3D() = default;
+template <class T> NSGridBasedOld<T>::~NSGridBasedOld() = default;
 
 /**
  * @brief The main method of search.
@@ -47,7 +37,7 @@ template <class T> NeighboursSearch3D<T>::~NeighboursSearch3D() = default;
  * 3. Look for neighbour points for every point in every box;
  * 4. Look for neighbour points for every point in neighbour boxes;
  */
-template <class T> void NeighboursSearch3D<T>::search(T& points)
+template <class T> void NSGridBasedOld<T>::search(T& points)
 {
     // 1
     for (size_t i = 0; i < points.size(); i++)
@@ -69,14 +59,16 @@ template <class T> void NeighboursSearch3D<T>::search(T& points)
     for (size_t boxIndex = 0; boxIndex < m_boxes.size(); boxIndex++)
         for (size_t pointIndex = 0; pointIndex < m_boxes[boxIndex].size(); pointIndex++)
             for (size_t nearbyBoxIndex = 0; nearbyBoxIndex < m_nearbyBoxes[boxIndex].size(); nearbyBoxIndex++)
-                for (size_t nearbyPointIndex = 0; nearbyPointIndex < m_boxes[m_nearbyBoxes[boxIndex][nearbyBoxIndex]].size(); nearbyPointIndex++)
+                for (size_t nearbyPointIndex = 0;
+                     nearbyPointIndex < m_boxes[m_nearbyBoxes[boxIndex][nearbyBoxIndex]].size();
+                     nearbyPointIndex++)
                 {
-                    Point3F difference = points[m_boxes[boxIndex][pointIndex]].position -
-                                         points[m_boxes[m_nearbyBoxes[boxIndex][nearbyBoxIndex]][nearbyPointIndex]].position;
+                    Point3F difference =
+                        points[m_boxes[boxIndex][pointIndex]].position -
+                        points[m_boxes[m_nearbyBoxes[boxIndex][nearbyBoxIndex]][nearbyPointIndex]].position;
                     if (difference.calcNormSqr() - pow(m_radius, 2) <= DBL_EPSILON)
-                        points[m_boxes[boxIndex][pointIndex]]
-                            .neighbours
-                            .push_back(m_boxes[m_nearbyBoxes[boxIndex][nearbyBoxIndex]][nearbyPointIndex]);
+                        points[m_boxes[boxIndex][pointIndex]].neighbours.push_back(
+                            m_boxes[m_nearbyBoxes[boxIndex][nearbyBoxIndex]][nearbyPointIndex]);
                 }
 }
 
@@ -95,7 +87,7 @@ template <class T> void NeighboursSearch3D<T>::search(T& points)
  *
  *     Length 0             Length 1             Length 2
  */
-template <class T> void NeighboursSearch3D<T>::insertPointsIntoBoxes(const T& points)
+template <class T> void NSGridBasedOld<T>::insertPointsIntoBoxes(const T& points)
 {
     for (size_t i = 0; i < m_boxesNumber; i++)
         m_boxes[i].clear();
@@ -106,11 +98,10 @@ template <class T> void NeighboursSearch3D<T>::insertPointsIntoBoxes(const T& po
     {
         // The Formula is created manually using height layers approach
 
-        auto widthOffset = static_cast<size_t>(points[i].position.x / m_radius);
-        size_t lengthOffset = static_cast<size_t>(points[i].position.y / m_radius) *
-                              m_normalizedCuboidWidth;
-        size_t heightOffset = static_cast<size_t>(points[i].position.z / m_radius) *
-                              m_normalizedCuboidLength * m_normalizedCuboidWidth;
+        auto   widthOffset = static_cast<size_t>(points[i].position.x / m_radius);
+        size_t lengthOffset = static_cast<size_t>(points[i].position.y / m_radius) * m_normalizedCuboidWidth;
+        size_t heightOffset =
+            static_cast<size_t>(points[i].position.z / m_radius) * m_normalizedCuboidLength * m_normalizedCuboidWidth;
 
         if (std::abs(points[i].position.x - m_cuboid.width) < m_eps)
             widthOffset -= 1;
@@ -150,12 +141,12 @@ template <class T> void NeighboursSearch3D<T>::insertPointsIntoBoxes(const T& po
  *     Length 0             Length 1             Length 2
  */
 
-template <class T> void NeighboursSearch3D<T>::findNearbyBoxes()
+template <class T> void NSGridBasedOld<T>::findNearbyBoxes()
 {
     for (size_t boxIndex = 0; boxIndex < m_boxes.size(); boxIndex++)
     {
         const SizetVector boxComponents = getComponentsOfBoxIndex(boxIndex);
-        BoxType boxType = getBoxType(boxComponents);
+        BoxType           boxType = getBoxType(boxComponents);
         defineNearbyBoxes(boxType, boxComponents, boxIndex);
     }
 }
@@ -164,12 +155,12 @@ template <class T> void NeighboursSearch3D<T>::findNearbyBoxes()
  * @brief This method returns array of components (width, length and height) for box index.
  */
 
-template <class T> SizetVector NeighboursSearch3D<T>::getComponentsOfBoxIndex(const size_t boxIndex)
+template <class T> SizetVector NSGridBasedOld<T>::getComponentsOfBoxIndex(const size_t boxIndex)
 {
     const size_t boxWidth = boxIndex % m_normalizedCuboidWidth;
     const size_t boxHeight = (boxIndex - boxWidth) / (m_normalizedCuboidWidth * m_normalizedCuboidLength);
-    const size_t boxLength = (boxIndex - boxWidth -
-                              boxHeight * m_normalizedCuboidWidth * m_normalizedCuboidLength) / m_normalizedCuboidWidth;
+    const size_t boxLength = (boxIndex - boxWidth - boxHeight * m_normalizedCuboidWidth * m_normalizedCuboidLength) /
+                             m_normalizedCuboidWidth;
 
     const SizetVector components = {boxWidth, boxLength, boxHeight};
 
@@ -180,7 +171,7 @@ template <class T> SizetVector NeighboursSearch3D<T>::getComponentsOfBoxIndex(co
  * @brief This method returns type of box (one of six), using its components (width, length and height).
  */
 
-template <class T> typename NeighboursSearch3D<T>::BoxType NeighboursSearch3D<T>::getBoxType(const SizetVector& components)
+template <class T> typename NSGridBasedOld<T>::BoxType NSGridBasedOld<T>::getBoxType(const SizetVector& components)
 {
     if ((components[0] == 0 || components[0] == m_normalizedCuboidWidth - 1) &&
         (components[1] == 0 || components[1] == m_normalizedCuboidLength - 1) &&
@@ -197,13 +188,10 @@ template <class T> typename NeighboursSearch3D<T>::BoxType NeighboursSearch3D<T>
     }
 
     if ((components[1] == 0 || components[1] == m_normalizedCuboidLength - 1) &&
-        (
-         ((components[0] != 0 && components[0] != m_normalizedCuboidWidth - 1) &&
+        (((components[0] != 0 && components[0] != m_normalizedCuboidWidth - 1) &&
           (components[2] == 0 || components[2] == m_normalizedCuboidHeight - 1)) ||
          ((components[0] == 0 || components[0] == m_normalizedCuboidWidth - 1) &&
-          (components[2] != 0 && components[2] != m_normalizedCuboidHeight - 1))
-         )
-        )
+          (components[2] != 0 && components[2] != m_normalizedCuboidHeight - 1))))
     {
         return outerLongitual;
     }
@@ -223,124 +211,131 @@ template <class T> typename NeighboursSearch3D<T>::BoxType NeighboursSearch3D<T>
     }
 
     if ((components[1] != 0 && components[1] != m_normalizedCuboidLength - 1) &&
-        (
-         ((components[0] != 0 && components[0] != m_normalizedCuboidWidth - 1) &&
+        (((components[0] != 0 && components[0] != m_normalizedCuboidWidth - 1) &&
           (components[2] == 0 || components[2] == m_normalizedCuboidHeight - 1)) ||
          ((components[0] == 0 || components[0] == m_normalizedCuboidWidth - 1) &&
-          (components[2] != 0 && components[2] != m_normalizedCuboidHeight - 1))
-         )
-        )
+          (components[2] != 0 && components[2] != m_normalizedCuboidHeight - 1))))
     {
         return innerLongitual;
     }
 
-	return innerLongitual;
+    return innerLongitual;
 }
 
 /**
  * @brief This method defines for box its neighbours, using box conmonents and type.
  */
 
-template <class T> void NeighboursSearch3D<T>::defineNearbyBoxes(const NeighboursSearch3D<T>::BoxType boxType,
-                                                                 const SizetVector& components,
-                                                                 const size_t boxIndex)
+template <class T>
+void NSGridBasedOld<T>::defineNearbyBoxes(
+    const NSGridBasedOld<T>::BoxType boxType, const SizetVector& components, const size_t boxIndex)
 {
-    bool isLeft     = components[0] == 0;
-    bool isRight    = components[0] == m_normalizedCuboidWidth - 1;
-    bool isBack     = components[1] == 0;
-//  bool isFront    = components[1] == m_normalizedCuboidLength - 1; // commented as not used
-    bool isBottom   = components[2] == 0;
-    bool isTop      = components[2] == m_normalizedCuboidHeight - 1;
+    bool isLeft = components[0] == 0;
+    bool isRight = components[0] == m_normalizedCuboidWidth - 1;
+    bool isBack = components[1] == 0;
+    //  bool isFront    = components[1] == m_normalizedCuboidLength - 1; // commented as not used
+    bool isBottom = components[2] == 0;
+    bool isTop = components[2] == m_normalizedCuboidHeight - 1;
 
-    switch (boxType) {
-        case outerCorner:
-            addNearbyBoxesFor(isLeft, isRight, isTop, isBottom, components, boxIndex);
-            isBack ? addForBack(boxIndex) : addForFront(boxIndex);
+    switch (boxType)
+    {
+    case outerCorner:
+        addNearbyBoxesFor(isLeft, isRight, isTop, isBottom, components, boxIndex);
+        isBack ? addForBack(boxIndex) : addForFront(boxIndex);
 
-            break;
+        break;
 
-        case outerCenter:
-            addForCenter(components, boxIndex);
-            isBack ? addForBack(boxIndex) : addForFront(boxIndex);
+    case outerCenter:
+        addForCenter(components, boxIndex);
+        isBack ? addForBack(boxIndex) : addForFront(boxIndex);
 
-            break;
+        break;
 
-        case outerLongitual:
-            addNearbyBoxesFor(isLeft, isRight, isTop, isBottom, components, boxIndex);
-            isBack ? addForBack(boxIndex) : addForFront(boxIndex);
+    case outerLongitual:
+        addNearbyBoxesFor(isLeft, isRight, isTop, isBottom, components, boxIndex);
+        isBack ? addForBack(boxIndex) : addForFront(boxIndex);
 
-            break;
+        break;
 
-        case innerCorner:
-            addNearbyBoxesFor(isLeft, isRight, isTop, isBottom, components, boxIndex);
-            addForMiddle(boxIndex);
+    case innerCorner:
+        addNearbyBoxesFor(isLeft, isRight, isTop, isBottom, components, boxIndex);
+        addForMiddle(boxIndex);
 
-            break;
+        break;
 
-        case innerCenter:
-            addForCenter(components, boxIndex);
-            addForMiddle(boxIndex);
+    case innerCenter:
+        addForCenter(components, boxIndex);
+        addForMiddle(boxIndex);
 
-            break;
+        break;
 
-        case innerLongitual:
-            addNearbyBoxesFor(isLeft, isRight, isTop, isBottom, components, boxIndex);
-            addForMiddle(boxIndex);
+    case innerLongitual:
+        addNearbyBoxesFor(isLeft, isRight, isTop, isBottom, components, boxIndex);
+        addForMiddle(boxIndex);
 
-            break;
+        break;
     }
 }
 
-template <class T> void NeighboursSearch3D<T>:: addNearbyBoxesFor(const bool isLeft,
-                                                                  const bool isRight,
-                                                                  const bool isTop,
-                                                                  const bool isBottom,
-                                                                  const SizetVector& components,
-                                                                  const size_t boxIndex)
+template <class T>
+void NSGridBasedOld<T>::addNearbyBoxesFor(
+    const bool         isLeft,
+    const bool         isRight,
+    const bool         isTop,
+    const bool         isBottom,
+    const SizetVector& components,
+    const size_t       boxIndex)
 {
-    if (isLeft && isBottom) {
+    if (isLeft && isBottom)
+    {
         addForBottomLeft(components, boxIndex);
         return;
     }
 
-    if (isRight && isBottom) {
+    if (isRight && isBottom)
+    {
         addForBottomRight(components, boxIndex);
         return;
     }
 
-    if (isLeft && isTop) {
+    if (isLeft && isTop)
+    {
         addForTopLeft(components, boxIndex);
         return;
     }
 
-    if (isRight && isTop) {
+    if (isRight && isTop)
+    {
         addForTopRight(components, boxIndex);
         return;
     }
 
-    if (isLeft) {
+    if (isLeft)
+    {
         addForLeft(components, boxIndex);
         return;
     }
 
-    if (isRight) {
+    if (isRight)
+    {
         addForRight(components, boxIndex);
         return;
     }
 
-    if (isBottom) {
+    if (isBottom)
+    {
         addForBottom(components, boxIndex);
         return;
     }
 
-    if (isTop) {
+    if (isTop)
+    {
         addForTop(components, boxIndex);
         return;
     }
 }
 
-template <class T> void NeighboursSearch3D<T>:: addForTopLeft(const SizetVector& /*components*/,
-                                                              const size_t boxIndex)
+template <class T> void NSGridBasedOld<T>::addForTopLeft(const SizetVector& /*components*/, const size_t boxIndex)
 {
     // addRight
     m_nearbyBoxes[boxIndex].push_back(boxIndex + 1);
@@ -350,8 +345,7 @@ template <class T> void NeighboursSearch3D<T>:: addForTopLeft(const SizetVector&
     m_nearbyBoxes[boxIndex].push_back(boxIndex - m_normalizedCuboidWidth * m_normalizedCuboidLength + 1);
 }
 
-template <class T> void NeighboursSearch3D<T>:: addForTopRight(const SizetVector& /*components*/,
-                                                               const size_t boxIndex)
+template <class T> void NSGridBasedOld<T>::addForTopRight(const SizetVector& /*components*/, const size_t boxIndex)
 {
     // addLeft
     m_nearbyBoxes[boxIndex].push_back(boxIndex - 1);
@@ -361,8 +355,7 @@ template <class T> void NeighboursSearch3D<T>:: addForTopRight(const SizetVector
     m_nearbyBoxes[boxIndex].push_back(boxIndex - m_normalizedCuboidWidth * m_normalizedCuboidLength - 1);
 }
 
-template <class T> void NeighboursSearch3D<T>:: addForBottomLeft(const SizetVector& /*components*/,
-                                                                 const size_t boxIndex)
+template <class T> void NSGridBasedOld<T>::addForBottomLeft(const SizetVector& /*components*/, const size_t boxIndex)
 {
     // addRight
     m_nearbyBoxes[boxIndex].push_back(boxIndex + 1);
@@ -372,8 +365,7 @@ template <class T> void NeighboursSearch3D<T>:: addForBottomLeft(const SizetVect
     m_nearbyBoxes[boxIndex].push_back(boxIndex + m_normalizedCuboidWidth * m_normalizedCuboidLength + 1);
 }
 
-template <class T> void NeighboursSearch3D<T>:: addForBottomRight(const SizetVector& /*components*/,
-                                                                  const size_t boxIndex)
+template <class T> void NSGridBasedOld<T>::addForBottomRight(const SizetVector& /*components*/, const size_t boxIndex)
 {
     // addLeft
     m_nearbyBoxes[boxIndex].push_back(boxIndex - 1);
@@ -383,8 +375,7 @@ template <class T> void NeighboursSearch3D<T>:: addForBottomRight(const SizetVec
     m_nearbyBoxes[boxIndex].push_back(boxIndex + m_normalizedCuboidWidth * m_normalizedCuboidLength - 1);
 }
 
-template <class T> void NeighboursSearch3D<T>:: addForCenter(const SizetVector& /*components*/,
-                                                             const size_t boxIndex)
+template <class T> void NSGridBasedOld<T>::addForCenter(const SizetVector& /*components*/, const size_t boxIndex)
 {
     // addRight
     m_nearbyBoxes[boxIndex].push_back(boxIndex + 1);
@@ -404,8 +395,7 @@ template <class T> void NeighboursSearch3D<T>:: addForCenter(const SizetVector& 
     m_nearbyBoxes[boxIndex].push_back(boxIndex - m_normalizedCuboidWidth * m_normalizedCuboidLength - 1);
 }
 
-template <class T> void NeighboursSearch3D<T>:: addForLeft(const SizetVector& /*components*/,
-                                                           const size_t boxIndex)
+template <class T> void NSGridBasedOld<T>::addForLeft(const SizetVector& /*components*/, const size_t boxIndex)
 {
     // addRight
     m_nearbyBoxes[boxIndex].push_back(boxIndex + 1);
@@ -419,8 +409,7 @@ template <class T> void NeighboursSearch3D<T>:: addForLeft(const SizetVector& /*
     m_nearbyBoxes[boxIndex].push_back(boxIndex - m_normalizedCuboidWidth * m_normalizedCuboidLength + 1);
 }
 
-template <class T> void NeighboursSearch3D<T>:: addForRight(const SizetVector& /*components*/,
-                                                            const size_t boxIndex)
+template <class T> void NSGridBasedOld<T>::addForRight(const SizetVector& /*components*/, const size_t boxIndex)
 {
     // addLeft
     m_nearbyBoxes[boxIndex].push_back(boxIndex - 1);
@@ -434,8 +423,7 @@ template <class T> void NeighboursSearch3D<T>:: addForRight(const SizetVector& /
     m_nearbyBoxes[boxIndex].push_back(boxIndex - m_normalizedCuboidWidth * m_normalizedCuboidLength - 1);
 }
 
-template <class T> void NeighboursSearch3D<T>:: addForTop(const SizetVector& /*components*/,
-                                                          const size_t boxIndex)
+template <class T> void NSGridBasedOld<T>::addForTop(const SizetVector& /*components*/, const size_t boxIndex)
 {
     // addRight
     m_nearbyBoxes[boxIndex].push_back(boxIndex + 1);
@@ -449,8 +437,7 @@ template <class T> void NeighboursSearch3D<T>:: addForTop(const SizetVector& /*c
     m_nearbyBoxes[boxIndex].push_back(boxIndex - m_normalizedCuboidWidth * m_normalizedCuboidLength - 1);
 }
 
-template <class T> void NeighboursSearch3D<T>:: addForBottom(const SizetVector& /*components*/,
-                                                             const size_t boxIndex)
+template <class T> void NSGridBasedOld<T>::addForBottom(const SizetVector& /*components*/, const size_t boxIndex)
 {
     // addRight
     m_nearbyBoxes[boxIndex].push_back(boxIndex + 1);
@@ -464,29 +451,31 @@ template <class T> void NeighboursSearch3D<T>:: addForBottom(const SizetVector& 
     m_nearbyBoxes[boxIndex].push_back(boxIndex + m_normalizedCuboidWidth * m_normalizedCuboidLength - 1);
 }
 
-template <class T> void NeighboursSearch3D<T>:: addForBack(const size_t boxIndex)
+template <class T> void NSGridBasedOld<T>::addForBack(const size_t boxIndex)
 {
     SizetVector nearbyBoxes = m_nearbyBoxes[boxIndex];
     nearbyBoxes.push_back(boxIndex);
 
-    for (size_t i = 0u; i < nearbyBoxes.size(); i++) {
+    for (size_t i = 0u; i < nearbyBoxes.size(); i++)
+    {
         nearbyBoxes[i] += m_normalizedCuboidWidth;
         m_nearbyBoxes[boxIndex].push_back(nearbyBoxes[i]);
     }
 }
 
-template <class T> void NeighboursSearch3D<T>:: addForFront(const size_t boxIndex)
+template <class T> void NSGridBasedOld<T>::addForFront(const size_t boxIndex)
 {
     SizetVector nearbyBoxes = m_nearbyBoxes[boxIndex];
     nearbyBoxes.push_back(boxIndex);
 
-    for (size_t i = 0u; i < nearbyBoxes.size(); i++) {
+    for (size_t i = 0u; i < nearbyBoxes.size(); i++)
+    {
         nearbyBoxes[i] -= m_normalizedCuboidWidth;
         m_nearbyBoxes[boxIndex].push_back(nearbyBoxes[i]);
     }
 }
 
-template <class T> void NeighboursSearch3D<T>:: addForMiddle(const size_t boxIndex)
+template <class T> void NSGridBasedOld<T>::addForMiddle(const size_t boxIndex)
 {
     // TODO: Debug
     SizetVector nearbyBoxes = m_nearbyBoxes[boxIndex];
@@ -494,7 +483,8 @@ template <class T> void NeighboursSearch3D<T>:: addForMiddle(const size_t boxInd
 
     addForBack(boxIndex);
 
-    for (size_t i = 0u; i < nearbyBoxes.size(); i++) {
+    for (size_t i = 0u; i < nearbyBoxes.size(); i++)
+    {
         nearbyBoxes[i] -= m_normalizedCuboidWidth;
         m_nearbyBoxes[boxIndex].push_back(nearbyBoxes[i]);
     }

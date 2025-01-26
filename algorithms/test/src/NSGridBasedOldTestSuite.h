@@ -1,11 +1,5 @@
-/**
- * @file NeighboursSearchTestSuite.h
- * @author Anton Artyikh
- * @date Created Feb 13, 2017
- **/
-
-#ifndef NEIGHBOURS_SEARCH_TEST_SUITE_H_96192C2023784EE0B4976A48A1A8779B
-#define NEIGHBOURS_SEARCH_TEST_SUITE_H_96192C2023784EE0B4976A48A1A8779B
+#ifndef NS_GRID_BASED_OLD_TEST_SUITE_H_12192C2023784EE0B4976A48A1A8779B
+#define NS_GRID_BASED_OLD_TEST_SUITE_H_12192C2023784EE0B4976A48A1A8779B
 
 #include "Area.h"
 #include "Defines.h"
@@ -19,7 +13,7 @@ struct Rect;
 namespace TestEnvironment
 {
 
-class NeighboursSearchTestSuite
+class NSGridBasedOldTestSuite
 {
 public:
     static void searchInOneBox3D();
@@ -64,4 +58,4 @@ private:
 } // namespace TestEnvironment
 } // namespace SPHSDK
 
-#endif // NEIGHBOURS_SEARCH_TEST_SUITE_H_96192C2023784EE0B4976A48A1A8779B
+#endif // NS_GRID_BASED_OLD_TEST_SUITE_H_12192C2023784EE0B4976A48A1A8779B

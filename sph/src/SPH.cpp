@@ -15,7 +15,6 @@
 #include <cmath>
 #include <iostream>
 
-
 namespace SPHSDK
 {
 
@@ -30,11 +29,10 @@ inline Point3F SpericalToCartesian(FLOAT r, FLOAT fi, FLOAT teta)
 } // namespace
 
 SPH::SPH(const std::function<FLOAT(FLOAT, FLOAT, FLOAT)>* obstacle)
-    : particles(Config::ParticlesNumber)
-    , m_volume(Volume(
-          Cuboid(Point3F(), Config::CubeSize, Config::CubeSize, Config::CubeSize)))
-    , m_searcher(NeighboursSearch3D<ParticleVect>(m_volume, Config::WaterSupportRadius, 0.001))
-    , m_obstacle(obstacle)
+    : particles(Config::ParticlesNumber),
+      m_volume(Volume(Cuboid(Point3F(), Config::CubeSize, Config::CubeSize, Config::CubeSize))),
+      m_searcher(NSGridBasedOld<ParticleVect>(m_volume, Config::WaterSupportRadius, 0.001)),
+      m_obstacle(obstacle)
 {
     // set initial particle data
     FLOAT r = 2 * Config::ParticleRadius;

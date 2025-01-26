@@ -1,15 +1,9 @@
-/**
- * @file NeighboursSearchTestSuite.cpp
- * @author Anton Artiukh
- * @date Created Feb 13, 2017
- **/
-
-#include "NeighboursSearchTestSuite.h"
+#include "NSGridBasedOldTestSuite.h"
 
 #include "Area.h"
 #include "NSBruteForce.h"
 #include "NSBruteForceImproved.h"
-#include "NeighboursSearch.h"
+#include "NSGridBasedOld.h"
 
 #include <stdexcept>
 
@@ -20,7 +14,7 @@ namespace SPHSDK
 namespace TestEnvironment
 {
 
-void NeighboursSearchTestSuite::testSearch(
+void NSGridBasedOldTestSuite::testSearch(
     const Cuboid&               cuboid,
     FLOAT                       radius,
     FLOAT                       accuracy,
@@ -39,7 +33,7 @@ void NeighboursSearchTestSuite::testSearch(
     const Volume volume(cuboid);
 
     {
-        NeighboursSearch3D<TestPoints3D> ns(volume, radius, accuracy);
+        NSGridBasedOld<TestPoints3D> ns(volume, radius, accuracy);
 
         ASSERT_EQ(ns.m_boxes.size(), expectedBoxNeighbours.size());
 
@@ -64,43 +58,9 @@ void NeighboursSearchTestSuite::testSearch(
             EXPECT_EQ(expectedPointNeighbours[i], points[i].neighbours);
         }
     }
-
-    for (size_t i = 0u; i < points.size(); ++i)
-    {
-        points[i].neighbours.clear();
-    }
-
-    {
-        NSBruteForce<TestPoints3D> ns(volume, radius, accuracy);
-
-        ns.search(points);
-
-        for (size_t i = 0u; i < points.size(); ++i)
-        {
-            std::sort(points[i].neighbours.begin(), points[i].neighbours.end());
-            EXPECT_EQ(expectedPointNeighbours[i], points[i].neighbours);
-        }
-    }
-
-    for (size_t i = 0u; i < points.size(); ++i)
-    {
-        points[i].neighbours.clear();
-    }
-
-    {
-        NSBruteForceImproved<TestPoints3D> ns(volume, radius, accuracy);
-
-        ns.search(points);
-
-        for (size_t i = 0u; i < points.size(); ++i)
-        {
-            std::sort(points[i].neighbours.begin(), points[i].neighbours.end());
-            EXPECT_EQ(expectedPointNeighbours[i], points[i].neighbours);
-        }
-    }
 }
 
-void NeighboursSearchTestSuite::testInsert(
+void NSGridBasedOldTestSuite::testInsert(
     const Cuboid&               cuboid,
     FLOAT                       radius,
     FLOAT                       accuracy,
@@ -108,8 +68,8 @@ void NeighboursSearchTestSuite::testInsert(
     const SizetVector&          expectedBoxSizes,
     const VectorOfSizetVectors& expectedPointsInBoxes)
 {
-    const Volume                     volume(cuboid);
-    NeighboursSearch3D<TestPoints3D> ns(volume, radius, accuracy);
+    const Volume                 volume(cuboid);
+    NSGridBasedOld<TestPoints3D> ns(volume, radius, accuracy);
 
     ns.insertPointsIntoBoxes(points);
     const VectorOfSizetVectors& actualPointsInBoxes = ns.m_boxes;
@@ -129,7 +89,7 @@ void NeighboursSearchTestSuite::testInsert(
     EXPECT_EQ(expectedPointsInBoxes, actualPointsInBoxes);
 }
 
-void NeighboursSearchTestSuite::searchInOneBox3D()
+void NSGridBasedOldTestSuite::searchInOneBox3D()
 {
     const auto  cuboid = Cuboid(Point3F(0., 0., 0.), 1.0, 1.0, 1.0);
     const FLOAT radius = 0.5;
@@ -153,7 +113,7 @@ void NeighboursSearchTestSuite::searchInOneBox3D()
     testSearch(cuboid, radius, accuracy, points, expectedBoxSizes, expectedBoxNeighbours, expectedNeighbours);
 }
 
-void NeighboursSearchTestSuite::searchInDifferentBoxesCenterBack3D()
+void NSGridBasedOldTestSuite::searchInDifferentBoxesCenterBack3D()
 {
     const auto  cuboid = Cuboid(Point3F(0., 0., 0.), 1.5, 1.5, 1.5);
     const FLOAT radius = 0.5;
@@ -204,7 +164,7 @@ void NeighboursSearchTestSuite::searchInDifferentBoxesCenterBack3D()
     testSearch(cuboid, radius, accuracy, points, expectedBoxSizes, expectedBoxNeighbours, expectedNeighbours);
 }
 
-void NeighboursSearchTestSuite::searchInDifferentBoxesCenterMiddle3D()
+void NSGridBasedOldTestSuite::searchInDifferentBoxesCenterMiddle3D()
 {
     const auto  cuboid = Cuboid(Point3F(0., 0., 0.), 0.4, 0.5, 0.3001);
     const FLOAT radius = 0.1;
@@ -306,17 +266,17 @@ void NeighboursSearchTestSuite::searchInDifferentBoxesCenterMiddle3D()
 
 using namespace SPHSDK::TestEnvironment;
 
-TEST(NeighboursSearchTestSuite, searchInOneBox3D)
+TEST(NSGridBasedOldTestSuite, searchInOneBox3D)
 {
-    NeighboursSearchTestSuite::searchInOneBox3D();
+    NSGridBasedOldTestSuite::searchInOneBox3D();
 }
 
-TEST(NeighboursSearchTestSuite, searchInDifferentBoxesCenterBack3D)
+TEST(NSGridBasedOldTestSuite, searchInDifferentBoxesCenterBack3D)
 {
-    NeighboursSearchTestSuite::searchInDifferentBoxesCenterBack3D();
+    NSGridBasedOldTestSuite::searchInDifferentBoxesCenterBack3D();
 }
 
-TEST(NeighboursSearchTestSuite, searchInDifferentBoxesCenterMiddle3D)
+TEST(NSGridBasedOldTestSuite, searchInDifferentBoxesCenterMiddle3D)
 {
-    NeighboursSearchTestSuite::searchInDifferentBoxesCenterMiddle3D();
+    NSGridBasedOldTestSuite::searchInDifferentBoxesCenterMiddle3D();
 }

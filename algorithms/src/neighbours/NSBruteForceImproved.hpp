@@ -1,9 +1,3 @@
-/**
- * @file NSBruteForce.hpp
- * @author Anton Artiukh
- * @date Created Jan 25, 2025
- **/
-
 #include "NSBruteForceImproved.h"
 
 #include <iostream>

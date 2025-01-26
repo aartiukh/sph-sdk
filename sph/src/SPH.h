@@ -11,7 +11,7 @@
 
 #include "Area.h"
 #include "Defines.h"
-#include "NeighboursSearch.h"
+#include "NSGridBasedOld.h"
 
 #include <functional>
 
@@ -31,7 +31,7 @@ public:
 private:
     Volume m_volume;
 
-    NeighboursSearch3D<ParticleVect> m_searcher;
+    NSGridBasedOld<ParticleVect> m_searcher;
 
     const std::function<FLOAT(FLOAT, FLOAT, FLOAT)>* m_obstacle;
 };

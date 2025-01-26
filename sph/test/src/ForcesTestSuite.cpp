@@ -6,7 +6,7 @@
 
 #include "ForcesTestSuite.h"
 #include "Area.h"
-#include "NeighboursSearch.h"
+#include "NSGridBasedOld.h"
 
 #include "Forces.h"
 
@@ -17,7 +17,7 @@ namespace SPHSDK
 namespace TestEnvironment
 {
 
-static const FLOAT Precision = 1e-07;
+static const FLOAT  Precision = 1e-07;
 static const size_t numberOfParticles = 5;
 
 ParticleVect generalParticleVect = {};
@@ -39,8 +39,8 @@ static void initGeneralParticles()
     generalParticleVect[3].velocity = Point3F(-0.5, -0.5, -0.5);
     generalParticleVect[4].velocity = Point3F(-1.0, -1.0, -1.0);
 
-    Volume volume(Cuboid(Point3F(0.0, 0.0, 0.0), 1.0, 1.0, 1.0));
-    NeighboursSearch3D<ParticleVect> searcher(volume, Config::WaterSupportRadius, 0.001);
+    Volume                       volume(Cuboid(Point3F(0.0, 0.0, 0.0), 1.0, 1.0, 1.0));
+    NSGridBasedOld<ParticleVect> searcher(volume, Config::WaterSupportRadius, 0.001);
     searcher.search(generalParticleVect);
 }
 
