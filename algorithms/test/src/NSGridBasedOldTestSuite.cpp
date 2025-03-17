@@ -5,6 +5,7 @@
 #include "NSBruteForceImproved.h"
 #include "NSGridBasedOld.h"
 
+#include <algorithm>
 #include <stdexcept>
 
 #include <gtest/gtest.h>

@@ -26,6 +26,12 @@ C++ implementation of Smoothed Particle Hydrodynamics.
 * `cmake -G "Visual Studio 16 2019" -A x64 -DBUILD_UNIT_TESTS=ON -DCMAKE_BUILD_TYPE=Release ..`
 * Open generated `sph-sdk.sln` and run `Build Solution` in MSVC 2019 IDE
 
+### Windows MinGW
+
+* `cd build`
+* `cmake -G "MinGW Makefiles"  -DBUILD_UNIT_TESTS=ON -DCMAKE_BUILD_TYPE=Release ..`
+* `cmake --build . --config Release -j8`
+
 ### Mac OS
 
 * `cd build`
