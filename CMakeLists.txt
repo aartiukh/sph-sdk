@@ -1,6 +1,6 @@
 cmake_policy(SET CMP0048 NEW)
-project(sph-sdk VERSION 1.0.0 LANGUAGES CXX)
 cmake_minimum_required(VERSION 3.10)
+project(sph-sdk VERSION 1.0.0 LANGUAGES CXX)
 
 option(ENABLE_COVERAGE "Add flags to measure code coverage" OFF)
 
