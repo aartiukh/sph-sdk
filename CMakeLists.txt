@@ -26,6 +26,7 @@ endif()
 set(THIRDPARTY_DIR ${PROJECT_SOURCE_DIR}/thirdparty)
 
 set(GTEST_INCLUDE_DIRECTORY "${PROJECT_SOURCE_DIR}/thirdparty/gtest/include")
+set(BENCHMARK_INCLUDE_DIRECTORY "${PROJECT_SOURCE_DIR}/thirdparty/benchmark/include")
 
 if(NOT DEFINED BUILD_UNIT_TESTS)
     set(BUILD_UNIT_TESTS 1)
