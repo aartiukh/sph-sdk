@@ -1,6 +1,6 @@
 cmake_policy(SET CMP0048 NEW)
-project(sph-sdk VERSION 1.0.0 LANGUAGES CXX)
 cmake_minimum_required(VERSION 3.10)
+project(sph-sdk VERSION 1.0.0 LANGUAGES CXX)
 
 option(ENABLE_COVERAGE "Add flags to measure code coverage" OFF)
 
@@ -26,6 +26,7 @@ endif()
 set(THIRDPARTY_DIR ${PROJECT_SOURCE_DIR}/thirdparty)
 
 set(GTEST_INCLUDE_DIRECTORY "${PROJECT_SOURCE_DIR}/thirdparty/gtest/include")
+set(BENCHMARK_INCLUDE_DIRECTORY "${PROJECT_SOURCE_DIR}/thirdparty/benchmark/include")
 
 if(NOT DEFINED BUILD_UNIT_TESTS)
     set(BUILD_UNIT_TESTS 1)

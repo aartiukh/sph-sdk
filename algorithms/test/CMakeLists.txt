@@ -15,6 +15,8 @@ file(GLOB ALGORITHMS_TEST_SRC_LIST_SOURCE   "src/MainTest.cpp"
                                             "src/AreaTestSuite.cpp"
                                             "src/VolumeTestSuite.cpp")
 
+add_subdirectory(benchmark)
+
 include_directories(SYSTEM ${GTEST_INCLUDE_DIRECTORY})
 
 add_executable(${ALGORITHMS_TESTS_BIN_NAME} ${ALGORITHMS_SRC_LIST_INCLUDE} 
