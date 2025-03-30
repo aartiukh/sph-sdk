@@ -4,3 +4,6 @@
 [submodule "thirdparty/glfw"]
 	path = thirdparty/glfw
 	url = git@github.com:glfw/glfw.git
+[submodule "thirdparty/benchmark"]
+	path = thirdparty/benchmark
+	url = git@github.com:google/benchmark.git
